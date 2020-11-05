@@ -1,0 +1,6 @@
+
+
+{
+"mongoURI": "mongodb+srv://LuisJibreel:12Su9b0t3k12@guardian.f6kjq.mongodb.net/<dbname>?retryWrites=true&w=majority",
+"jwtSecret": "11281128"
+}
