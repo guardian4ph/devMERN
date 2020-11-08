@@ -12,7 +12,8 @@ const connectDB = async () => {
             //added to address deprecation warnings
             useUnifiedTopology: true,
             useNewUrlParser: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify: false
         })
         console.log('Database Connected...')
     }catch (err) {

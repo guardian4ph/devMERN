@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: "user",
+    // ,
+    // required: true,
+    // index: true
   },
   company: {
     type: String,
@@ -23,7 +26,7 @@ const ProfileSchema = new mongoose.Schema({
     require: true,
   },
   bio: {
-    type: [String],
+    type: String,
   },
   githubusername: {
     type: String,
@@ -35,7 +38,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         require: true,
       },
-      Company: {
+      company: {
         type: String,
         require: true,
       },
@@ -48,15 +51,12 @@ const ProfileSchema = new mongoose.Schema({
       },
       to: {
         type: Date,
-        require: true,
       },
       current: {
         type: Boolean,
-        require: true,
       },
       description: {
         type: String,
-        require: true,
       },
     },
   ],
@@ -80,15 +80,12 @@ const ProfileSchema = new mongoose.Schema({
       },
       to: {
         type: Date,
-        require: true,
       },
       current: {
         type: Boolean,
-        require: true,
       },
       description: {
         type: String,
-        require: true,
       },
     },
   ],
@@ -117,4 +114,4 @@ const ProfileSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
