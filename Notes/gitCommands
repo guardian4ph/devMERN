@@ -1,3 +1,4 @@
 
+git init
 git add . //add all file
 git commit -m  'Initial commit'
