@@ -69,6 +69,7 @@ router.post(
 
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
+    if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
@@ -125,7 +126,7 @@ router.get("/", async (req, res) => {
 });
 
 //@route Get api/profile/user/:user_id
-//@desc  Get all profiles
+//@desc  Get profiles by user id
 //@access Public
 
 router.get("/user/:user_id", async (req, res) => {

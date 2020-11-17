@@ -43,7 +43,7 @@ const EditProfile = ({
       instagram: loading || !profile.social ? "" : profile.social.instagram,
       linkedin: loading || !profile.social ? "" : profile.social.linkedin,
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
@@ -81,14 +81,10 @@ const EditProfile = ({
         <div className='form-group'>
           <select name='status' value={status} onChange={c => onChange(c)}>
             <option value='0'>* Select Professional Status</option>
-            <option value='Developer'>Developer</option>
+            <option value='Dispatch'>Emergency Dispatch Operator</option>
             <option value='Junior Developer'>Junior Developer</option>
             <option value='Senior Developer'>Senior Developer</option>
             <option value='Manager'>Manager</option>
-            <option value='Student or Learning'>Student or Learning</option>
-            <option value='Instructor'>Instructor or Teacher</option>
-            <option value='Intern'>Intern</option>
-            <option value='Other'>Other</option>
           </select>
           <small className='form-text'>
             Give us an idea of where you are at in your career

@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
-const Profile = require("../../models/Profile");
+
 const User = require("../../models/User");
 const Post = require("../../models/Post");
-const { check, validationResult } = require("express-validator");
-const request = require("request");
 
-//@route POST api/post
-//@desc  Test Route
-//@access Public
+//@route POST api/posts
+//@desc  Create a post
+//@access PRivate
 
 router.post(
   "/",
@@ -26,9 +25,9 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.body.id,
+        user: req.user.id,
       });
-
+      //save to database
       const post = await newPost.save();
 
       res.json(post);
@@ -39,7 +38,7 @@ router.post(
   }
 );
 
-//@route GET api/post
+//@route GET api/posts
 //@desc  Get all posts
 //@access Private
 router.get("/", auth, async (req, res) => {
@@ -52,7 +51,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-//@route GET api/post/:id
+//@route GET api/posts/:id
 //@desc  Get post by ID
 //@access Private
 
@@ -122,6 +121,9 @@ router.put("/like/:id", auth, async (req, res) => {
     //response
     res.json(post.likes);
   } catch (err) {
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not found" });
+    }
     console.error(err.message);
     res.status(500).send("Server Error");
   }

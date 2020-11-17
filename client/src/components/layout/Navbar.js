@@ -10,16 +10,28 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
+        <Link to='/profiles'>
+          <i className='fa fa-ambulance'></i>{" "}
+          <span className='hide-sm'>Responders</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/posts'>
+          <i className='fa fa-envelope-o'></i>{" "}
+          <span className='hide-sm'>Posts</span>
+        </Link>
+      </li>
+      <li>
         <Link to='/dashboard'>
           <i className='fas fa-user'></i>{" "}
           <span className='hide-sm'>Dashboard </span>
         </Link>
       </li>
       <li>
-        <a onClick={logout} href='#!'>
+        <Link onClick={logout} to='/'>
           <i className='fas fa-sign-out-alt' />{" "}
           <span className='hide-sm'>Logout</span>
-        </a>
+        </Link>
       </li>
     </ul>
   );
@@ -27,7 +39,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <a href='#!'>Responders</a>
+        <Link to='/profiles'>Responders</Link>
       </li>
       <li>
         <Link to='/register'>Register</Link>
@@ -42,7 +54,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <Logo />
       <h4>
         <Link to='/'>
-          <i className='fas fa-code' /> GUARDIAN Command and Control
+          <i className='fas fa-code' /> GUARDIAN
         </Link>
       </h4>
       {!loading && (
