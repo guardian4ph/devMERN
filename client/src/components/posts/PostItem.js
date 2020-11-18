@@ -12,61 +12,67 @@ const PostItem = ({
   deletePost,
   auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
+  showActions,
 }) => (
-  <Fragment>
-    {" "}
-    <div className='post bg-white p-1 my-1'>
-      <div>
-        <Link to={`/profile/${user}`}>
-          <img className='round-img' src={avatar} alt='' />
-          <h4>{name}</h4>
-        </Link>
-      </div>
-      <div>
-        <p className='my-1'>{text}</p>
-        <p className='post-date'>
-          {" "}
-          Posted on <Moment format='LLLL'>{date}</Moment>
-        </p>
-
-        {/* Button for like */}
-        <button
-          onClick={c => addLike(_id)}
-          type='button'
-          className='btn btn-light'
-        >
-          <i className='fas fa-thumbs-up'></i>{" "}
-          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
-        </button>
-
-        {/* Button for Unlike */}
-        <button
-          onClick={c => removeLike(_id)}
-          type='button'
-          className='btn btn-light'
-        >
-          <i className='fas fa-thumbs-down'></i>
-        </button>
-        <Link to={`/post/${_id}`} className='btn btn-primary'>
-          Discussion{" "}
-          {comments.length > 0 && (
-            <span className='comment-count'>{comments.length}</span>
-          )}
-        </Link>
-
-        {!auth.loading && user === auth.user._id && (
-          <button
-            onClick={c => deletePost(_id)}
-            type='button'
-            className='btn btn-danger'
-          >
-            <i className='fas fa-times'></i>
-          </button>
-        )}
-      </div>
+  <div className='post bg-white p-1 my-1'>
+    <div>
+      <Link to={`/profile/${user}`}>
+        <img className='round-img' src={avatar} alt='' />
+        <h4>{name}</h4>
+      </Link>
     </div>
-  </Fragment>
+    <div>
+      <p className='my-1'>{text}</p>
+      <p className='post-date'>
+        {" "}
+        Posted on <Moment format='LLLL'>{date}</Moment>
+      </p>
+      {showActions && (
+        <Fragment>
+          {/* Button for like */}
+          <button
+            onClick={c => addLike(_id)}
+            type='button'
+            className='btn btn-light'
+          >
+            <i className='fas fa-thumbs-up'></i>{" "}
+            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+          </button>
+
+          {/* Button for Unlike */}
+          <button
+            onClick={c => removeLike(_id)}
+            type='button'
+            className='btn btn-light'
+          >
+            <i className='fas fa-thumbs-down'></i>
+          </button>
+          <Link to={`/posts/${_id}`} className='btn btn-primary'>
+            Discussion{" "}
+            {comments.length > 0 && (
+              <span className='comment-count'>{comments.length}</span>
+            )}
+          </Link>
+
+          {!auth.loading && user === auth.user._id && (
+            <button
+              onClick={c => deletePost(_id)}
+              type='button'
+              className='btn btn-danger'
+            >
+              <i className='fas fa-times'></i>
+            </button>
+          )}
+        </Fragment>
+      )}
+    </div>
+  </div>
 );
+
+// set show action to true so buttons would not show in single post
+PostItem.defaultProps = {
+  showActions: true,
+};
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
