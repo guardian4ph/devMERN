@@ -324,7 +324,7 @@ button {
 }
 
 .navbar a:hover {
-  color: var(--primary-color);
+  color: #7a94a0;
 }
 
 .navbar .welcome span {
@@ -699,4 +699,15 @@ button {
     box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em,
       0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
   }
+}
+
+.page-not {
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
