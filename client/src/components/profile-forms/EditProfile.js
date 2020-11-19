@@ -53,7 +53,7 @@ const EditProfile = ({
     location,
     bio,
     status,
-    githubusername,
+    // githubusername,
     skills,
     youtube,
     facebook,
@@ -82,24 +82,31 @@ const EditProfile = ({
           <select name='status' value={status} onChange={c => onChange(c)}>
             <option value='0'>* Select Professional Status</option>
             <option value='Dispatch'>Emergency Dispatch Operator</option>
-            <option value='Junior Developer'>Junior Developer</option>
-            <option value='Senior Developer'>Senior Developer</option>
-            <option value='Manager'>Manager</option>
+            <option value='EMS'>Emergency Medical Service</option>
+            <option value='Fire Dept.'>Firefighter</option>
+            <option value='Police Dept.'>Police Officer</option>
+            <option value='Military'>Military</option>
+            <option value='QRT'>Quick Response</option>
+            <option value='Traffic Dept.'>Traffic Enforcer</option>
+            <option value='LGU Frontliner'>LGU Frontliner</option>
+            <option value='Volunteer'>Volunteer</option>
+            <option value='Others'>Others</option>
           </select>
           <small className='form-text'>
-            Give us an idea of where you are at in your career
+            Give us an idea of where you are at in your emergency response
+            career
           </small>
         </div>
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Company'
+            placeholder='Organization'
             name='company'
             value={company}
             onChange={c => onChange(c)}
           />
           <small className='form-text'>
-            Could be your own company or one you work for
+            Organization you are affiliated/member
           </small>
         </div>
         <div className='form-group'>
@@ -110,21 +117,17 @@ const EditProfile = ({
             value={website}
             onChange={c => onChange(c)}
           />
-          <small className='form-text'>
-            Could be your own or a company website
-          </small>
+          <small className='form-text'>Our organization website</small>
         </div>
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Location'
+            placeholder='Address'
             name='location'
             value={location}
             onChange={c => onChange(c)}
           />
-          <small className='form-text'>
-            City & state suggested (eg. Boston, MA)
-          </small>
+          <small className='form-text'>City or Municipalilty located</small>
         </div>
         <div className='form-group'>
           <input
@@ -135,10 +138,11 @@ const EditProfile = ({
             onChange={c => onChange(c)}
           />
           <small className='form-text'>
-            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+            Please use comma separated values (eg. Patient Care, EMS, EMT, CPR,
+            Hazardous Materials, Trauma)
           </small>
         </div>
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <input
             type='text'
             placeholder='Github Username'
@@ -150,10 +154,10 @@ const EditProfile = ({
             If you want your latest repos and a Github link, include your
             username
           </small>
-        </div>
+        </div> */}
         <div className='form-group'>
           <textarea
-            placeholder='A short bio of yourself'
+            placeholder='A short bio of yourself and'
             name='bio'
             value={bio}
             onChange={c => onChange(c)}

@@ -49,13 +49,13 @@ const CreateProfile = ({ createProfile, history }) => {
       <h1 className='large text-primary'>Create Your Profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Let's get some information to make your
-        profile stand out
+        Responder profile stand out
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={c => onSubmit(c)}>
         <div className='form-group'>
           <select name='status' value={status} onChange={c => onChange(c)}>
-            <option value='0'>* Select Professional Status</option>
+            <option value='0'>* Select Responder Status</option>
             <option value='Dispatch'>Emergency Dispatch Operator</option>
             <option value='EMS'>Emergency Medical Service</option>
             <option value='Fire Dept.'>Firefighter</option>
@@ -65,7 +65,7 @@ const CreateProfile = ({ createProfile, history }) => {
             <option value='Traffic Dept.'>Traffic Enforcer</option>
             <option value='LGU Frontliner'>LGU Frontliner</option>
             <option value='Volunteer'>Volunteer</option>
-            <option value=''>Others</option>
+            <option value='Others'>Others</option>
           </select>
           <small className='form-text'>
             Give us an idea of where you are at in your emergency response
