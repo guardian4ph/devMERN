@@ -25,4 +25,15 @@ heroku command
 
 https://secret-hollows-28950
 
+
+//heroku create
+https://fierce-tor-05647.herokuapp.com/ | https://git.heroku.com/fierce-tor-05647.git
+
+//make remote repository
+heroku git:remote -a fierce-tor-05647
+
+//push to heruko server
 git push heroku main
+
+//open app
+heroku open
