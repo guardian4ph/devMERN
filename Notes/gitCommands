@@ -25,4 +25,4 @@ heroku command
 
 https://secret-hollows-28950
 
-git push heroku master
+git push heroku main
