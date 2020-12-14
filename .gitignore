@@ -1,3 +1,5 @@
 node_modules/
 notes/
 config/default.json
+
+client/public/img/
