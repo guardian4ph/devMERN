@@ -86,6 +86,7 @@ export const deletePost = id => async dispatch => {
 export const addPost = formData => async dispatch => {
   const config = {
     headers: {
+      Accept: "multipart/form-data",
       "Content-Type": "multipart/form-data",
     },
   };
