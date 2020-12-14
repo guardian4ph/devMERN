@@ -7,6 +7,11 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_DELETED,
+  FORGOT_PASSWORD,
+  RESET_PASSWORD,
+  PASSWORD_CHANGED,
+  USER_DOEST_EXIST,
+  SEND_OTP,
 } from "../actions/types";
 
 const initialState = {
@@ -14,6 +19,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  otp_auth: [],
 };
 // eslint-disable-next-line
 export default function (state = initialState, action) {
@@ -29,6 +35,7 @@ export default function (state = initialState, action) {
 
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+    case PASSWORD_CHANGED:
       //save token to local storage
       localStorage.setItem("token", payload.token);
       return {
@@ -37,11 +44,26 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         loading: false,
       };
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: false,
+        loading: false,
+      };
+    case SEND_OTP:
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        otp_auth: payload,
+      };
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
     case ACCOUNT_DELETED:
+    case USER_DOEST_EXIST:
       localStorage.removeItem("token");
       return {
         ...state,

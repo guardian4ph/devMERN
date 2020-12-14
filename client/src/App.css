@@ -138,6 +138,7 @@ img {
   margin-right: 0.5rem;
   transition: opacity 0.2s ease-in;
   outline: none;
+  border-radius: 4px;
 }
 
 .badge {
@@ -218,6 +219,10 @@ img {
 .round-img {
   border-radius: 50%;
 }
+.image {
+  width: 250px;
+  margin: auto;
+}
 
 .line {
   height: 1px;
@@ -250,6 +255,7 @@ img {
 .form input[type="email"],
 .form input[type="password"],
 .form input[type="date"],
+.form input[type="tel"],
 .form select,
 .form textarea {
   display: block;
@@ -257,6 +263,7 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .form input[type="submit"],
@@ -465,6 +472,7 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+  border-radius: 10px;
 }
 
 .post > div:first-child {

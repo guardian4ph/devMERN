@@ -13,7 +13,7 @@ app.use(express.json({ extended: false }));
 //Samaple API Call
 
 // //Omitted for production build
-// app.get("/", (req, res) => res.send("API Running"));
+app.get("/", (req, res) => res.send("API Running"));
 
 //Define Routes
 //User Route

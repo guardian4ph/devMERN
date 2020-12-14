@@ -11,7 +11,7 @@ const PostItem = ({
   removeLike,
   deletePost,
   auth,
-  post: { _id, text, name, avatar, user, likes, comments, date },
+  post: { _id, text, name, articleImage, avatar, user, likes, comments, date },
   showActions,
 }) => (
   <div className='post bg-white p-1 my-1'>
@@ -22,6 +22,14 @@ const PostItem = ({
       </Link>
     </div>
     <div>
+      <Link to={`/img/${articleImage}`}>
+        <img
+          style={{ width: "315px", borderRadius: "5px" }}
+          src={`/img/${articleImage}`}
+          alt='...'
+        />
+      </Link>
+
       <p className='my-1'>{text}</p>
       <p className='post-date'>
         {" "}
@@ -68,7 +76,7 @@ const PostItem = ({
     </div>
   </div>
 );
-
+//console.log(PostItem);
 // set show action to true so buttons would not show in single post
 PostItem.defaultProps = {
   showActions: true,

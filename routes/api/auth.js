@@ -22,6 +22,49 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+//@route GET api/auth/forgot
+//@desc  Test Route
+//@access Public
+
+//Forgot password getting the mobile number
+router.post(
+  "/forgot",
+  [
+    //express validation -> body of the request
+    check(
+      "number",
+      "Please put a valid Philippines mobile number"
+    ).isMobilePhone("en-PH"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { number } = req.body;
+    try {
+      let user = await User.findOne({ number }).select("-password");
+
+      if (!user) {
+        // if (user || mail)
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User does not exists" }] });
+      }
+      console.log("User Exist");
+
+      // res
+      //   .status(200)
+      //   .json((user),{ msg: "One Time Password is sent to your mobile number" });
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 //@route POST api/users
 //@desc  Authenticate user and get token
 //@access Public
@@ -78,7 +121,7 @@ router.post(
       jwt.sign(
         payload,
         config.get("jwtSecret"),
-        { expiresIn: 3600 },
+        { expiresIn: 259200 },
         (err, token) => {
           if (err) throw err;
 

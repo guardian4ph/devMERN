@@ -1,10 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+// const fs = require("fs");
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
-
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "D:/1App/client/public/img");
+  },
+  filename: (req, file, callback) => {
+    callback(null, "P" + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 //@route POST api/posts
 //@desc  Create a post
@@ -12,8 +25,10 @@ const Post = require("../../models/Post");
 
 router.post(
   "/",
+  upload.single("articleImage"),
   [auth, [check("text", "Text is required").not().isEmpty()]],
   async (req, res) => {
+    console.log(req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -26,6 +41,7 @@ router.post(
         name: user.name,
         avatar: user.avatar,
         user: req.user.id,
+        articleImage: req.file.filename,
       });
       //save to database
       const post = await newPost.save();

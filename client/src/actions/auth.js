@@ -8,6 +8,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   CLEAR_PROFILE,
+  RESET_PASSWORD,
+  FORGOT_PASSWORD,
+  SEND_OTP,
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -50,7 +53,6 @@ export const register = ({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -98,4 +100,69 @@ export const login = (email, password) => async dispatch => {
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
   dispatch({ type: CLEAR_PROFILE });
+};
+
+//  Check if User Exist via mobile number
+
+export const forgot_password = number => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ number });
+  try {
+    const res = await axios.post("/api/auth/forgot", body, config);
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: res.data,
+    });
+    dispatch(send_otp());
+    dispatch(
+      setAlert(
+        "One time pin (OTP) send to your mobile number. Please dont share this pin to anyone.",
+        "success"
+      )
+    );
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+};
+
+//  SEND OTP
+
+export const send_otp = number => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: "devckie=db59-b300-9176-0043",
+    },
+  };
+  const text = Math.floor(Math.random() * 899999 + 100000);
+  const body = JSON.stringify({
+    text: `Testing lng po ${text}`,
+    param: [{ number: "09173146624" }],
+  });
+  try {
+    const res = await axios.post(
+      "https://192.168.1.2/api/send_sms",
+      body,
+      config
+    );
+    dispatch({
+      type: SEND_OTP,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
 };

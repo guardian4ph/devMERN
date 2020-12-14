@@ -4,7 +4,37 @@ import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
 
 const PostForm = ({ addPost }) => {
-  const [text, setText] = useState("");
+  //const [text, setText] = useState("");
+  const [formData, setFormData] = useState({
+    text: "",
+    articleImage: "",
+  });
+  const [image, setImage] = useState("");
+  const [imageName, setImageName] = useState("Choose file");
+
+  const { text } = formData;
+  const onFileChange = c => {
+    setImage(c.target.files[0]);
+    setImageName(c.target.files[0].name);
+  };
+
+  const onChange = c => {
+    setFormData({ ...formData, [c.target.name]: c.target.value });
+  };
+
+  const payload = new FormData();
+  payload.append("text", formData.text);
+  payload.append("articleImage", image);
+
+  const onSubmit = c => {
+    c.preventDefault();
+    addPost(payload);
+    setFormData("");
+    setImageName("Choose file");
+  };
+
+  //
+
   return (
     <div className='post-form'>
       <div className='bg-primary p'>
@@ -12,11 +42,8 @@ const PostForm = ({ addPost }) => {
       </div>
       <form
         className='form my-1'
-        onSubmit={c => {
-          c.preventDefault();
-          addPost({ text });
-          setText("");
-        }}
+        encType='multipart/form-data'
+        onSubmit={c => onSubmit(c)}
       >
         <textarea
           name='text'
@@ -24,10 +51,23 @@ const PostForm = ({ addPost }) => {
           rows='5'
           placeholder='Create a post'
           value={text}
-          onChange={c => setText(c.target.value)}
+          onChange={c => onChange(c)}
           required
         ></textarea>
-        <input type='submit' className='btn btn-dark my-1' value='Submit' />
+
+        {/* add image button here */}
+        <div>
+          <input type='submit' className='btn btn-dark my-1' value='Submit' />
+          <label htmlFor='file'>
+            Upload Photo
+            <input
+              type='file'
+              onChange={c => onFileChange(c)}
+              accept='image/*'
+              multiple
+            />
+          </label>
+        </div>
       </form>
     </div>
   );

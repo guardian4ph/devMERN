@@ -1,11 +1,16 @@
 import React, { Fragment, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+//Connect the component to redux
+//See Export down end file
 import { connect } from "react-redux";
+//Bring actions in the action folders
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
+  //formdata is the state, setFormData is the function use to update the state
+  //Use state hooks
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -13,7 +18,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password: "",
     password2: "",
   });
-
+  //destructure so you would do formData.name formData.number
+  //Object Syntax use {}
   const { name, number, email, password, password2 } = formData;
 
   const onChange = async c =>
@@ -24,6 +30,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (password !== password2) {
       setAlert("Passwords dont match", "danger");
     } else {
+      //register is the action from reducers
       register({ name, number, email, password });
     }
   };
@@ -42,6 +49,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             type='text'
             placeholder='Name'
             name='name'
+            //value is set value on state for onChange
             value={name}
             onChange={c => onChange(c)}
             required
@@ -49,8 +57,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         </div>
         <div className='form-group'>
           <input
-            type='text'
-            placeholder='Mobile Number'
+            type='tel'
+            placeholder='09XX XXX XXXX'
             name='number'
             value={number}
             onChange={c => onChange(c)}
@@ -113,4 +121,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
+//Connect get two props the
+// 1. state that  you want to map.. e.g get state from other actions
+// 2. object you want to use from actions and its props
 export default connect(mapStateToProps, { setAlert, register })(Register);

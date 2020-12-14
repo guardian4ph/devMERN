@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
+const OperationCenterSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
+    required: true,
+    index: true,
   },
   name: {
     type: String,
@@ -15,19 +18,14 @@ const UserSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+ 
   avatar: {
     type: String,
   },
-  data: {
+  date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = Operation = mongoose.model("post", OperationCenterSchema);

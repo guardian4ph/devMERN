@@ -10,6 +10,11 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  articleImage: {
+    type: String,
+    // data: Buffer,
+    // contentType: String,
+  },
   name: {
     type: String,
   },
