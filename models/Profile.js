@@ -11,6 +11,10 @@ const ProfileSchema = new mongoose.Schema({
   company: {
     type: String,
   },
+  profilepic: {
+    type: String,
+  },
+
   website: {
     type: String,
   },

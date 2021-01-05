@@ -1,6 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 
@@ -10,13 +11,16 @@ const EditProfile = ({
   history,
   getCurrentProfile,
 }) => {
+  const [image, setFile] = useState(null); // state for storing actual image
+  const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
+
   const [formData, setFormData] = useState({
     company: "",
     website: "",
     location: "",
     bio: "",
     status: "",
-    githubusername: "",
+    profilepic: "",
     skills: "",
     youtube: "",
     facebook: "",
@@ -29,6 +33,7 @@ const EditProfile = ({
     getCurrentProfile();
 
     setFormData({
+      profilepic: loading || !profile.profilepic ? "" : profile.profilepic,
       company: loading || !profile.company ? "" : profile.company,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
@@ -47,13 +52,16 @@ const EditProfile = ({
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
+  const dropRef = useRef(); // React ref for managing the hover state of droppable area
+
   const {
     company,
+    profilepic,
     website,
     location,
     bio,
     status,
-    // githubusername,
     skills,
     youtube,
     facebook,
@@ -62,22 +70,123 @@ const EditProfile = ({
     linkedin,
   } = formData;
 
-  const onChange = async c =>
+  const onDrop = files => {
+    const [uploadedFile] = files;
+    setFile(uploadedFile);
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewSrc(fileReader.result);
+    };
+    fileReader.readAsDataURL(uploadedFile);
+    setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
+    dropRef.current.style.border = "2px dashed #e9ebeb";
+  };
+
+  const updateBorder = dragState => {
+    if (dragState === "over") {
+      dropRef.current.style.border = "2px solid #000";
+    } else if (dragState === "leave") {
+      dropRef.current.style.border = "2px dashed #e9ebeb";
+    }
+  };
+
+  //replaced by ondrop
+  // const onFileChange = c => {
+  //   setImage(c.target.files[0]);
+  //   setImageName(c.target.files[0].name);
+  // };
+
+  const onChange = c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
+
+  const payload = new FormData();
+  payload.append("company", formData.company);
+  payload.append("website", formData.website);
+  payload.append("location", formData.location);
+  payload.append("status", formData.status);
+  payload.append("skills", formData.skills);
+  payload.append("bio", formData.bio);
+  payload.append("youtube", formData.youtube);
+  payload.append("twitter", formData.twitter);
+  payload.append("facebook", formData.facebook);
+  payload.append("linkedin", formData.linkedin);
+  payload.append("instagram", formData.instagram);
+  payload.append("profilepic", image);
 
   const onSubmit = async c => {
     c.preventDefault();
-    createProfile(formData, history, true);
+    createProfile(payload, history, true);
+    //setFormData("");
   };
+
+  // const onChange = async c =>
+  //   setFormData({ ...formData, [c.target.name]: c.target.value });
+
+  // const onSubmit = async c => {
+  //   c.preventDefault();
+  //   createProfile(formData, history, true);
+  // };
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Your Profile</h1>
+      <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Let's get some information to make your
         profile stand out
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={c => onSubmit(c)}>
+        <div className='form-group'>
+          <div className='upload-section'>
+            <Dropzone
+              onDrop={onDrop}
+              onDragEnter={() => updateBorder("over")}
+              onDragLeave={() => updateBorder("leave")}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div
+                  {...getRootProps({ className: "drop-zone" })}
+                  ref={dropRef}
+                >
+                  <input {...getInputProps()} />
+                  {/* <p>Drag/Drop Click</p> */}
+                  {image && (
+                    <div>
+                      {/* <strong>Selected file:</strong> {image.name} */}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Dropzone>
+
+            <div className='image-preview2'>
+              <img
+                className='preview-image'
+                src={`/img/${profilepic}`}
+                alt='Preview'
+              />
+            </div>
+            {previewSrc ? (
+              isPreviewAvailable ? (
+                <div className='image-preview2'>
+                  <img
+                    className='preview-image'
+                    src={previewSrc}
+                    alt='Preview'
+                  />
+                </div>
+              ) : (
+                <div className='preview-message'>
+                  {/* <p>No preview available for this file</p> */}
+                </div>
+              )
+            ) : (
+              <div className='preview-message2'>
+                {/* <p>Image Preview</p> */}
+              </div>
+            )}
+          </div>
+        </div>
         <div className='form-group'>
           <select name='status' value={status} onChange={c => onChange(c)}>
             <option value='0'>* Select Professional Status</option>

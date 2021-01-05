@@ -4,30 +4,20 @@ const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+const multer = require("multer");
+const path = require("path");
 
 const { check, validationResult } = require("express-validator");
 
-//@route GET api/profile/me
-//@desc  Get Current user Profile
-//@access Private
-
-router.get("/me", auth, async (req, res) => {
-  try {
-    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
-    const profile = await Profile.findOne({
-      user: req.user.id,
-    }).populate("user", ["name", "avatar"]);
-
-    if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
-    }
-
-    res.json(profile);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "D:/1App/client/public/img");
+  },
+  filename: (req, file, callback) => {
+    callback(null, "Pic" + "-" + Date.now() + path.extname(file.originalname));
+  },
 });
+const upload = multer({ storage: storage });
 
 //@route POST api/profile
 //@desc  Create or update user Profile
@@ -35,6 +25,7 @@ router.get("/me", auth, async (req, res) => {
 
 router.post(
   "/",
+  upload.single("profilepic"),
   [
     auth,
     [
@@ -43,6 +34,7 @@ router.post(
     ],
   ],
   async (req, res) => {
+    console.log(req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -66,6 +58,7 @@ router.post(
     // Build Profile Object
     const profileFields = {};
     profileFields.user = req.user.id;
+    profileFields.profilepic = req.file.filename;
 
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
@@ -93,6 +86,7 @@ router.post(
 
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
+          { profilepic: req.file.filename },
           { $set: profileFields },
           { new: true }
         );
@@ -110,6 +104,28 @@ router.post(
     // res.send('AuthRoute')
   }
 );
+
+//@route GET api/profile/me
+//@desc  Get Current user Profile
+//@access Private
+
+router.get("/me", auth, async (req, res) => {
+  try {
+    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    }).populate("user", ["name", "avatar"]);
+
+    if (!profile) {
+      return res.status(400).json({ msg: "There is no profile for this user" });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //@route Get api/profile
 //@desc  Get all profiles

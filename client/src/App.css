@@ -53,7 +53,7 @@ img {
 }
 
 .large {
-  font-size: 3rem;
+  font-size: 2rem;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
@@ -366,6 +366,13 @@ button {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+  border-radius: 10px;
+}
+.profile-img {
+  width: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 5px #ffffff solid;
 }
 
 /* Profile Page */
@@ -386,10 +393,6 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
-}
-
-.profile-top img {
-  width: 250px;
 }
 
 .profile-top .icons a {
@@ -479,8 +482,11 @@ button {
   text-align: center;
 }
 
-.post img {
+.post-profile {
+  height: 100px;
   width: 100px;
+  border-radius: 50%;
+  border: 3px #e4e4e4 solid;
 }
 
 .post .comment-count {
@@ -561,6 +567,7 @@ button {
   .profile-top img,
   .profile img {
     width: 200px;
+    height: 200px;
     margin: auto;
   }
 
@@ -718,4 +725,62 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+/* File upload CSS */
+
+.upload-section {
+  display: flex;
+
+  height: 200px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.drop-zone {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border: 5px #e4e4e4 solid;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.image-preview {
+  height: inherit;
+  position: absolute;
+
+  z-index: -1;
+}
+.image-preview2 {
+  height: inherit;
+  position: absolute;
+
+  z-index: -2;
+}
+.preview-image {
+  /* width: 100%;
+  height: inherit;
+  display: block;
+  margin-bottom: 10px; */
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border: 5px #e4e4e4 solid;
+  border-radius: 100%;
+}
+
+.preview-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5%;
+  width: 200px;
+  border: 1px #e4e4e4 solid;
+  border-radius: 100%;
+}
+
+.files-container {
+  width: 98%;
+  overflow-x: auto;
 }

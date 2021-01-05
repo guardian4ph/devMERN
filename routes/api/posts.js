@@ -7,6 +7,7 @@ const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+const Profile = require("../../models/Profile");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -28,7 +29,7 @@ router.post(
   upload.single("articleImage"),
   [auth, [check("text", "Text is required").not().isEmpty()]],
   async (req, res) => {
-    console.log(req.file);
+    // console.log(req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -36,10 +37,16 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select("-password");
 
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      console.log(profile);
+      console.log(user);
+
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
+        profilepic: profile.profilepic,
         user: req.user.id,
         articleImage: req.file.filename,
       });
@@ -193,12 +200,13 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select("-password");
       const post = await Post.findById(req.params.id);
+      let profile = await Profile.findOne({ user: req.user.id });
 
       //New Comment
       const newComment = {
         text: req.body.text,
         name: user.name,
-        avatar: user.avatar,
+        profilepic: profile.profilepic,
         user: req.user.id,
       };
       //comments is the name of the object in the DB

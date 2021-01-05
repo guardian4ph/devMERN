@@ -11,13 +11,24 @@ const PostItem = ({
   removeLike,
   deletePost,
   auth,
-  post: { _id, text, name, articleImage, avatar, user, likes, comments, date },
+  post: {
+    _id,
+    text,
+    name,
+    articleImage,
+    avatar,
+    profilepic,
+    user,
+    likes,
+    comments,
+    date,
+  },
   showActions,
 }) => (
   <div className='post bg-white p-1 my-1'>
     <div>
       <Link to={`/profile/${user}`}>
-        <img className='round-img' src={avatar} alt='' />
+        <img className='post-profile' src={`/img/${profilepic}`} alt='...' />
         <h4>{name}</h4>
       </Link>
     </div>

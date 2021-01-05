@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const ProfileTop = ({
   profile: {
     status,
+    profilepic,
     company,
     location,
     website,
@@ -14,7 +15,7 @@ const ProfileTop = ({
 }) => {
   return (
     <div className='profile-top bg-primary p-2'>
-      <img className='round-img my-1' src={avatar} alt='' />
+      <img className='profile-img' src={`/img/${profilepic}`} alt='' />
       <h1 className='large'>{name}</h1>
       <p className='lead'>
         {/* check if company is provided by user */}
