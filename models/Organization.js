@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const OperationCenterSchema = new Schema({
+const OrganizationSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
@@ -18,8 +18,8 @@ const OperationCenterSchema = new Schema({
   },
   number: {
     type: String,
- 
-  avatar: {
+  },
+  logo: {
     type: String,
   },
   date: {
@@ -28,4 +28,4 @@ const OperationCenterSchema = new Schema({
   },
 });
 
-module.exports = Operation = mongoose.model("post", OperationCenterSchema);
+module.exports = Operation = mongoose.model("organization", OrganizationSchema);

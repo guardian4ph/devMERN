@@ -15,7 +15,13 @@ const ProfileItem = ({
 }) => {
   return (
     <div className='profile bg-light'>
-      <img src={`/img/${profilepic}`} alt='' className='profile-img' />
+      <Link to={`/profile/${_id}`}>
+        {profilepic === undefined || profilepic === null ? (
+          <img className='profile-img' src={`/img/Spotter.png`} alt='...' />
+        ) : (
+          <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
+        )}
+      </Link>
       <div>
         <h2>{name}</h2>
         <p>

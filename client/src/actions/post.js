@@ -9,6 +9,8 @@ import {
   UPDATE_LIKES,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  GET_POST_IMAGE,
+  POST_IMG_ERROR,
 } from "./types";
 
 //get posts
@@ -119,6 +121,24 @@ export const getPost = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Get imagePost
+
+export const getimagePost = (id, articleImage) => async dispatch => {
+  try {
+    const res = await axios.get(`/api/posts/${id}/${articleImage}`);
+    dispatch({
+      type: GET_POST_IMAGE,
+      payload: res.data,
+    });
+    console.log(res);
+  } catch (err) {
+    dispatch({
+      type: POST_IMG_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

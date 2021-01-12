@@ -7,6 +7,8 @@ import {
   ADD_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  GET_POST_IMAGE,
+  POST_IMG_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -27,6 +29,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case GET_POST:
+    case GET_POST_IMAGE:
       return {
         ...state,
         post: payload, //from the action file
@@ -45,6 +48,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case POST_ERROR:
+    case POST_IMG_ERROR:
       return {
         ...state,
         error: payload,

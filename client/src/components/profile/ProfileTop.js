@@ -15,7 +15,13 @@ const ProfileTop = ({
 }) => {
   return (
     <div className='profile-top bg-primary p-2'>
-      <img className='profile-img' src={`/img/${profilepic}`} alt='' />
+      <div>
+        {profilepic === undefined || profilepic === null ? (
+          <img className='profile-img' src={`/img/Spotter.png`} alt='...' />
+        ) : (
+          <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
+        )}
+      </div>
       <h1 className='large'>{name}</h1>
       <p className='lead'>
         {/* check if company is provided by user */}

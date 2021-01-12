@@ -78,7 +78,7 @@ router.get("/", auth, async (req, res) => {
 });
 
 //@route GET api/posts/:id
-//@desc  Get post by ID
+//@desc  GET post by ID
 //@access Private
 
 router.get("/:id", auth, async (req, res) => {
@@ -243,7 +243,7 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     //Check user if user in the one  commenting
     // comment.user is object in the DB so you need to convert it to string
     if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Can only delete yout post" });
+      return res.status(401).json({ msg: "Can only delete your post" });
     }
 
     //get remove index of Comment
@@ -261,6 +261,28 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     res.json(post.comments);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+//@route GET api/posts/:id/:articleImage
+//@desc  GET post by ID
+//@access Private
+
+router.get("/:id/:articleImage", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found1" });
+    }
+
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not found22" });
+    }
     res.status(500).send("Server Error");
   }
 });

@@ -86,7 +86,6 @@ router.post(
 
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
-          { profilepic: req.file.filename },
           { $set: profileFields },
           { new: true }
         );

@@ -15,7 +15,16 @@ const CommentItem = ({
     <div className='post bg-white p-1 my-1'>
       <div>
         <Link to={`/profile/${user}`}>
-          <img className='post-profile' src={`/img/${profilepic}`} alt='' />
+          {profilepic === undefined || profilepic === null ? (
+            <img className='post-profile' src={`/img/Spotter.png`} alt='...' />
+          ) : (
+            <img
+              className='post-profile'
+              src={`/img/${profilepic}`}
+              alt='...'
+            />
+          )}
+
           <h4>{name}</h4>
         </Link>
       </div>

@@ -27,3 +27,5 @@ export const RESET_PASSWORD = "RESET_PASSWORD";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
 export const USER_DOEST_EXIST = "USER_DOEST_EXIST";
 export const SEND_OTP = "SEND_OTP";
+export const GET_POST_IMAGE = "GET_POST_IMAGE";
+export const POST_IMG_ERROR = "POST_IMG_ERROR";

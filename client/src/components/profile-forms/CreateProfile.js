@@ -24,7 +24,7 @@ const CreateProfile = ({ createProfile, history }) => {
     instagram: "",
     linkedin: "",
   });
-
+  // Toogle button to show a div
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
@@ -136,6 +136,7 @@ const CreateProfile = ({ createProfile, history }) => {
                       className='preview-image'
                       src={previewSrc}
                       alt='Preview'
+                      required
                     />
                   </div>
                 ) : (
@@ -246,7 +247,7 @@ const CreateProfile = ({ createProfile, history }) => {
           ></textarea>
           <small className='form-text'>Tell us a little about yourself</small>
         </div>
-
+        {/* hide show button of social Inputs */}
         <div className='my-2'>
           <button
             onClick={() => toggleSocialInputs(!displaySocialInputs)}

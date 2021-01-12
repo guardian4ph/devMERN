@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ProfileSchema = new mongoose.Schema({
+const OrgProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
@@ -13,7 +13,6 @@ const ProfileSchema = new mongoose.Schema({
   },
   profilepic: {
     type: String,
-    require: true,
   },
 
   website: {
@@ -26,18 +25,18 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  skills: {
+  expertise: {
     type: [String],
     require: true,
   },
-  bio: {
+  history: {
     type: String,
   },
   // githubusername: {
   //   type: String,
   // },
 
-  experience: [
+  certification: [
     {
       title: {
         type: String,
@@ -66,7 +65,7 @@ const ProfileSchema = new mongoose.Schema({
     },
   ],
 
-  education: [
+  trainings: [
     {
       school: {
         type: String,
@@ -119,4 +118,4 @@ const ProfileSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Profile = mongoose.model("profile", ProfileSchema);
+module.exports = Profile = mongoose.model("org_profile", OrgProfileSchema);
