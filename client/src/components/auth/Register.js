@@ -13,6 +13,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   //Use state hooks
   const [formData, setFormData] = useState({
     name: "",
+    lname: "",
     number: "",
     email: "",
     password: "",
@@ -20,7 +21,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   });
   //destructure so you would do formData.name formData.number
   //Object Syntax use {}
-  const { name, number, email, password, password2 } = formData;
+  const { name, lname, number, email, password, password2 } = formData;
 
   const onChange = async c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
@@ -31,7 +32,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       setAlert("Passwords dont match", "danger");
     } else {
       //register is the action from reducers
-      register({ name, number, email, password });
+      register({ name, lname, number, email, password });
     }
   };
   if (isAuthenticated) {
@@ -47,10 +48,21 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Name'
+            placeholder='First Name'
             name='name'
             //value is set value on state for onChange
             value={name}
+            onChange={c => onChange(c)}
+            required
+          />
+        </div>
+        <div className='form-group'>
+          <input
+            type='text'
+            placeholder='Last Name'
+            name='lname'
+            //value is set value on state for onChange
+            value={lname}
             onChange={c => onChange(c)}
             required
           />

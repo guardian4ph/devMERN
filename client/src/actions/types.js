@@ -29,3 +29,11 @@ export const USER_DOEST_EXIST = "USER_DOEST_EXIST";
 export const SEND_OTP = "SEND_OTP";
 export const GET_POST_IMAGE = "GET_POST_IMAGE";
 export const POST_IMG_ERROR = "POST_IMG_ERROR";
+// Map Actions
+export const GET_COMPLETE_ADDRESS = "GET_COMPLETE_ADDRESS";
+export const GET_AREA = "GET_AREA";
+export const GET_CITY = "GET_CITY";
+export const GET_STATE = "GET_STATE";
+export const GET_COUNTRY = "GET_COUNTRY";
+export const MAP_LOCATE = "MAP_LOCATE";
+export const MAP_SEARCH = "MAP_SEARCH";

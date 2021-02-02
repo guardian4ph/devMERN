@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getimagePost } from "../../actions/post";
-import PostItem from "../../components/posts/PostItem";
+import PostItemLarge from "../../components/posts/PostItemLarge";
+import CommentItem from "../../components/post/CommentItem";
+import CommentForm from "../../components/post/CommentForm";
 
 const ImagePost = ({ auth, getimagePost, post: { post, loading }, match }) => {
   useEffect(() => {
@@ -14,11 +16,20 @@ const ImagePost = ({ auth, getimagePost, post: { post, loading }, match }) => {
     <Spinner />
   ) : (
     <Fragment>
-      <PostItem post={post} />
-      <div className='posts'>
-        {/* <img src={`/img/${articleImage}`} alt='...' /> */}
+      <div className=''>
+        <PostItemLarge post={post} />
+
+        <CommentForm postId={post._id} />
+        <div className='comments'>
+          {post.comments.map(comment => (
+            <CommentItem
+              key={comment._id}
+              comment={comment}
+              postId={post._id}
+            />
+          ))}
+        </div>
       </div>
-      <h1 className='large'>Test</h1>
     </Fragment>
   );
 };

@@ -25,27 +25,41 @@ const PostItem = ({
   },
   showActions,
 }) => (
-  <div className='post bg-white p-1 my-1'>
+  <div className='full-screen'>
     <div>
-      <Link to={`/profile/${user}`}>
-        {profilepic === undefined || profilepic === null ? (
-          <img className='post-profile' src={`/img/Spotter.png`} alt='...' />
-        ) : (
-          <img className='post-profile' src={`/img/${profilepic}`} alt='...' />
-        )}
+      <div>
+        <Link to={`/posts/${_id}/${articleImage}`}>
+          <img
+            style={{ width: "100%", borderRadius: "5px" }}
+            src={`/img/${articleImage}`}
+            alt='...'
+          />
+        </Link>
+      </div>
+      <div>
+        {" "}
+        <div>
+          <Link to={`/profile/${user}`}>
+            {profilepic === undefined || profilepic === null ? (
+              <img
+                className='post-profile'
+                src={`/img/Spotter.png`}
+                alt='...'
+              />
+            ) : (
+              <img
+                className='post-profile'
+                src={`/img/${profilepic}`}
+                alt='...'
+              />
+            )}
 
-        <h4>{name}</h4>
-      </Link>
+            <h4>{name}</h4>
+          </Link>
+        </div>
+      </div>
     </div>
     <div>
-      <Link to={`/posts/${_id}/${articleImage}`}>
-        <img
-          style={{ width: "305px", borderRadius: "5px" }}
-          src={`/img/${articleImage}`}
-          alt='...'
-        />
-      </Link>
-
       <p className='my-1'>{text}</p>
       <p className='post-date'>
         {" "}

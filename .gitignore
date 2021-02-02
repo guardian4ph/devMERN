@@ -1,3 +1,8 @@
 node_modules/
 notes/
 config/default.json
+client/src/.env.local
+client/public/img
+client/.env
+client/src/.env
+client/public/icons

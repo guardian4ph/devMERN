@@ -29,8 +29,11 @@ router.post(
   [
     auth,
     [
-      check("status", "Status is required").not().isEmpty(),
-      check("skills", "Skills is required").not().isEmpty(),
+      check("profilepic", "Profile Photo required").not().isEmpty(),
+      check("gender", "Gender is required").not().isEmpty(),
+      check("civilstatus", "Civil status is required").not().isEmpty(),
+      check("birthday", "Birthday is required").not().isEmpty(),
+      check("completeaddress", "Complete Address is required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -42,6 +45,16 @@ router.post(
 
     const {
       company,
+      gender,
+      civilstatus,
+      birthday,
+
+      completeaddress,
+      state,
+      city,
+      area,
+      lat,
+      lng,
       website,
       location,
       bio,
@@ -53,12 +66,34 @@ router.post(
       twitter,
       instagram,
       linkedin,
+      //Emergency Info
+      contactperson,
+      relationship,
+      contactnumber,
+      address,
+      bloodtype,
+      build,
+      birthmark,
+      height,
+      weight,
+      insured,
     } = req.body;
 
     // Build Profile Object
     const profileFields = {};
     profileFields.user = req.user.id;
     profileFields.profilepic = req.file.filename;
+
+    if (gender) profileFields.gender = gender;
+    if (civilstatus) profileFields.civilstatus = civilstatus;
+    if (birthday) profileFields.birthday = birthday;
+    //Map Interactions
+    if (completeaddress) profileFields.completeaddress = completeaddress;
+    if (city) profileFields.city = city;
+    if (area) profileFields.area = area;
+    if (state) profileFields.state = state;
+    if (lat) profileFields.lat = lat;
+    if (lng) profileFields.lng = lng;
 
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
@@ -73,11 +108,27 @@ router.post(
 
     //Build Social Object
     profileFields.social = {};
+
     if (youtube) profileFields.social.youtube = youtube;
     if (twitter) profileFields.social.twitter = twitter;
     if (facebook) profileFields.social.facebook = facebook;
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
+
+    // Build Emergency Object
+    profileFields.emergencyinfo = {};
+    if (contactperson)
+      profileFields.emergencyinfo.contactperson = contactperson;
+    if (relationship) profileFields.emergencyinfo.relationship = relationship;
+    if (contactnumber)
+      profileFields.emergencyinfo.contactnumber = contactnumber;
+    if (address) profileFields.emergencyinfo.address = address;
+    if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
+    if (build) profileFields.emergencyinfo.build = build;
+    if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
+    if (height) profileFields.emergencyinfo.height = height;
+    if (weight) profileFields.emergencyinfo.weight = weight;
+    if (insured) profileFields.emergencyinfo.insured = insured;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });
@@ -327,4 +378,87 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
   }
 });
 
+//@route put api/profile/emergencyinfo
+
+//@access Private
+router.put(
+  "/emergencyinfo",
+  [
+    auth,
+    [
+      check("contactperson", "Contact person is required").not().isEmpty(),
+      check("relationship", "Relationship is required").not().isEmpty(),
+      check(
+        "contactnumber",
+        "Please a valid Philippines mobile number"
+      ).isMobilePhone("en-PH"),
+
+      check("address", "Address is required").not().isEmpty(),
+      check("bloodtype", "Blood type is required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {
+      contactperson,
+      relationship,
+      contactnumber,
+      address,
+      bloodtype,
+      build,
+      birthmark,
+      height,
+      weight,
+      eyecolor,
+      haircolor,
+      insured,
+    } = req.body;
+
+    const emergency = {
+      contactperson,
+      relationship,
+      contactnumber,
+      address,
+      bloodtype,
+      build,
+      birthmark,
+      height,
+      weight,
+      eyecolor,
+      haircolor,
+      insured,
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.emergencyinfo.unshift(emergency);
+      // profile.emergencyinfo.unshift(emergency);
+
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+//@route DELETE api/profile/experience/_id
+//@desc  Delete profiles and all it post
+//@access Private
+
+router.delete("/emergencyinfo/:emer_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    profile.emergency.findOneAndRemove(req.params.emer_id);
+
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;

@@ -8,12 +8,45 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  company: {
-    type: String,
-  },
   profilepic: {
     type: String,
+    required: true,
+  },
+  completeaddress: {
+    type: String,
     require: true,
+  },
+  city: {
+    type: String,
+  },
+  area: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+
+  lat: {
+    type: String,
+  },
+  lng: {
+    type: String,
+  },
+
+  gender: {
+    type: String,
+    require: true,
+  },
+  civilstatus: {
+    type: String,
+    require: true,
+  },
+  birthday: {
+    type: Date,
+  },
+
+  organization: {
+    type: String,
   },
 
   website: {
@@ -24,18 +57,13 @@ const ProfileSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    require: true,
   },
   skills: {
     type: [String],
-    require: true,
   },
   bio: {
     type: String,
   },
-  // githubusername: {
-  //   type: String,
-  // },
 
   experience: [
     {
@@ -109,6 +137,47 @@ const ProfileSchema = new mongoose.Schema({
       type: String,
     },
     instagram: {
+      type: String,
+    },
+  },
+
+  emergencyinfo: {
+    contactperson: {
+      type: String,
+    },
+    relationship: {
+      type: String,
+    },
+    contactnumber: {
+      type: String,
+    },
+    eaddress: {
+      type: String,
+    },
+
+    bloodtype: {
+      type: String,
+    },
+    build: {
+      type: String,
+    },
+    birthmark: {
+      type: String,
+    },
+    height: {
+      type: String,
+    },
+    weight: {
+      type: String,
+    },
+    eyecolor: {
+      type: String,
+    },
+    haircolor: {
+      type: String,
+    },
+
+    insured: {
       type: String,
     },
   },

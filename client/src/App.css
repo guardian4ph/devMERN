@@ -40,7 +40,7 @@ img {
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
-  margin-top: 6rem;
+  margin-top: 3.8rem;
   margin-bottom: 3rem;
 }
 
@@ -55,12 +55,12 @@ img {
 .large {
   font-size: 2rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .lead {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .text-center {
@@ -731,7 +731,6 @@ button {
 
 .upload-section {
   display: flex;
-
   height: 200px;
   margin-bottom: 10px;
   justify-content: center;
@@ -744,6 +743,25 @@ button {
   border: 5px #e4e4e4 solid;
   border-radius: 100%;
   cursor: pointer;
+  justify-content: center;
+}
+
+.drop-zone p {
+  margin-top: 70%;
+  margin-left: 60%;
+  font-size: xx-large;
+  color: #e4e4e4;
+  opacity: 80%;
+}
+
+.qr-code {
+  display: flex;
+  width: 195px;
+  height: 195px;
+  border: 5px #e4e4e4 solid;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-preview {
@@ -783,4 +801,45 @@ button {
 .files-container {
   width: 98%;
   overflow-x: auto;
+}
+
+.full-screen {
+  width: 70%;
+  z-index: 10;
+}
+.map {
+  display: block;
+  margin: auto;
+  height: 250px;
+  width: 100%;
+  border-radius: 5px;
+  border: #e4e4e4 1px solid;
+}
+
+.autocomplete {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 10;
+  padding: 5px;
+}
+.input {
+  display: block;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

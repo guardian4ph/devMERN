@@ -17,6 +17,7 @@ router.post(
   [
     //express validation -> body of the request
     check("name", "Name should be blank").not().isEmpty(),
+    check("lname", "Name should be blank").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check("number", "Please a valid Philippines mobile number").isMobilePhone(
       "en-PH"
@@ -34,7 +35,7 @@ router.post(
     }
 
     //Destructure the req.boby from post request
-    const { name, email, number, password } = req.body;
+    const { name, lname, email, number, password } = req.body;
 
     try {
       // See if the user exist, if exist sent error by filtering email and mobile number
@@ -58,6 +59,7 @@ router.post(
 
       user = new User({
         name,
+        lname,
         email,
         number,
         avatar,

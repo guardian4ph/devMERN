@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { QRCode } from "react-qrcode-logo";
+import { connect } from "react-redux";
 
 const ProfileTop = ({
+  auth,
   profile: {
     status,
     profilepic,
@@ -10,18 +13,33 @@ const ProfileTop = ({
     location,
     website,
     social,
-    user: { name, avatar },
+    user: { _id, name, avatar },
   },
 }) => {
   return (
     <div className='profile-top bg-primary p-2'>
       <div>
         {profilepic === undefined || profilepic === null ? (
-          <img className='profile-img' src={`/img/Spotter.png`} alt='...' />
+          <div>
+            <img className='profile-img' src={`/img/Spotter.png`} alt='...' />{" "}
+          </div>
         ) : (
-          <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
+          <div>
+            <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
+          </div>
         )}
       </div>
+      {!auth.loading && _id === auth.user._id && (
+        <div className='qr-code'>
+          <QRCode
+            size='160'
+            includeMargin='true'
+            fgColor='#000000'
+            value={_id}
+          />
+        </div>
+      )}
+
       <h1 className='large'>{name}</h1>
       <p className='lead'>
         {/* check if company is provided by user */}
@@ -70,6 +88,10 @@ const ProfileTop = ({
 
 ProfileTop.propTypes = {
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default ProfileTop;
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, null)(ProfileTop);
