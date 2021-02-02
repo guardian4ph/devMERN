@@ -29,15 +29,21 @@ router.post(
   [
     auth,
     [
-      check("profilepic", "Profile Photo required").not().isEmpty(),
-      check("gender", "Gender is required").not().isEmpty(),
+      check("gender")
+        .not()
+        .isEmpty()
+        .withMessage("Gender is required")
+        .custom((value, { req }) => {
+          if (!req.file) throw new Error("Profile image is required");
+          return true;
+        }),
       check("civilstatus", "Civil status is required").not().isEmpty(),
       check("birthday", "Birthday is required").not().isEmpty(),
       check("completeaddress", "Complete Address is required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
-    console.log(req.file);
+    console.log("REQUEST FILE FOR CREATE PROFILE POST", req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -66,6 +72,7 @@ router.post(
       twitter,
       instagram,
       linkedin,
+      // profilepic,
       //Emergency Info
       contactperson,
       relationship,
@@ -84,6 +91,7 @@ router.post(
     profileFields.user = req.user.id;
     profileFields.profilepic = req.file.filename;
 
+    // if (profilepic) profileFields.profilepic = req.file.filename;
     if (gender) profileFields.gender = gender;
     if (civilstatus) profileFields.civilstatus = civilstatus;
     if (birthday) profileFields.birthday = birthday;

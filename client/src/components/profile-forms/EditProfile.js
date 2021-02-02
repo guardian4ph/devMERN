@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 
 import moment from "moment";
-import Map from "../map/Map";
 
 const EditProfile = ({
   profile: { profile, loading },
@@ -519,7 +518,7 @@ const EditProfile = ({
             required
           />
         </div>
-        <Map />
+
         <div className='form-group'>
           <select name='gender' value={gender} onChange={c => onChange(c)}>
             <option value='0'>* Gender</option>

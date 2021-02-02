@@ -37,7 +37,7 @@ const options = {
 };
 
 const CreateProfile = ({ createProfile, history }) => {
-  const [image, setFile] = useState(null); // state for storing actual image
+  const [image, setImage] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
   const [com_address, setAddress] = useState({
@@ -243,7 +243,8 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onDrop = files => {
     const [uploadedFile] = files;
-    setFile(uploadedFile);
+    setImage(uploadedFile);
+    console.log("drop image", image);
 
     const fileReader = new FileReader();
     fileReader.onload = () => {
@@ -308,9 +309,8 @@ const CreateProfile = ({ createProfile, history }) => {
   const onSubmit = async c => {
     c.preventDefault();
     createProfile(payload, history);
-    console.log("Submit payload ", payload);
-    //setFormData("");
   };
+
   return (
     <Fragment>
       <h1 className='large text-primary'>Create Your Profile</h1>
@@ -329,6 +329,7 @@ const CreateProfile = ({ createProfile, history }) => {
             onDrop={onDrop}
             onDragEnter={() => updateBorder("over")}
             onDragLeave={() => updateBorder("leave")}
+            required
           >
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps({ className: "drop-zone" })} ref={dropRef}>
@@ -337,11 +338,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   <i className='fa fa-camera' aria-hidden='true'></i>
                 </p>
 
-                {image && (
-                  <div>
-                    {/* <strong>Selected file:</strong> {image.name} */}
-                  </div>
-                )}
+                {image && console.log("Loaded image", image)}
               </div>
             )}
           </Dropzone>
@@ -371,6 +368,8 @@ const CreateProfile = ({ createProfile, history }) => {
             <div className='preview-message2'>{/* <p>Image Preview</p> */}</div>
           )}
         </div>
+
+        {/* Toogle Buttons */}
         <div className='my-2'>
           <button
             onClick={() => toggleOrganizationInputs(!displayOrganizationInputs)}
@@ -715,6 +714,7 @@ const CreateProfile = ({ createProfile, history }) => {
             />
             <small className='form-text'>Your complete address</small>
             <input
+              style={{ display: "none" }}
               type='text'
               name='city'
               value={city}
@@ -723,23 +723,29 @@ const CreateProfile = ({ createProfile, history }) => {
             />
             <small className='form-text'>area</small>
             <input
-              // style={{ display: "none" }}
+              style={{ display: "none" }}
               type='text'
               name='area'
               value={area}
               placeholder={com_address.area}
               onChange={c => onChange(c)}
             />
-            <small className='form-text'>Your area</small>
+            <small className='form-text' style={{ display: "none" }}>
+              Your area
+            </small>
             <input
+              style={{ display: "none" }}
               type='text'
               name='lat'
               value={lat}
               placeholder={marker.lat}
               onChange={c => onChange(c)}
             />
-            <small className='form-text'>Your latitude</small>
+            <small className='form-text' style={{ display: "none" }}>
+              Your latitude
+            </small>
             <input
+              style={{ display: "none" }}
               type='text'
               name='lng'
               value={lng}
