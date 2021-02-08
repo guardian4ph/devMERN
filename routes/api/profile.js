@@ -29,136 +29,246 @@ router.post(
   [
     auth,
     [
-      check("gender")
-        .not()
-        .isEmpty()
-        .withMessage("Gender is required")
-        .custom((value, { req }) => {
-          if (!req.file) throw new Error("Profile image is required");
-          return true;
-        }),
+      check("gender").not().isEmpty().withMessage("Gender is required"),
+      // .custom((value, { req }) => {
+      //   if (!req.file) throw new Error("Profile image is required");
+      //   return true;
+      // }),
       check("civilstatus", "Civil status is required").not().isEmpty(),
       check("birthday", "Birthday is required").not().isEmpty(),
       check("completeaddress", "Complete Address is required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
-    console.log("REQUEST FILE FOR CREATE PROFILE POST", req.file);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      company,
-      gender,
-      civilstatus,
-      birthday,
+    if (!req.file) {
+      console.log("PROFILE POST", req.file);
+      const {
+        company,
+        gender,
+        civilstatus,
+        birthday,
+        completeaddress,
+        profilepic,
+        state,
+        city,
+        area,
+        lat,
+        lng,
+        website,
+        location,
+        bio,
+        status,
+        githubusername,
+        skills,
+        youtube,
+        facebook,
+        twitter,
+        instagram,
+        linkedin,
+        // profilepic,
+        //Emergency Info
+        contactperson,
+        relationship,
+        contactnumber,
+        address,
+        bloodtype,
+        build,
+        birthmark,
+        height,
+        weight,
+        insured,
+      } = req.body;
 
-      completeaddress,
-      state,
-      city,
-      area,
-      lat,
-      lng,
-      website,
-      location,
-      bio,
-      status,
-      githubusername,
-      skills,
-      youtube,
-      facebook,
-      twitter,
-      instagram,
-      linkedin,
-      // profilepic,
-      //Emergency Info
-      contactperson,
-      relationship,
-      contactnumber,
-      address,
-      bloodtype,
-      build,
-      birthmark,
-      height,
-      weight,
-      insured,
-    } = req.body;
+      // Build Profile Object
+      const profileFields = {};
+      profileFields.user = req.user.id;
+      // profileFields.profilepic = req.file.filename;
 
-    // Build Profile Object
-    const profileFields = {};
-    profileFields.user = req.user.id;
-    profileFields.profilepic = req.file.filename;
+      if (profilepic) profileFields.profilepic = profilepic;
+      if (gender) profileFields.gender = gender;
+      if (civilstatus) profileFields.civilstatus = civilstatus;
+      if (birthday) profileFields.birthday = birthday;
+      //Map Interactions
+      if (completeaddress) profileFields.completeaddress = completeaddress;
+      if (city) profileFields.city = city;
+      if (area) profileFields.area = area;
+      if (state) profileFields.state = state;
+      if (lat) profileFields.lat = lat;
+      if (lng) profileFields.lng = lng;
 
-    // if (profilepic) profileFields.profilepic = req.file.filename;
-    if (gender) profileFields.gender = gender;
-    if (civilstatus) profileFields.civilstatus = civilstatus;
-    if (birthday) profileFields.birthday = birthday;
-    //Map Interactions
-    if (completeaddress) profileFields.completeaddress = completeaddress;
-    if (city) profileFields.city = city;
-    if (area) profileFields.area = area;
-    if (state) profileFields.state = state;
-    if (lat) profileFields.lat = lat;
-    if (lng) profileFields.lng = lng;
+      if (company) profileFields.company = company;
+      if (website) profileFields.website = website;
+      if (location) profileFields.location = location;
+      if (bio) profileFields.bio = bio;
+      if (status) profileFields.status = status;
+      if (githubusername) profileFields.githubusername = githubusername;
 
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
-    if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
-
-    if (skills) {
-      profileFields.skills = skills.split(",").map(skill => skill.trim());
-    }
-
-    //Build Social Object
-    profileFields.social = {};
-
-    if (youtube) profileFields.social.youtube = youtube;
-    if (twitter) profileFields.social.twitter = twitter;
-    if (facebook) profileFields.social.facebook = facebook;
-    if (linkedin) profileFields.social.linkedin = linkedin;
-    if (instagram) profileFields.social.instagram = instagram;
-
-    // Build Emergency Object
-    profileFields.emergencyinfo = {};
-    if (contactperson)
-      profileFields.emergencyinfo.contactperson = contactperson;
-    if (relationship) profileFields.emergencyinfo.relationship = relationship;
-    if (contactnumber)
-      profileFields.emergencyinfo.contactnumber = contactnumber;
-    if (address) profileFields.emergencyinfo.address = address;
-    if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
-    if (build) profileFields.emergencyinfo.build = build;
-    if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
-    if (height) profileFields.emergencyinfo.height = height;
-    if (weight) profileFields.emergencyinfo.weight = weight;
-    if (insured) profileFields.emergencyinfo.insured = insured;
-
-    try {
-      let profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        //Update
-
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
-        return res.json(profile);
+      if (skills) {
+        profileFields.skills = skills.split(",").map(skill => skill.trim());
       }
 
-      //Create
-      profile = new Profile(profileFields);
-      await profile.save();
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
+      //Build Social Object
+      profileFields.social = {};
+
+      if (youtube) profileFields.social.youtube = youtube;
+      if (twitter) profileFields.social.twitter = twitter;
+      if (facebook) profileFields.social.facebook = facebook;
+      if (linkedin) profileFields.social.linkedin = linkedin;
+      if (instagram) profileFields.social.instagram = instagram;
+
+      // Build Emergency Object
+      profileFields.emergencyinfo = {};
+      if (contactperson)
+        profileFields.emergencyinfo.contactperson = contactperson;
+      if (relationship) profileFields.emergencyinfo.relationship = relationship;
+      if (contactnumber)
+        profileFields.emergencyinfo.contactnumber = contactnumber;
+      if (address) profileFields.emergencyinfo.address = address;
+      if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
+      if (build) profileFields.emergencyinfo.build = build;
+      if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
+      if (height) profileFields.emergencyinfo.height = height;
+      if (weight) profileFields.emergencyinfo.weight = weight;
+      if (insured) profileFields.emergencyinfo.insured = insured;
+
+      try {
+        let profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          //Update
+
+          profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: profileFields },
+            { new: true }
+          );
+          return res.json(profile);
+        }
+
+        //Create
+        profile = new Profile(profileFields);
+        await profile.save();
+        res.json(profile);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
+    } else {
+      const {
+        company,
+        gender,
+        civilstatus,
+        birthday,
+        completeaddress,
+        state,
+        city,
+        area,
+        lat,
+        lng,
+        website,
+        location,
+        bio,
+        status,
+        githubusername,
+        skills,
+        youtube,
+        facebook,
+        twitter,
+        instagram,
+        linkedin,
+        // profilepic,
+        //Emergency Info
+        contactperson,
+        relationship,
+        contactnumber,
+        address,
+        bloodtype,
+        build,
+        birthmark,
+        height,
+        weight,
+        insured,
+      } = req.body;
+
+      // Build Profile Object
+      const profileFields = {};
+      profileFields.user = req.user.id;
+      profileFields.profilepic = req.file.filename;
+
+      // if (profilepic) profileFields.profilepic = req.file.filename;
+      if (gender) profileFields.gender = gender;
+      if (civilstatus) profileFields.civilstatus = civilstatus;
+      if (birthday) profileFields.birthday = birthday;
+      //Map Interactions
+      if (completeaddress) profileFields.completeaddress = completeaddress;
+      if (city) profileFields.city = city;
+      if (area) profileFields.area = area;
+      if (state) profileFields.state = state;
+      if (lat) profileFields.lat = lat;
+      if (lng) profileFields.lng = lng;
+
+      if (company) profileFields.company = company;
+      if (website) profileFields.website = website;
+      if (location) profileFields.location = location;
+      if (bio) profileFields.bio = bio;
+      if (status) profileFields.status = status;
+      if (githubusername) profileFields.githubusername = githubusername;
+
+      if (skills) {
+        profileFields.skills = skills.split(",").map(skill => skill.trim());
+      }
+
+      //Build Social Object
+      profileFields.social = {};
+
+      if (youtube) profileFields.social.youtube = youtube;
+      if (twitter) profileFields.social.twitter = twitter;
+      if (facebook) profileFields.social.facebook = facebook;
+      if (linkedin) profileFields.social.linkedin = linkedin;
+      if (instagram) profileFields.social.instagram = instagram;
+
+      // Build Emergency Object
+      profileFields.emergencyinfo = {};
+      if (contactperson)
+        profileFields.emergencyinfo.contactperson = contactperson;
+      if (relationship) profileFields.emergencyinfo.relationship = relationship;
+      if (contactnumber)
+        profileFields.emergencyinfo.contactnumber = contactnumber;
+      if (address) profileFields.emergencyinfo.address = address;
+      if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
+      if (build) profileFields.emergencyinfo.build = build;
+      if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
+      if (height) profileFields.emergencyinfo.height = height;
+      if (weight) profileFields.emergencyinfo.weight = weight;
+      if (insured) profileFields.emergencyinfo.insured = insured;
+
+      try {
+        let profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+          //Update
+
+          profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: profileFields },
+            { new: true }
+          );
+          return res.json(profile);
+        }
+
+        //Create
+        profile = new Profile(profileFields);
+        await profile.save();
+        res.json(profile);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      }
     }
+
     // res.send('AuthRoute')
   }
 );

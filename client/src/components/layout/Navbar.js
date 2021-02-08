@@ -54,7 +54,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <Logo />
       <h4>
         <Link to='/'>
-          <i className='fas fa-code' /> GUARDIAN
+          <i className='fas fa-code' /> GUARDIAN Command and Control
         </Link>
       </h4>
       {!loading && (

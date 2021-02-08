@@ -50,10 +50,10 @@ function Search({ panTo }) {
             setValue(e.target.value);
           }}
           disabled={!ready}
-          placeholder=' * Search your home address'
+          placeholder=' Search your home address here'
         />
         <small className='form-text'>
-          Search a location nearest to you and tap the map to your address
+          Search or tap the map pin to your address.
         </small>
         <ComboboxPopover>
           <ComboboxList>

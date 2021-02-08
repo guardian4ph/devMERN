@@ -27,10 +27,10 @@ const ProfileSchema = new mongoose.Schema({
   },
 
   lat: {
-    type: String,
+    type: Number,
   },
   lng: {
-    type: String,
+    type: Number,
   },
 
   gender: {

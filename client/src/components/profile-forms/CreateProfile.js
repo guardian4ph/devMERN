@@ -86,6 +86,7 @@ const CreateProfile = ({ createProfile, history }) => {
     insured: "",
   });
   // Toogle button to show a div
+  const [displayPersonalInputs, togglePersonalInputs] = useState(true);
   const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [displayEmergencyInputs, toggleEmergencyInputs] = useState(false);
@@ -266,6 +267,8 @@ const CreateProfile = ({ createProfile, history }) => {
   const onChange = c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
 
+  const profilePayload = image === null ? `Spotter.png` : image;
+
   const payload = new FormData();
   payload.append("gender", formData.gender);
   payload.append("civilstatus", formData.civilstatus);
@@ -291,7 +294,7 @@ const CreateProfile = ({ createProfile, history }) => {
   payload.append("facebook", formData.facebook);
   payload.append("linkedin", formData.linkedin);
   payload.append("instagram", formData.instagram);
-  payload.append("profilepic", image);
+  payload.append("profilepic", profilePayload);
 
   // Emergency Info
 
@@ -313,12 +316,12 @@ const CreateProfile = ({ createProfile, history }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Your Profile</h1>
-      <p className='lead'>
+      <p className='lead'>Create Your Profile</p>
+      <small>
         <i className='fas fa-user'></i> Let's get some information to make your
-        Responder profile stand out
-      </p>
-      <small>* = required field</small>
+        profile stand out.
+      </small>
+      <small style={{ color: "red" }}>* = required field</small>
       <form
         className='form'
         encType='multipart/form-data'
@@ -370,39 +373,199 @@ const CreateProfile = ({ createProfile, history }) => {
         </div>
 
         {/* Toogle Buttons */}
-        <div className='my-2'>
+        <div className='dash-buttons'>
+          <button
+            onClick={() => togglePersonalInputs(!displayPersonalInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-address-book'></i> * Personal Information
+          </button>
+        </div>
+
+        {displayPersonalInputs && (
+          <Fragment>
+            {/* google map redered here */}
+            <div style={{ display: "block", flexDirection: "row" }}>
+              <Search panTo={panTo} />
+              {/* <Locate panTo={panTo} /> */}
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={13}
+                center={center}
+                options={options}
+                onClick={onMapClick}
+                onLoad={onMapLoad}
+              >
+                <Marker
+                  position={{
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }}
+                  icon={{
+                    url: "/icons/map/pin.png",
+                    scaledSize: new window.google.maps.Size(30, 30),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15),
+                  }}
+                  onClick={() => {
+                    setSelected(marker);
+                  }}
+                />
+
+                {selected ? (
+                  <InfoWindow
+                    position={{ lat: selected.lat, lng: selected.lng }}
+                    onCloseClick={() => {
+                      setSelected(null);
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "block",
+                        alignContent: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div>
+                        <h4>Close</h4>
+                      </div>
+
+                      <div>
+                        <p> Incident!</p>
+                      </div>
+                      <p>
+                        Date{" "}
+                        <Moment fromNow ago='LLLL'>
+                          {selected.time}
+                        </Moment>
+                      </p>
+                    </div>
+                  </InfoWindow>
+                ) : null}
+              </GoogleMap>
+
+              <div className='form-group'>
+                <input
+                  type='text'
+                  name='completeaddress'
+                  value={completeaddress}
+                  placeholder={com_address.currentaddress}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text'> * Current pin location</small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='city'
+                  value={city}
+                  placeholder={com_address.city}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  area
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='area'
+                  value={area}
+                  placeholder={com_address.area}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  Your area
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='lat'
+                  value={lat}
+                  placeholder={marker.lat}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  Your latitude
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='lng'
+                  value={lng}
+                  placeholder={marker.lng}
+                  onChange={c => onChange(c)}
+                />
+              </div>
+            </div>
+            <div className='form-group'>
+              <select
+                name='gender'
+                value={gender}
+                onChange={c => onChange(c)}
+                required
+              >
+                <option value='0'>* Gender</option>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+                <option value='LGBT'>LGBT</option>
+              </select>
+              <small className='form-text'>Choose your gender</small>
+            </div>
+
+            <div className='form-group'>
+              <select
+                name='civilstatus'
+                value={civilstatus}
+                onChange={c => onChange(c)}
+                required
+              >
+                <option value='0'>* Civil Status</option>
+                <option value='Single'>Single</option>
+                <option value='Married'>Married</option>
+                <option value='Widowed'>Widowed</option>
+                <option value='Separated'>Separated</option>
+              </select>
+              <small className='form-text'>Choose civil status</small>
+            </div>
+            <div className='form-group'>
+              <p className='form-text'>Birthday </p>
+
+              <input
+                type='date'
+                name='birthday'
+                value={moment(birthday).format("YYYY-MM-DD")}
+                onChange={c => onChange(c)}
+              />
+            </div>
+
+            <div className='form-group'>
+              <textarea
+                placeholder='A short bio of yourself'
+                name='bio'
+                value={bio}
+                onChange={c => onChange(c)}
+                rows='6'
+              ></textarea>
+              <small className='form-text'>
+                Tell us a little about yourself
+              </small>
+            </div>
+          </Fragment>
+        )}
+        {/* Organization Toggle */}
+
+        <div className='dash-buttons'>
           <button
             onClick={() => toggleOrganizationInputs(!displayOrganizationInputs)}
             type='button'
-            className='btn btn-light'
+            className='btn btn-dark'
           >
-            Organization
+            <i className='fa fa-building'></i> Company/Organization
           </button>
-          <button
-            onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
-            type='button'
-            className='btn btn-light'
-          >
-            Emergency Information
-          </button>
-          <button
-            onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type='button'
-            className='btn btn-light'
-          >
-            Social Network Links
-          </button>
-
-          <span>Optional</span>
         </div>
-
-        {/* hide show button of social Inputs */}
 
         {displayOrganizationInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-building'></i> Organization
-            </p>
             <div className='form-group'>
               <select name='status' value={status} onChange={c => onChange(c)}>
                 <option value='0'>* Select Responder Status</option>
@@ -470,11 +633,17 @@ const CreateProfile = ({ createProfile, history }) => {
           </Fragment>
         )}
 
+        <div className='dash-buttons'>
+          <button
+            onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-building'></i> Emergency Information
+          </button>
+        </div>
         {displayEmergencyInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-building'></i> Emergency Information
-            </p>
             <div className='form-group'>
               <input
                 type='text'
@@ -578,11 +747,18 @@ const CreateProfile = ({ createProfile, history }) => {
           </Fragment>
         )}
 
+        <div className='dash-buttons'>
+          <button
+            onClick={() => toggleSocialInputs(!displaySocialInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-desktop'></i> Social Network Links
+          </button>
+        </div>
+
         {displaySocialInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-desktop'></i> Social
-            </p>
             <div className='form-group social-input'>
               <i className='fab fa-twitter fa-2x'></i>
               <input
@@ -639,171 +815,6 @@ const CreateProfile = ({ createProfile, history }) => {
             </div>
           </Fragment>
         )}
-
-        <p className='lead'>
-          <i className='fa fa-address-book'></i> Personal Information
-        </p>
-
-        {/* google map redered here */}
-        <div style={{ display: "block", flexDirection: "row" }}>
-          <Search panTo={panTo} />
-          {/* <Locate panTo={panTo} /> */}
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            zoom={13}
-            center={center}
-            options={options}
-            onClick={onMapClick}
-            onLoad={onMapLoad}
-          >
-            <Marker
-              position={{
-                lat: marker.lat,
-                lng: marker.lng,
-              }}
-              icon={{
-                url: "/icons/map/pin.png",
-                scaledSize: new window.google.maps.Size(30, 30),
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-              }}
-              onClick={() => {
-                setSelected(marker);
-              }}
-            />
-
-            {selected ? (
-              <InfoWindow
-                position={{ lat: selected.lat, lng: selected.lng }}
-                onCloseClick={() => {
-                  setSelected(null);
-                }}
-              >
-                <div
-                  style={{
-                    display: "block",
-                    alignContent: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div>
-                    <h4>Close</h4>
-                  </div>
-
-                  <div>
-                    <p> Incident!</p>
-                  </div>
-                  <p>
-                    Date{" "}
-                    <Moment fromNow ago='LLLL'>
-                      {selected.time}
-                    </Moment>
-                  </p>
-                </div>
-              </InfoWindow>
-            ) : null}
-          </GoogleMap>
-
-          <div className='form-group'>
-            <input
-              type='text'
-              name='completeaddress'
-              value={completeaddress}
-              placeholder={com_address.currentaddress}
-              onChange={c => onChange(c)}
-            />
-            <small className='form-text'>Your complete address</small>
-            <input
-              style={{ display: "none" }}
-              type='text'
-              name='city'
-              value={city}
-              placeholder={com_address.city}
-              onChange={c => onChange(c)}
-            />
-            <small className='form-text'>area</small>
-            <input
-              style={{ display: "none" }}
-              type='text'
-              name='area'
-              value={area}
-              placeholder={com_address.area}
-              onChange={c => onChange(c)}
-            />
-            <small className='form-text' style={{ display: "none" }}>
-              Your area
-            </small>
-            <input
-              style={{ display: "none" }}
-              type='text'
-              name='lat'
-              value={lat}
-              placeholder={marker.lat}
-              onChange={c => onChange(c)}
-            />
-            <small className='form-text' style={{ display: "none" }}>
-              Your latitude
-            </small>
-            <input
-              style={{ display: "none" }}
-              type='text'
-              name='lng'
-              value={lng}
-              placeholder={marker.lng}
-              onChange={c => onChange(c)}
-            />
-          </div>
-        </div>
-        <div className='form-group'>
-          <select
-            name='gender'
-            value={gender}
-            onChange={c => onChange(c)}
-            required
-          >
-            <option value='0'>* Gender</option>
-            <option value='Male'>Male</option>
-            <option value='Female'>Female</option>
-            <option value='LGBT'>LGBT</option>
-          </select>
-          <small className='form-text'>Choose your gender</small>
-        </div>
-
-        <div className='form-group'>
-          <select
-            name='civilstatus'
-            value={civilstatus}
-            onChange={c => onChange(c)}
-            required
-          >
-            <option value='0'>* Civil Status</option>
-            <option value='Single'>Single</option>
-            <option value='Married'>Married</option>
-            <option value='Widowed'>Widowed</option>
-            <option value='Separated'>Separated</option>
-          </select>
-          <small className='form-text'>Choose civil status</small>
-        </div>
-        <div className='form-group'>
-          <p className='form-text'>Birthday </p>
-
-          <input
-            type='date'
-            name='birthday'
-            value={moment(birthday).format("YYYY-MM-DD")}
-            onChange={c => onChange(c)}
-          />
-        </div>
-
-        <div className='form-group'>
-          <textarea
-            placeholder='A short bio of yourself and'
-            name='bio'
-            value={bio}
-            onChange={c => onChange(c)}
-          ></textarea>
-          <small className='form-text'>Tell us a little about yourself</small>
-        </div>
 
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>

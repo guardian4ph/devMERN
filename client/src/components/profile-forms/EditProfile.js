@@ -1,11 +1,47 @@
-import React, { useState, Fragment, useEffect, useRef } from "react";
+import React, {
+  useState,
+  Fragment,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
-
+// import ProfileDefault from "../../img/Spotter.png";
 import moment from "moment";
+// Map
+import Search from "../../utils/searchMap";
+import Locate from "../../utils/locateMap";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import MapStyles from "../layout/MapStyles";
+import Moment from "react-moment";
+import Geodcode from "react-geocode";
+import { set } from "mongoose";
+
+const libraries = ["places"];
+
+const mapContainerStyle = {
+  height: `350px`,
+  width: "100%",
+};
+
+const center = {
+  lat: 10.3272994,
+  lng: 123.9431079,
+};
+const options = {
+  styles: MapStyles,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
 
 const EditProfile = ({
   profile: { profile, loading },
@@ -13,14 +49,18 @@ const EditProfile = ({
   history,
   getCurrentProfile,
 }) => {
-  const [image, setFile] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
 
   const [formData, setFormData] = useState({
     gender: "",
     civilstatus: "",
     birthday: "",
-    homeaddress: "",
+    completeaddress: "",
+    city: "",
+    area: "",
+    state: "",
+    lat: "",
+    lng: "",
     organization: "",
     profilepic: "",
     // Work
@@ -55,7 +95,15 @@ const EditProfile = ({
       gender: loading || !profile.gender ? "" : profile.gender,
       civilstatus: loading || !profile.civilstatus ? "" : profile.civilstatus,
       birthday: loading || !profile.birthday ? "" : profile.birthday,
-      homeaddress: loading || !profile.homeaddress ? "" : profile.homeaddress,
+      completeaddress:
+        loading || !profile.completeaddress ? "" : profile.completeaddress,
+
+      city: loading || !profile.city ? "" : profile.city,
+      area: loading || !profile.area ? "" : profile.area,
+      state: loading || !profile.state ? "" : profile.state,
+      lat: loading || !profile.lat ? "" : profile.lat,
+      lng: loading || !profile.lng ? "" : profile.lng,
+
       profilepic: loading || !profile.profilepic ? "" : profile.profilepic,
       organization:
         loading || !profile.organization ? "" : profile.organization,
@@ -87,19 +135,16 @@ const EditProfile = ({
     });
   }, [loading, getCurrentProfile]);
 
-  const [displaySocialInputs, toggleSocialInputs] = useState(false);
-  const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
-
-  const [displayEmergencyInputs, toggleEmergencyInputs] = useState(false);
-
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
-  const dropRef = useRef(); // React ref for managing the hover state of droppable area
-
   const {
     gender,
     civilstatus,
     birthday,
-    homeaddress,
+    completeaddress,
+    city,
+    area,
+    state,
+    lat,
+    lng,
     organization,
     profilepic,
     website,
@@ -125,6 +170,132 @@ const EditProfile = ({
     insured,
   } = formData;
 
+  const [image, setFile] = useState(null); // state for storing actual image
+
+  const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
+  const [com_address, setAddress] = useState({
+    currentaddress: "",
+    city: "",
+    area: "",
+    state: "",
+  });
+  const [displayPersonalInputs, togglePersonalInputs] = useState(true);
+  const [displaySocialInputs, toggleSocialInputs] = useState(false);
+  const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
+
+  const [displayEmergencyInputs, toggleEmergencyInputs] = useState(false);
+
+  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+  Geodcode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+
+  const [selected, setSelected] = useState(null);
+
+  const getCity = addressArray => {
+    let city = "";
+    for (let index = 0; index < addressArray.length; index++) {
+      if (
+        addressArray[index].types[0] &&
+        "administrative_area_level_2" === addressArray[index].types[0]
+      ) {
+        city = addressArray[index].long_name;
+        return city;
+      }
+    }
+  };
+
+  const getArea = addressArray => {
+    let area = "";
+    for (let index = 0; index < addressArray.length; index++) {
+      if (addressArray[index].types[0]) {
+        for (let j = 0; j < addressArray.length; j++) {
+          if (
+            "sublocality_level_1" === addressArray[index].types[j] ||
+            "locality" === addressArray[index].types[j]
+          ) {
+            area = addressArray[index].long_name;
+            return area;
+          }
+        }
+      }
+    }
+  };
+
+  const getState = addressArray => {
+    let state = "";
+    for (let index = 0; index < addressArray.length; index++) {
+      for (let index = 0; index < addressArray.length; index++) {
+        if (
+          addressArray[index].types[0] &&
+          "administrative_area_level_2" === addressArray[index].types[0]
+        ) {
+          state = addressArray[index].long_name;
+          return state;
+        }
+      }
+    }
+  };
+
+  const onMapClick = useCallback(e => {
+    const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    setMarker(latlng);
+    panTo(latlng);
+
+    Geodcode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(response => {
+      console.log("Response on map click", response);
+      const address = response.results[0].formatted_address,
+        addressArray = response.results[0].address_components,
+        city = getCity(addressArray),
+        state = getState(addressArray),
+        area = getArea(addressArray);
+
+      setAddress({
+        currentaddress: address ? address : "",
+        city: city ? city : "",
+        area: area ? area : "",
+        state: state ? city : "",
+      });
+    });
+  }, []);
+
+  const dropRef = useRef(); // React ref for managing the hover state of droppable area
+  const mapRef = useRef();
+
+  const onMapLoad = useCallback(map => {
+    mapRef.current = map;
+    console.log("MapRef load is ", map);
+    Geodcode.fromLatLng(map.center.lat(), map.center.lng()).then(response => {
+      console.log("Response on map log", response);
+      const address = response.results[0].formatted_address,
+        addressArray = response.results[0].address_components,
+        city = getCity(addressArray),
+        state = getState(addressArray),
+        area = getArea(addressArray);
+
+      setAddress({
+        currentaddress: address ? address : "",
+        city: city ? city : "",
+        area: area ? area : "",
+        state: state ? city : "",
+      });
+      // setMarker({ lat: map.center.lat(), lng: map.center.lng() });
+    });
+  }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    setMarker({ lat, lng });
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(15);
+  }, []);
+
+  if (loadError) return "Error Loading Map";
+  if (!isLoaded) return "Loading Map...";
+  // if (com_address)
+
   const onDrop = files => {
     const [uploadedFile] = files;
     setFile(uploadedFile);
@@ -149,11 +320,35 @@ const EditProfile = ({
   const onChange = c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
 
+  const profilePayload = image !== null ? image : `${profilepic}`;
+
+  const editAddress =
+    formData.completeaddress === com_address.currentaddress
+      ? formData.completeaddress
+      : com_address.currentaddress;
+
+  const editCity =
+    formData.city === com_address.city ? formData.city : com_address.city;
+
+  const editArea =
+    formData.area === com_address.area ? formData.area : com_address.area;
+
+  const editState =
+    formData.state === com_address.state ? formData.state : com_address.state;
+
+  const editLat = formData.lat === marker.lat ? formData.lat : marker.lat;
+  const editLng = formData.lng === marker.lng ? formData.lng : marker.lng;
+
   const payload = new FormData();
   payload.append("gender", formData.gender);
   payload.append("civilstatus", formData.civilstatus);
   payload.append("birthday", formData.birthday);
-  payload.append("homeaddress", formData.homeaddress);
+  payload.append("completeaddress", editAddress);
+  payload.append("city", editCity);
+  payload.append("area", editArea);
+  payload.append("state", editState);
+  payload.append("lat", editLat);
+  payload.append("lng", editLng);
   payload.append("organization", formData.organization);
   payload.append("website", formData.website);
   payload.append("location", formData.location);
@@ -165,21 +360,22 @@ const EditProfile = ({
   payload.append("facebook", formData.facebook);
   payload.append("linkedin", formData.linkedin);
   payload.append("instagram", formData.instagram);
-  payload.append("profilepic", image);
+  payload.append("profilepic", profilePayload);
 
   const onSubmit = async c => {
     c.preventDefault();
+
     createProfile(payload, history, true);
-    //setFormData("");
+    console.log("profilePaylod", profilePayload);
   };
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Edit Your Profile</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Let's get some information to make your
-        profile stand out
-      </p>
+      <p className='lead'>Update Your Profile</p>
+      <small>
+        <i className='fas fa-user'></i> Update information to make your profile
+        stand out.
+      </small>
       <small>* = required field</small>
       <form className='form' onSubmit={c => onSubmit(c)}>
         <div className='form-group'>
@@ -198,11 +394,7 @@ const EditProfile = ({
                   <p>
                     <i className='fa fa-camera' aria-hidden='true'></i>
                   </p>
-                  {image && (
-                    <div>
-                      {/* <strong>Selected file:</strong> {image.name} */}
-                    </div>
-                  )}
+                  {!image && setFile(`/img/${profilepic}`)}
                 </div>
               )}
             </Dropzone>
@@ -210,7 +402,7 @@ const EditProfile = ({
             <div className='image-preview2'>
               <img
                 className='preview-image'
-                src={`/img/${profilepic}`}
+                src={profilePayload}
                 alt='Preview'
               />
             </div>
@@ -235,39 +427,189 @@ const EditProfile = ({
             )}
           </div>
         </div>
-        <div className='my-2'>
+
+        <div className='dash-buttons'>
+          <button
+            onClick={() => togglePersonalInputs(!displayPersonalInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-address-book'></i> Personal Information
+          </button>
+        </div>
+        {displayPersonalInputs && (
+          <Fragment>
+            <div style={{ display: "block", flexDirection: "row" }}>
+              <Search panTo={panTo} />
+              {/* <Locate panTo={panTo} /> */}
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={13}
+                center={{ lat: marker.lat, lng: marker.lng }}
+                options={options}
+                onClick={onMapClick}
+                onLoad={onMapLoad}
+              >
+                <Marker
+                  position={{
+                    lat: marker.lat,
+                    lng: marker.lng,
+                  }}
+                  icon={{
+                    url: "/icons/map/pin.png",
+                    scaledSize: new window.google.maps.Size(30, 30),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15),
+                  }}
+                  onClick={() => {
+                    setSelected(marker);
+                  }}
+                />
+
+                {selected ? (
+                  <InfoWindow
+                    position={{ lat: selected.lat, lng: selected.lng }}
+                    onCloseClick={() => {
+                      setSelected(null);
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "block",
+                        alignContent: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <div>
+                        <h4>Close</h4>
+                      </div>
+
+                      <div>
+                        <p> Incident!</p>
+                      </div>
+                      <p>
+                        Date{" "}
+                        <Moment fromNow ago='LLLL'>
+                          {selected.time}
+                        </Moment>
+                      </p>
+                    </div>
+                  </InfoWindow>
+                ) : null}
+              </GoogleMap>
+
+              <div className='form-group'>
+                <input
+                  type='text'
+                  name='completeaddress'
+                  value={completeaddress}
+                  placeholder={com_address.currentaddress}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text'> * Current pin location</small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='city'
+                  value={city}
+                  placeholder={com_address.city}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  area
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='area'
+                  value={area}
+                  placeholder={com_address.area}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  Your area
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='lat'
+                  value={lat}
+                  placeholder={marker.lat}
+                  onChange={c => onChange(c)}
+                />
+                <small className='form-text' style={{ display: "none" }}>
+                  Your latitude
+                </small>
+                <input
+                  style={{ display: "none" }}
+                  type='text'
+                  name='lng'
+                  value={lng}
+                  placeholder={marker.lng}
+                  onChange={c => onChange(c)}
+                />
+              </div>
+            </div>
+
+            <div className='form-group'>
+              <select name='gender' value={gender} onChange={c => onChange(c)}>
+                <option value='0'>* Gender</option>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+                <option value='LGBT'>LGBT</option>
+              </select>
+              <small className='form-text'>Choose your gender</small>
+            </div>
+
+            <div className='form-group'>
+              <select
+                name='civilstatus'
+                value={civilstatus}
+                onChange={c => onChange(c)}
+              >
+                <option value='0'>* Civil Status</option>
+                <option value='Single'>Single</option>
+                <option value='Married'>Married</option>
+                <option value='Widowed'>Widowed</option>
+                <option value='Separated'>Separated</option>
+              </select>
+              <small className='form-text'>Choose civil status</small>
+            </div>
+            <div className='form-group'>
+              <p className='form-text'>Birthday </p>
+
+              <input
+                type='date'
+                name='birthday'
+                value={moment(birthday).format("YYYY-MM-DD")}
+                onChange={c => onChange(c)}
+              />
+            </div>
+
+            <div className='form-group'>
+              <textarea
+                placeholder='A short bio of yourself and'
+                name='bio'
+                value={bio}
+                onChange={c => onChange(c)}
+              ></textarea>
+              <small className='form-text'>
+                Tell us a little about yourself
+              </small>
+            </div>
+          </Fragment>
+        )}
+        <div className='dash-buttons'>
           <button
             onClick={() => toggleOrganizationInputs(!displayOrganizationInputs)}
             type='button'
-            className='btn btn-light'
+            className='btn btn-dark'
           >
-            Organization
+            <i className='fa fa-building'></i> Organization/Company
           </button>
-          <button
-            onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
-            type='button'
-            className='btn btn-light'
-          >
-            Emergency Information
-          </button>
-          <button
-            onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type='button'
-            className='btn btn-light'
-          >
-            Social Network Links
-          </button>
-
-          <span>Optional</span>
         </div>
-
-        {/* hide show button of social Inputs */}
-
         {displayOrganizationInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-building'></i> Organization
-            </p>
             <div className='form-group'>
               <select name='status' value={status} onChange={c => onChange(c)}>
                 <option value='0'>* Select Responder Status</option>
@@ -334,12 +676,17 @@ const EditProfile = ({
             </div>
           </Fragment>
         )}
-
+        <div className='dash-buttons'>
+          <button
+            onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-building'></i> Emergency Information
+          </button>
+        </div>
         {displayEmergencyInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-building'></i> Emergency Information
-            </p>
             <div className='form-group'>
               <input
                 type='text'
@@ -443,11 +790,18 @@ const EditProfile = ({
           </Fragment>
         )}
 
+        <div className='dash-buttons'>
+          <button
+            onClick={() => toggleSocialInputs(!displaySocialInputs)}
+            type='button'
+            className='btn btn-dark'
+          >
+            <i className='fa fa-desktop'></i> Social Network Links
+          </button>
+        </div>
+
         {displaySocialInputs && (
           <Fragment>
-            <p className='lead'>
-              <i className='fa fa-desktop'></i> Social
-            </p>
             <div className='form-group social-input'>
               <i className='fab fa-twitter fa-2x'></i>
               <input
@@ -504,77 +858,6 @@ const EditProfile = ({
             </div>
           </Fragment>
         )}
-
-        <p className='lead'>
-          <i className='fa fa-address-book'></i> Personal Information
-        </p>
-        <div className='form-group'>
-          <p>Home Address</p>
-          <input
-            type='text'
-            // name='birthday'
-            // value={birthday}
-            onChange={c => onChange(c)}
-            required
-          />
-        </div>
-
-        <div className='form-group'>
-          <select name='gender' value={gender} onChange={c => onChange(c)}>
-            <option value='0'>* Gender</option>
-            <option value='Male'>Male</option>
-            <option value='Female'>Female</option>
-            <option value='LGBT'>LGBT</option>
-          </select>
-          <small className='form-text'>Choose your gender</small>
-        </div>
-
-        <div className='form-group'>
-          <select
-            name='civilstatus'
-            value={civilstatus}
-            onChange={c => onChange(c)}
-          >
-            <option value='0'>* Civil Status</option>
-            <option value='Single'>Single</option>
-            <option value='Married'>Married</option>
-            <option value='Widowed'>Widowed</option>
-            <option value='Separated'>Separated</option>
-          </select>
-          <small className='form-text'>Choose civil status</small>
-        </div>
-        <div className='form-group'>
-          <p className='form-text'>Birthday </p>
-
-          <input
-            type='date'
-            name='birthday'
-            value={moment(birthday).format("YYYY-MM-DD")}
-            onChange={c => onChange(c)}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='* Home Address'
-            name='homeaddress'
-            value={homeaddress}
-            onChange={c => onChange(c)}
-          />
-          <small className='form-text'>
-            Organization you are affiliated/member
-          </small>
-        </div>
-
-        <div className='form-group'>
-          <textarea
-            placeholder='A short bio of yourself and'
-            name='bio'
-            value={bio}
-            onChange={c => onChange(c)}
-          ></textarea>
-          <small className='form-text'>Tell us a little about yourself</small>
-        </div>
 
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>
