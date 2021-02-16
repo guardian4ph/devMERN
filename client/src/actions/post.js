@@ -102,6 +102,8 @@ export const addPost = formData => async dispatch => {
     dispatch(setAlert("Post Created", "success"));
   } catch (err) {
     console.log(err);
+    dispatch(setAlert("Please create a profile first", "danger"));
+
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },

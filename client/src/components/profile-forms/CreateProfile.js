@@ -58,7 +58,7 @@ const CreateProfile = ({ createProfile, history }) => {
     state: "",
     lat: "",
     lng: "",
-    oraganization: "",
+    organization: "",
     profilepic: "",
 
     // Work
@@ -152,6 +152,7 @@ const CreateProfile = ({ createProfile, history }) => {
   const onMapClick = useCallback(e => {
     const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     setMarker(latlng);
+    console.log("create profile onmapclick", marker);
     panTo(latlng);
 
     Geodcode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(response => {
@@ -217,7 +218,7 @@ const CreateProfile = ({ createProfile, history }) => {
     lng,
 
     //Organization
-    oraganization,
+    organization,
     website,
     location,
     bio,
@@ -282,7 +283,7 @@ const CreateProfile = ({ createProfile, history }) => {
   payload.append("lng", marker.lng);
 
   //Organization
-  payload.append("oraganization", formData.oraganization);
+  payload.append("organization", formData.organization);
   payload.append("website", formData.website);
   payload.append("location", formData.location);
   payload.append("status", formData.status);
@@ -453,7 +454,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   placeholder={com_address.currentaddress}
                   onChange={c => onChange(c)}
                 />
-                <small className='form-text'> * Current pin location</small>
+                <small className='form-text'> * Home address</small>
                 <input
                   style={{ display: "none" }}
                   type='text'
@@ -477,7 +478,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   Your area
                 </small>
                 <input
-                  style={{ display: "none" }}
+                  // style={{ display: "none" }}
                   type='text'
                   name='lat'
                   value={lat}
@@ -488,7 +489,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   Your latitude
                 </small>
                 <input
-                  style={{ display: "none" }}
+                  // style={{ display: "none" }}
                   type='text'
                   name='lng'
                   value={lng}
@@ -589,8 +590,8 @@ const CreateProfile = ({ createProfile, history }) => {
               <input
                 type='text'
                 placeholder='Organization'
-                name='oraganization'
-                value={oraganization}
+                name='organization'
+                value={organization}
                 onChange={c => onChange(c)}
               />
               <small className='form-text'>

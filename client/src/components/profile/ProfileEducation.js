@@ -6,8 +6,8 @@ const ProfileEducation = ({
   education: { school, degree, fieldofstudy, current, to, from, description },
 }) => {
   return (
-    <div>
-      <h3 className='text-dark'> {school}</h3>
+    <div style={{ marginLeft: "8px" }}>
+      <h4 className='text-primary'> {school}</h4>
       <p>
         <Moment format='YYYY/MM/DD'>{from}</Moment> -{" "}
         {!to ? "Now" : <Moment format='YYYY/MM/DD'>{to}</Moment>}

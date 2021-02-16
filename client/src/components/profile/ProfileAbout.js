@@ -9,19 +9,19 @@ const ProfileAbout = ({
   },
 }) => {
   return (
-    <div className='profile-about bg-light p-2'>
+    <div className='profile-about bg-light p'>
       {bio && (
         <Fragment>
-          <h2 className='text-primary'>{name.trim().split(" ")[0]}'s Bio</h2>
+          <h3 className='text-primary'>{name.trim().split(" ")[0]}'s Bio</h3>
           <p>{bio}</p>
           <div className='line'></div>
         </Fragment>
       )}
 
-      <h2 className='text-primary'>Skill Set</h2>
+      <h3 className='text-primary'>Skill Set</h3>
       <div className='skills'>
         {skills.map((skill, index) => (
-          <div key={index} className='p-1'>
+          <div key={index} className='p'>
             <i className='fas fa-check'></i> {skill}
           </div>
         ))}

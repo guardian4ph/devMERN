@@ -22,32 +22,41 @@ const Dashboard = ({
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className='large text-primary'>Profile Dashboard</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Welcome {user && user.name}
-      </p>
-      {profile !== null ? (
-        <Fragment>
-          <DashboardActions />
-          {/* pass the experience array from state */}
-          <Experience experience={profile.experience} />
-          {/* pass the education array from state */}
-          <Education education={profile.education} />
-          <div className='my-2'>
-            <button className='btn btn-danger' onClick={() => deleteAccount()}>
-              <i className='fas fa-user-minus'></i> Delete My Account
-            </button>
-          </div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <p> You have not yet added a profile, please add your information</p>
-          <Link to='/create-profile' className='btn btn-primary my-1'>
-            {" "}
-            Create Profile
-          </Link>
-        </Fragment>
-      )}
+      <div style={{ background: "#fff", padding: "1rem", borderRadius: "5px" }}>
+        {/* <h1 className='large text-primary'>Profile Dashboard</h1> */}
+        <p className='lead'>
+          <i className='fas fa-user'></i> Welcome, {user && user.name}{" "}
+          {user && user.lname}
+        </p>
+        {profile !== null ? (
+          <Fragment>
+            <DashboardActions />
+            {/* pass the experience array from state */}
+            <Experience experience={profile.experience} />
+            {/* pass the education array from state */}
+            <Education education={profile.education} />
+            <div className='my-2'>
+              <button
+                className='btn btn-danger'
+                onClick={() => deleteAccount()}
+              >
+                <i className='fas fa-user-minus'></i> Delete My Account
+              </button>
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <p>
+              {" "}
+              You have not yet added a profile, please add your information
+            </p>
+            <Link to='/create-profile' className='btn btn-primary my-1'>
+              {" "}
+              Create Profile
+            </Link>
+          </Fragment>
+        )}
+      </div>
     </Fragment>
   );
 };

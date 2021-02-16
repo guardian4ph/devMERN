@@ -48,11 +48,12 @@ router.post(
     if (!req.file) {
       console.log("PROFILE POST", req.file);
       const {
-        company,
+        organization,
         gender,
         civilstatus,
         birthday,
         completeaddress,
+
         profilepic,
         state,
         city,
@@ -93,6 +94,7 @@ router.post(
       if (gender) profileFields.gender = gender;
       if (civilstatus) profileFields.civilstatus = civilstatus;
       if (birthday) profileFields.birthday = birthday;
+
       //Map Interactions
       if (completeaddress) profileFields.completeaddress = completeaddress;
       if (city) profileFields.city = city;
@@ -101,7 +103,7 @@ router.post(
       if (lat) profileFields.lat = lat;
       if (lng) profileFields.lng = lng;
 
-      if (company) profileFields.company = company;
+      if (organization) profileFields.organization = organization;
       if (website) profileFields.website = website;
       if (location) profileFields.location = location;
       if (bio) profileFields.bio = bio;
@@ -159,7 +161,7 @@ router.post(
       }
     } else {
       const {
-        company,
+        organization,
         gender,
         civilstatus,
         birthday,
@@ -211,7 +213,7 @@ router.post(
       if (lat) profileFields.lat = lat;
       if (lng) profileFields.lng = lng;
 
-      if (company) profileFields.company = company;
+      if (organization) profileFields.organization = organization;
       if (website) profileFields.website = website;
       if (location) profileFields.location = location;
       if (bio) profileFields.bio = bio;
@@ -282,7 +284,7 @@ router.get("/me", auth, async (req, res) => {
     //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate("user", ["name", "avatar"]);
+    }).populate("user", ["name", "lname", "avatar"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
@@ -301,7 +303,11 @@ router.get("/me", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find().populate("user", [
+      "name",
+      "lname",
+      "avatar",
+    ]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -317,7 +323,7 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate("user", ["name", "avatar"]);
+    }).populate("user", ["name", "lname", "avatar"]);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
 

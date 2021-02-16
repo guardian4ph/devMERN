@@ -34,14 +34,17 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     try {
       const user = await User.findById(req.user.id).select("-password");
 
-      let profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: req.user.id });
 
-      console.log(profile);
-      console.log(user);
-
+      // console.log(profile);
+      // console.log(user);
+      if (profile === null) {
+        res.status(400).send("Profile Needed");
+      }
       const newPost = new Post({
         text: req.body.text,
         name: user.name,

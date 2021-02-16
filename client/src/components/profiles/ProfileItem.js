@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 const ProfileItem = ({
   profile: {
-    user: { _id, name, avatar },
+    user: { _id, name, lname, avatar },
     status,
-    company,
+    organization,
     profilepic,
     location,
     skills,
@@ -16,18 +16,22 @@ const ProfileItem = ({
   return (
     <div className='profile bg-light'>
       <Link to={`/profile/${_id}`}>
-        {profilepic === undefined || profilepic === null ? (
-          <img className='profile-img' src={`/img/Spotter.png`} alt='...' />
-        ) : (
-          <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
-        )}
+        <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
       </Link>
       <div>
-        <h2>{name}</h2>
-        <p>
-          {status} {company && <span> at {company}</span>}
+        <h3 className='profile-exp-h2'>
+          {name} {lname}
+        </h3>
+        <p className='lead'>
+          <b> {status} </b>
+          {organization && (
+            <span>
+              {" "}
+              <br /> @ {organization}
+            </span>
+          )}
         </p>
-        <p className='my-1'> {location && <span> {location}</span>}</p>
+        <p className='my'> {location && <span> {location}</span>}</p>
         <Link to={`/profile/${_id}`} className='btn btn-primary'>
           View Profile
         </Link>

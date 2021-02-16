@@ -28,65 +28,74 @@ const PostItem = ({
   <div className='post bg-white p-1 my-1'>
     <div>
       <Link to={`/profile/${user}`}>
-        {profilepic === undefined || profilepic === null ? (
-          <img className='post-profile' src={`/img/Spotter.png`} alt='...' />
-        ) : (
-          <img className='post-profile' src={`/img/${profilepic}`} alt='...' />
-        )}
+        <img className='post-profile' src={`/img/${profilepic}`} alt='...' />
 
         <h4>{name}</h4>
       </Link>
     </div>
-    <div>
-      <Link to={`/posts/${_id}/${articleImage}`}>
-        <img
-          style={{ width: "305px", borderRadius: "5px" }}
-          src={`/img/${articleImage}`}
-          alt='...'
-        />
-      </Link>
-
-      <p className='my-1'>{text}</p>
-      <p className='post-date'>
+    <div style={{ border: "1px solid #ddd", borderRadius: "5px" }}>
+      <p className='post-date '>
         {" "}
         Posted on <Moment format='LLLL'>{date}</Moment>
       </p>
+      <p className='m-1 '>{text}</p>
+      <div style={{ background: "#eee", padding: "8px 8px" }}>
+        <Link to={`/posts/${_id}/${articleImage}`}>
+          <img
+            // style={{ width: "305px", borderRadius: "5px" }}
+            style={{
+              width: "305px",
+              margin: "auto",
+              display: "flex",
+              borderRadius: "5px",
+            }}
+            src={`/img/${articleImage}`}
+            alt='...'
+          />
+        </Link>
+      </div>
+
+      <div className='line'></div>
       {showActions && (
         <Fragment>
           {/* Button for like */}
-          <button
-            onClick={c => addLike(_id)}
-            type='button'
-            className='btn btn-light'
-          >
-            <i className='fas fa-thumbs-up'></i>{" "}
-            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
-          </button>
-
-          {/* Button for Unlike */}
-          <button
-            onClick={c => removeLike(_id)}
-            type='button'
-            className='btn btn-light'
-          >
-            <i className='fas fa-thumbs-down'></i>
-          </button>
-          <Link to={`/posts/${_id}`} className='btn btn-primary'>
-            Discussion{" "}
-            {comments.length > 0 && (
-              <span className='comment-count'>{comments.length}</span>
-            )}
-          </Link>
-
-          {!auth.loading && user === auth.user._id && (
+          <div style={{ marginBottom: "1rem" }}>
             <button
-              onClick={c => deletePost(_id)}
+              onClick={c => addLike(_id)}
               type='button'
-              className='btn btn-danger'
+              className='btn btn-light'
             >
-              <i className='fas fa-times'></i>
+              <i className='fas fa-thumbs-up'></i> {""}Like
+              <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
             </button>
-          )}
+
+            {/* Button for Unlike */}
+            <button
+              onClick={c => removeLike(_id)}
+              type='button'
+              className='btn btn-light'
+            >
+              <i className='fas fa-thumbs-down'></i>
+              {""}
+              Unlike
+            </button>
+            <Link to={`/posts/${_id}`} className='btn btn-primary'>
+              Comments{" "}
+              {comments.length > 0 && (
+                <span className='comment-count'>{comments.length}</span>
+              )}
+            </Link>
+
+            {!auth.loading && user === auth.user._id && (
+              <button
+                onClick={c => deletePost(_id)}
+                type='button'
+                className='btn btn-danger'
+              >
+                <i className='fas fa-times'></i>
+              </button>
+            )}
+          </div>
         </Fragment>
       )}
     </div>

@@ -53,7 +53,7 @@ function Search({ panTo }) {
           placeholder=' Search your home address here'
         />
         <small className='form-text'>
-          Search or tap the map pin to your address.
+          Use search above and/or tap the map to pin your home address.
         </small>
         <ComboboxPopover>
           <ComboboxList>

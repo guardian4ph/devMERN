@@ -39,11 +39,11 @@ router.post(
 
     try {
       // See if the user exist, if exist sent error by filtering email and mobile number
-      let user = await User.findOne({ email });
+      const user = await User.findOne({ email });
       //check also the email
-      // const mail = await User.findOne({email})
+      const mail = await User.findOne({ number });
 
-      if (user) {
+      if (user || number) {
         // if (user || mail)
         return res
           .status(400)

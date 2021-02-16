@@ -17,10 +17,10 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'> Responders</h1>
+          {/* <h1 className='large text-primary'> Responders</h1> */}
           <p className='lead'>
-            <i className='fab fa-connectdevelop'></i> Browse and connect with
-            responders
+            <i className='fab fa-connectdevelop'></i> Connect with other
+            Volunteers
           </p>
           <div className='profiles'>
             {/* map all profiles here */}

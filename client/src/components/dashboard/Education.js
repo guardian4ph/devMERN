@@ -22,14 +22,14 @@ const Education = ({ education, deleteEducation }) => {
           onClick={() => deleteEducation(edu._id)}
           className='btn btn-danger'
         >
-          Delete
+          <i class='fa fa-trash-o' aria-hidden='true'></i>
         </button>
       </td>
     </tr>
   ));
   return (
     <Fragment>
-      <h2 className='my-2'> Education Credentials</h2>
+      <h3 className='my-1'> Education Credentials</h3>
       <table className='table'>
         <thead>
           <tr>

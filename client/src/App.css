@@ -2,7 +2,7 @@
 :root {
   --primary-color: #215a75;
   --dark-color: #174052;
-  --light-color: #e4e4e4;
+  --light-color: #ffffff;
   --danger-color: #dc3545;
   --success-color: #28a745;
 }
@@ -14,10 +14,10 @@
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: #eeeeee;
   color: #333;
 }
 
@@ -36,10 +36,10 @@ img {
 
 /* Utilities */
 .container {
-  max-width: 1100px;
+  max-width: 720px;
   margin: auto;
   overflow: hidden;
-  padding: 0 2rem;
+  padding: 0 0.5rem;
   margin-top: 3.8rem;
   margin-bottom: 3rem;
 }
@@ -48,8 +48,9 @@ img {
 .x-large {
   font-size: 4rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
-  letter-spacing: 5px;
+  /* margin-bottom: 1rem; */
+  letter-spacing: 8px;
+  font-weight: 550;
 }
 
 .large {
@@ -58,17 +59,37 @@ img {
   margin-bottom: 0.5rem;
 }
 
+.subTitle {
+  font-size: 1.2rem;
+  margin: 5px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.small-txt {
+  margin-top: 4.5rem;
+  font-size: 0.7rem;
+  bottom: 1rem;
+  letter-spacing: 1.5px;
+  font-weight: 200;
+  color: #ffffff;
+}
+
 .lead {
-  font-size: 1.5rem;
-  margin-bottom: 5px;
-  color: #215a75;
-  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: #333333;
+  font-weight: 400;
+  margin-top: 20px;
 }
 
 .text-center {
   text-align: center;
 }
 
+.text-light {
+  color: var(--light-color);
+}
 .text-primary {
   color: var(--primary-color);
 }
@@ -120,7 +141,7 @@ img {
   margin: 0.5rem 0;
 }
 .my-1 {
-  margin: 1rem 0;
+  margin: 0.2rem;
 }
 .my-2 {
   margin: 2rem 0;
@@ -180,7 +201,7 @@ img {
 .bg-dark,
 .badge-dark,
 .alert-dark {
-  background: var(--primary-color);
+  background: var(--dark-color);
   color: #fff;
 }
 
@@ -235,7 +256,8 @@ img {
 .line {
   height: 1px;
   background: #ccc;
-  margin: 1.5rem 0;
+
+  margin: 0.5rem 0.5rem;
 }
 
 /* Overlay */
@@ -306,12 +328,16 @@ button {
 
 .table th,
 .table td {
-  padding: 1rem;
-  text-align: left;
+  padding: 0.2rem;
 }
 
 .table th {
-  background: var(--light-color);
+  background: var(--primary-color);
+  color: var(--light-color);
+  font-weight: 300;
+  font-size: small;
+  border-radius: 2px;
+  text-align: center;
 }
 
 /* Navbar */
@@ -324,7 +350,7 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
+  border-bottom: solid 2px var(--dark-color);
   opacity: 0.9;
 }
 
@@ -336,6 +362,8 @@ button {
   color: #fff;
   padding: 0.45rem;
   margin: 0 0.25rem;
+  font-weight: 200;
+  font-size: small;
 }
 
 .navbar a:hover {
@@ -373,14 +401,17 @@ button {
   grid-gap: 2rem;
   padding: 1rem;
   line-height: 1.8;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   border-radius: 10px;
 }
 .profile-img {
-  height: 200px;
-  width: 200px;
+  height: 180px;
+  width: 180px;
   border-radius: 50%;
-  border: 5px #ffffff solid;
+  border: 4px #eee solid;
+  color: #ffffff;
+  /* -webkit-filter: drop-shadow(5px 5px 5px #444444); */
+  filter: drop-shadow(4px 4px 4px #444444);
 }
 
 /* Profile Page */
@@ -389,9 +420,9 @@ button {
   grid-template-areas:
     "top top"
     "about about"
-    "exp edu"
-    "github github";
-  grid-gap: 1rem;
+    "exp edu";
+
+  grid-gap: 0.2rem;
 }
 
 .profile-top {
@@ -451,7 +482,7 @@ button {
 
 .profile-exp p,
 .profile-edu p {
-  margin: 0.5rem 0;
+  margin: 0 0;
 }
 
 .profile-github {
@@ -507,12 +538,12 @@ button {
 
 .post .post-date {
   color: #aaa;
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+  margin: 0.3rem 0.8rem;
 }
 
 /* Mobile Styles */
-@media (max-width: 700px) {
+@media (max-width: 720px) {
   .navbar h4 {
     display: none;
   }
@@ -539,8 +570,15 @@ button {
 
   .lead {
     font-size: 1rem;
+    margin-top: 3px;
   }
 
+  .my {
+    margin: 2px;
+  }
+  .subTitle {
+    font-size: 0.8rem;
+  }
   /* Navbar */
   /* .navbar {
     display: block;
@@ -563,6 +601,7 @@ button {
   /* Profiles Page */
   .profile {
     grid-template-columns: 1fr;
+    grid-gap: 0.5rem;
     text-align: center;
   }
 
@@ -614,9 +653,9 @@ button {
 .Logo {
   background-color: var(--primary-color);
   padding: 4px;
-  height: 2.5rem;
-  width: 2.5rem;
-
+  height: 2rem;
+  width: 2rem;
+  background-color: #174052;
   border-radius: 5px;
   display: flex;
 }
@@ -632,12 +671,6 @@ button {
   font-weight: 700;
   letter-spacing: 0.1rem;
   text-shadow: #333;
-}
-.small-txt {
-  margin-top: 5rem;
-  font-size: 0.7rem;
-  bottom: 1rem;
-  letter-spacing: 1px;
 }
 
 /* Spinner */
@@ -746,6 +779,7 @@ button {
   height: 200px;
   margin-bottom: 10px;
   justify-content: center;
+  border-radius: 100%;
 }
 
 .drop-zone {
@@ -762,8 +796,10 @@ button {
   margin-top: 70%;
   margin-left: 60%;
   font-size: xx-large;
-  color: #e4e4e4;
+  color: #215a75;
   opacity: 80%;
+  -webkit-filter: drop-shadow(1px 1px 1px #fff);
+  filter: drop-shadow(1px 1px 1px #fff);
 }
 
 .qr-code {
@@ -779,13 +815,13 @@ button {
 .image-preview {
   height: inherit;
   position: absolute;
-
+  border-radius: 100%;
   z-index: -1;
 }
 .image-preview2 {
   height: inherit;
   position: absolute;
-
+  border-radius: 100%;
   z-index: -2;
 }
 .preview-image {

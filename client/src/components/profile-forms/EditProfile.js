@@ -24,19 +24,15 @@ import {
 import MapStyles from "../layout/MapStyles";
 import Moment from "react-moment";
 import Geodcode from "react-geocode";
-import { set } from "mongoose";
+import Spinner from "../layout/Spinner";
 
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  height: `350px`,
+  height: `300px`,
   width: "100%",
 };
 
-const center = {
-  lat: 10.3272994,
-  lng: 123.9431079,
-};
 const options = {
   styles: MapStyles,
   disableDefaultUI: true,
@@ -171,17 +167,24 @@ const EditProfile = ({
   } = formData;
 
   const [image, setFile] = useState(null); // state for storing actual image
-
+  const center = {
+    lat: 10.3272994,
+    lng: 123.9431079,
+  };
   const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
   const [com_address, setAddress] = useState({
     currentaddress: "",
     city: "",
     area: "",
     state: "",
+    lat: "",
+    lng: "",
   });
   const [displayPersonalInputs, togglePersonalInputs] = useState(true);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
+  const [newAddress, toggleNewAddress] = useState(false);
+  const [hideOldAddress, toggleOldAddress] = useState(true);
 
   const [displayEmergencyInputs, toggleEmergencyInputs] = useState(false);
 
@@ -242,7 +245,13 @@ const EditProfile = ({
 
   const onMapClick = useCallback(e => {
     const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+
+    toggleOldAddress(!hideOldAddress);
+    toggleNewAddress(!newAddress);
+
+    console.log("on Map click", latlng);
     setMarker(latlng);
+    console.log("set marker", marker);
     panTo(latlng);
 
     Geodcode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(response => {
@@ -282,7 +291,6 @@ const EditProfile = ({
         area: area ? area : "",
         state: state ? city : "",
       });
-      // setMarker({ lat: map.center.lat(), lng: map.center.lng() });
     });
   }, []);
 
@@ -293,7 +301,7 @@ const EditProfile = ({
   }, []);
 
   if (loadError) return "Error Loading Map";
-  if (!isLoaded) return "Loading Map...";
+  if (!isLoaded) return <Spinner />;
   // if (com_address)
 
   const onDrop = files => {
@@ -307,11 +315,13 @@ const EditProfile = ({
     fileReader.readAsDataURL(uploadedFile);
     setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
     dropRef.current.style.border = "2px dashed #e9ebeb";
+    dropRef.current.style.borderRadius = "50px";
   };
 
   const updateBorder = dragState => {
     if (dragState === "over") {
       dropRef.current.style.border = "2px solid #000";
+      dropRef.current.style.borderRadius = "50px";
     } else if (dragState === "leave") {
       dropRef.current.style.border = "2px dashed #e9ebeb";
     }
@@ -323,18 +333,15 @@ const EditProfile = ({
   const profilePayload = image !== null ? image : `${profilepic}`;
 
   const editAddress =
-    formData.completeaddress === com_address.currentaddress
-      ? formData.completeaddress
+    completeaddress === com_address.currentaddress
+      ? completeaddress
       : com_address.currentaddress;
 
-  const editCity =
-    formData.city === com_address.city ? formData.city : com_address.city;
+  const editCity = city === com_address.city ? city : com_address.city;
 
-  const editArea =
-    formData.area === com_address.area ? formData.area : com_address.area;
+  const editArea = area === com_address.area ? area : com_address.area;
 
-  const editState =
-    formData.state === com_address.state ? formData.state : com_address.state;
+  const editState = state === com_address.state ? state : com_address.state;
 
   const editLat = formData.lat === marker.lat ? formData.lat : marker.lat;
   const editLng = formData.lng === marker.lng ? formData.lng : marker.lng;
@@ -362,9 +369,21 @@ const EditProfile = ({
   payload.append("instagram", formData.instagram);
   payload.append("profilepic", profilePayload);
 
+  // Emergency Info
+
+  payload.append("contactperson", formData.contactperson);
+  payload.append("relationship", formData.relationship);
+  payload.append("contactnumber", formData.contactnumber);
+  payload.append("eaddress", formData.eaddress);
+  payload.append("bloodtype", formData.bloodtype);
+  payload.append("build", formData.build);
+  payload.append("birthmark", formData.birthmark);
+  payload.append("height", formData.height);
+  payload.append("weight", formData.weight);
+  payload.append("insured", formData.insured);
+
   const onSubmit = async c => {
     c.preventDefault();
-
     createProfile(payload, history, true);
     console.log("profilePaylod", profilePayload);
   };
@@ -394,7 +413,6 @@ const EditProfile = ({
                   <p>
                     <i className='fa fa-camera' aria-hidden='true'></i>
                   </p>
-                  {!image && setFile(`/img/${profilepic}`)}
                 </div>
               )}
             </Dropzone>
@@ -402,18 +420,14 @@ const EditProfile = ({
             <div className='image-preview2'>
               <img
                 className='preview-image'
-                src={profilePayload}
-                alt='Preview'
+                src={`/img/${profilePayload}`}
+                // alt='Preview'
               />
             </div>
             {previewSrc ? (
               isPreviewAvailable ? (
                 <div className='image-preview2'>
-                  <img
-                    className='preview-image'
-                    src={previewSrc}
-                    alt='Preview'
-                  />
+                  <img className='preview-image' src={previewSrc} />
                 </div>
               ) : (
                 <div className='preview-message'>
@@ -445,16 +459,17 @@ const EditProfile = ({
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={13}
-                center={{ lat: marker.lat, lng: marker.lng }}
+                center={{ lat: editLat, lng: editLng }}
                 options={options}
-                onClick={onMapClick}
+                onClick={
+                  onMapClick
+                  // () => toggleOldAddress(!hideOldAddress),
+                  // () => toggleOldAddress(!newAddress))
+                }
                 onLoad={onMapLoad}
               >
                 <Marker
-                  position={{
-                    lat: marker.lat,
-                    lng: marker.lng,
-                  }}
+                  position={{ lat: editLat, lng: editLng }}
                   icon={{
                     url: "/icons/map/pin.png",
                     scaledSize: new window.google.maps.Size(30, 30),
@@ -466,7 +481,7 @@ const EditProfile = ({
                   }}
                 />
 
-                {selected ? (
+                {/* {selected ? (
                   <InfoWindow
                     position={{ lat: selected.lat, lng: selected.lng }}
                     onCloseClick={() => {
@@ -495,60 +510,65 @@ const EditProfile = ({
                       </p>
                     </div>
                   </InfoWindow>
-                ) : null}
+                ) : null} */}
               </GoogleMap>
 
-              <div className='form-group'>
-                <input
-                  type='text'
-                  name='completeaddress'
-                  value={completeaddress}
-                  placeholder={com_address.currentaddress}
-                  onChange={c => onChange(c)}
-                />
-                <small className='form-text'> * Current pin location</small>
-                <input
-                  style={{ display: "none" }}
+              {hideOldAddress && (
+                <div className='form-group'>
+                  <input type='text' value={completeaddress} />
+                  <small className='form-text'> * Home address </small>
+                </div>
+              )}
+
+              {newAddress && (
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    name='completeaddress'
+                    value={com_address.currentaddress}
+                    onChange={c => onChange(c)}
+                  />
+                  <small className='form-text'> New Home Address</small>
+
+                  {/* <input
+                  // style={{ display: "none" }}
                   type='text'
                   name='city'
-                  value={city}
-                  placeholder={com_address.city}
+                  value={editCity}
                   onChange={c => onChange(c)}
                 />
                 <small className='form-text' style={{ display: "none" }}>
                   area
                 </small>
                 <input
-                  style={{ display: "none" }}
+                  // style={{ display: "none" }}
                   type='text'
                   name='area'
-                  value={area}
-                  placeholder={com_address.area}
+                  value={editArea}
                   onChange={c => onChange(c)}
                 />
                 <small className='form-text' style={{ display: "none" }}>
                   Your area
                 </small>
                 <input
-                  style={{ display: "none" }}
+                  // style={{ display: "none" }}
                   type='text'
                   name='lat'
-                  value={lat}
-                  placeholder={marker.lat}
+                  value={editLat}
                   onChange={c => onChange(c)}
                 />
                 <small className='form-text' style={{ display: "none" }}>
                   Your latitude
                 </small>
                 <input
-                  style={{ display: "none" }}
+                  // style={{ display: "none" }}
                   type='text'
                   name='lng'
-                  value={lng}
-                  placeholder={marker.lng}
+                  value={editLng}
                   onChange={c => onChange(c)}
-                />
-              </div>
+                /> */}
+                </div>
+              )}
             </div>
 
             <div className='form-group'>
@@ -592,6 +612,7 @@ const EditProfile = ({
                 name='bio'
                 value={bio}
                 onChange={c => onChange(c)}
+                rows='6'
               ></textarea>
               <small className='form-text'>
                 Tell us a little about yourself

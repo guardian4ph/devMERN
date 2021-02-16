@@ -9,25 +9,17 @@ const ProfileTop = ({
   profile: {
     status,
     profilepic,
-    company,
+    organization,
     location,
     website,
     social,
-    user: { _id, name, avatar },
+    user: { _id, name, lname, avatar },
   },
 }) => {
   return (
     <div className='profile-top bg-primary p-2'>
       <div>
-        {profilepic === undefined || profilepic === null ? (
-          <div>
-            <img className='profile-img' src={`/img/Spotter.png`} alt='...' />{" "}
-          </div>
-        ) : (
-          <div>
-            <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
-          </div>
-        )}
+        <img className='profile-img' src={`/img/${profilepic}`} alt='...' />
       </div>
       {!auth.loading && _id === auth.user._id && (
         <div className='qr-code'>
@@ -40,10 +32,11 @@ const ProfileTop = ({
         </div>
       )}
 
-      <h1 className='large'>{name}</h1>
-      <p className='lead'>
-        {/* check if company is provided by user */}
-        {status} {company && <span> at {company}</span>}
+      <h1>
+        {name} {lname}
+      </h1>
+      <p>
+        {status} {organization && <span> at {organization}</span>}
       </p>
       <p>{location && <span> at {location}</span>}</p>
       <div className='icons my-1'>

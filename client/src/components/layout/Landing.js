@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to='/posts' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
@@ -14,14 +14,22 @@ const Landing = ({ isAuthenticated }) => {
         <div className='landing-inner'>
           <p className='x-large'>GUARDIAN</p>
 
-          <p className='lead'>
-            Create a profile, share posts and connect with other responders.
+          <p className='subTitle'>
+            Create a profile, share posts and connect with other volunteers.
           </p>
           <div className='buttons'>
-            <Link to='/register' className='btn btn-primary'>
+            <Link
+              to='/register'
+              className='btn btn-primary'
+              style={{ width: "150px", marginRight: "3px" }}
+            >
               Sign-up
             </Link>
-            <Link to='/Login' className='btn btn-light'>
+            <Link
+              to='/Login'
+              className='btn btn-light'
+              style={{ width: "150px", marginLeft: "3px" }}
+            >
               Login
             </Link>
             <div className='small-txt'>

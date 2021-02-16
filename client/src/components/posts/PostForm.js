@@ -45,7 +45,7 @@ const PostForm = ({ addPost }) => {
         <textarea
           name='text'
           cols='30'
-          rows='5'
+          rows='2'
           placeholder='Create a post'
           value={text}
           onChange={c => onChange(c)}
