@@ -43,13 +43,12 @@ router.post(
       // console.log(profile);
       // console.log(user);
       if (profile === null) {
-        res.status(400).send("Profile Needed");
+        res.status(400).send("Add profile to your account to start posting.");
       }
       const newPost = new Post({
         text: req.body.text,
         name: user.name,
-        avatar: user.avatar,
-        profilepic: profile.profilepic,
+        lname: user.lname,
         user: req.user.id,
         articleImage: req.file.filename,
       });

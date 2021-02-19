@@ -6,7 +6,7 @@ const ProfileEducation = ({
   education: { school, degree, fieldofstudy, current, to, from, description },
 }) => {
   return (
-    <div style={{ marginLeft: "8px" }}>
+    <div style={{ marginLeft: "8px", fontSize: "13px" }}>
       <h4 className='text-primary'> {school}</h4>
       <p>
         <Moment format='YYYY/MM/DD'>{from}</Moment> -{" "}

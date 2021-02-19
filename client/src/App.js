@@ -24,6 +24,7 @@ import Post from "./components/post/Post";
 import NotFound from "./components/layout/NotFound";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import PostImage from "./components/post/PostImage";
+import { getProfiles } from "./actions/profile";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -32,6 +33,7 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(getProfiles());
   }, []);
 
   return (

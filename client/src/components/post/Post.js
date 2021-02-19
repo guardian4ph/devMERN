@@ -21,7 +21,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
         {" "}
         Back to Posts
       </Link>
-      <PostItem post={post} showActions={false} />
+      <PostItem post={post} showActions={true} />
       <CommentForm postId={post._id} />
       {/* loop thru to comments array at the backend then display */}
       <div className='comments'>

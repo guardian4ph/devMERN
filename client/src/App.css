@@ -100,7 +100,7 @@ img {
 
 /* Padding */
 .p {
-  padding: 0.5rem;
+  padding: 0.1rem;
 }
 .p-1 {
   padding: 1rem;
@@ -153,10 +153,26 @@ img {
 .btn {
   display: inline-block;
   background: var(--light-color);
-  color: #333;
+  color: var(--primary-color);
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
   border: none;
+  cursor: pointer;
+  margin: 0.5rem 1px 1px 1px;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  border-radius: 4px;
+}
+
+.btn-post {
+  display: flex;
+  align-items: center;
+  color: #333;
+
+  padding: 1px;
+  font-size: 1rem;
+  border: none;
+
   cursor: pointer;
   margin: 0.5rem 1px 1px 1px;
   transition: opacity 0.2s ease-in;
@@ -254,7 +270,7 @@ img {
 }
 
 .line {
-  height: 1px;
+  height: px;
   background: #ccc;
 
   margin: 0.5rem 0.5rem;
@@ -405,10 +421,10 @@ button {
   border-radius: 10px;
 }
 .profile-img {
-  height: 180px;
-  width: 180px;
+  height: 140px;
+  width: 140px;
   border-radius: 50%;
-  border: 4px #eee solid;
+  border: 3px #eee solid;
   color: #ffffff;
   /* -webkit-filter: drop-shadow(5px 5px 5px #444444); */
   filter: drop-shadow(4px 4px 4px #444444);
@@ -482,7 +498,7 @@ button {
 
 .profile-exp p,
 .profile-edu p {
-  margin: 0 0;
+  margin: 0 8px;
 }
 
 .profile-github {
@@ -511,21 +527,22 @@ button {
 
 .post {
   display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 2rem;
+  grid-template-rows: 0.5fr 4fr 0.1fr;
+  grid-gap: 0.5rem;
   align-items: center;
   border-radius: 10px;
 }
 
 .post > div:first-child {
-  text-align: center;
+  display: inline-block;
 }
 
 .post-profile {
-  height: 100px;
-  width: 100px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
-  border: 3px #e4e4e4 solid;
+  border: 1px var(--primary-color) solid;
+  filter: drop-shadow(2px 2px 2px #444444);
 }
 
 .post .comment-count {
@@ -539,12 +556,14 @@ button {
 .post .post-date {
   color: #aaa;
   font-size: 0.7rem;
-  margin: 0.3rem 0.8rem;
 }
 
 /* Mobile Styles */
 @media (max-width: 720px) {
   .navbar h4 {
+    display: none;
+  }
+  .btn-post p {
     display: none;
   }
   .navbar {
@@ -596,6 +615,12 @@ button {
 
   .navbar .welcome {
     display: none;
+  }
+
+  /* Post */
+  .post .post-date {
+    color: #aaa;
+    font-size: 0.5rem;
   }
 
   /* Profiles Page */
@@ -652,11 +677,11 @@ button {
 
 .Logo {
   background-color: var(--primary-color);
-  padding: 4px;
-  height: 2rem;
-  width: 2rem;
-  background-color: #174052;
-  border-radius: 5px;
+  padding: 2px;
+  height: 2.2rem;
+  width: 2.2rem;
+
+  border-radius: 3px;
   display: flex;
 }
 

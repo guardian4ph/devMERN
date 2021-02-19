@@ -43,6 +43,7 @@ const Profile = ({
             {/* Experience */}
             <div className='profile-exp bg-white p'>
               <h3 className='text-primary'>Experience</h3>
+
               {profile.experience.length > 0 ? (
                 <Fragment>
                   {profile.experience.map(experience => (

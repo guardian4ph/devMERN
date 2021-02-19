@@ -23,14 +23,14 @@ const PostForm = ({ addPost }) => {
   };
 
   const payload = new FormData();
-  payload.append("text", formData.text);
+  payload.append("text", text);
   payload.append("articleImage", image);
 
   const onSubmit = c => {
     c.preventDefault();
     addPost(payload);
-    setFormData("");
-    setImageName("Choose file");
+    setFormData({ text: "", articleImage: "" });
+    setImageName("");
   };
 
   //
@@ -55,15 +55,16 @@ const PostForm = ({ addPost }) => {
         {/* add image button here */}
         <div>
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
-          <label htmlFor='file'>
-            Upload Photo
-            <input
-              type='file'
-              onChange={c => onFileChange(c)}
-              accept='image/*'
-              multiple
-            />
-          </label>
+          {/* <label htmlFor='file'> */}
+          Upload Photo
+          <input
+            type='file'
+            onChange={c => onFileChange(c)}
+            accept='image/*'
+            single
+            placeholder={imageName}
+          />
+          {/* </label> */}
         </div>
       </form>
     </div>
