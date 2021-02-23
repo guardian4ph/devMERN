@@ -60,7 +60,7 @@ const PostForm = ({ addPost }) => {
           <input
             type='file'
             onChange={c => onFileChange(c)}
-            accept='image/*'
+            accept='image/*,video/mp4,video/x-m4v,video/*'
             single
             placeholder={imageName}
           />

@@ -16,10 +16,11 @@ const ImagePost = ({ auth, getimagePost, post: { post, loading }, match }) => {
     <Spinner />
   ) : (
     <Fragment>
-      <div className=''>
-        <PostItemLarge post={post} />
-
-        <CommentForm postId={post._id} />
+      <div className='light-overlay'>
+        <div>
+          <PostItemLarge post={post} />
+        </div>
+        {/* <CommentForm postId={post._id} />
         <div className='comments'>
           {post.comments.map(comment => (
             <CommentItem
@@ -28,7 +29,7 @@ const ImagePost = ({ auth, getimagePost, post: { post, loading }, match }) => {
               postId={post._id}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

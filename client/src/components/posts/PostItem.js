@@ -22,7 +22,7 @@ const PostItem = ({
       {loading ? (
         <Spinner />
       ) : (
-        <div className='post bg-white p-1 my-1'>
+        <div className='post bg-white'>
           <Link to={`/profile/${user}`}>
             {/* map all profiles here */}
             {profiles.length > 0 ? (
@@ -37,35 +37,43 @@ const PostItem = ({
                           display: "flex",
                           flexDirection: "row",
                           height: "70px",
-                          margin: "0px 5px",
+                          margin: "0px 1px",
                           alignItems: "center",
+                          padding: "2%",
                           justifyContent: "space-around",
                           borderBottom: "1px solid #ddd",
                         }}
                       >
-                        <img
-                          className='post-profile'
-                          src={`/img/${profile.profilepic}`}
-                          alt='...'
-                        />
-                        <div className='text-primary'>
+                        <div className=' p'>
+                          <img
+                            className='post-profile'
+                            src={`/img/${profile.profilepic}`}
+                            alt='...'
+                          />{" "}
+                        </div>
+                        <div
+                          style={{
+                            width: "65%",
+                            marginLeft: "20px",
+                          }}
+                        >
                           <div
                             style={{
                               display: "flex",
                               flexDirection: "row",
                             }}
                           >
-                            <h4 className='my-1'>{name}</h4>{" "}
-                            <h4 className='my-1'>{lname}</h4>{" "}
+                            <h4 className='p-11'>{name}</h4>{" "}
+                            <h4 className='p-11'>{lname}</h4>{" "}
                           </div>
 
-                          <p className='post-date '>
+                          <p className='post-date p-11 '>
                             {" "}
                             Posted <Moment format='LLLL'>{date}</Moment>
                           </p>
                         </div>
-                        <div style={{ width: "180px" }}></div>
-                        <div>
+                        <div style={{ width: "20%" }}></div>
+                        <div style={{ width: "5%" }}>
                           <i
                             className='fa fa-ellipsis-h'
                             aria-hidden='true'
@@ -98,16 +106,17 @@ const PostItem = ({
                 <p className='m-1'>{text}</p>
               )}
             </div>
-            <div style={{ background: "#eee", padding: "2px 2px" }}>
+            <div
+              style={{
+                background: "#eee",
+                margin: "auto",
+                maxWidth: "100%",
+              }}
+            >
               <Link to={`/posts/${_id}/${articleImage}`}>
                 <img
                   // style={{ width: "305px", borderRadius: "5px" }}
-                  style={{
-                    maxWidth: "360px",
-                    margin: "auto",
-                    display: "flex",
-                    borderRadius: "5px",
-                  }}
+                  className='postImage'
                   src={`/img/${articleImage}`}
                   alt='...'
                 />
@@ -120,7 +129,7 @@ const PostItem = ({
               display: "flex",
               flexDirection: "row",
               height: "70px",
-              margin: "0px 5px",
+              // margin: "0px 5px",
               alignItems: "center",
               justifyContent: "space-around",
             }}

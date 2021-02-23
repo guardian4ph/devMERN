@@ -390,98 +390,102 @@ const EditProfile = ({
 
   return (
     <Fragment>
-      <p className='lead'>Update Your Profile</p>
-      <small>
-        <i className='fas fa-user'></i> Update information to make your profile
-        stand out.
-      </small>
-      <small>* = required field</small>
-      <form className='form' onSubmit={c => onSubmit(c)}>
-        <div className='form-group'>
-          <div className='upload-section'>
-            <Dropzone
-              onDrop={onDrop}
-              onDragEnter={() => updateBorder("over")}
-              onDragLeave={() => updateBorder("leave")}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <div
-                  {...getRootProps({ className: "drop-zone" })}
-                  ref={dropRef}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <p className='lead'>Update Your Profile</p>
+          <small>
+            <i className='fas fa-user'></i> Update information to make your
+            profile stand out.
+          </small>
+          <small>* = required field</small>
+          <form className='form' onSubmit={c => onSubmit(c)}>
+            <div className='form-group'>
+              <div className='upload-section'>
+                <Dropzone
+                  onDrop={onDrop}
+                  onDragEnter={() => updateBorder("over")}
+                  onDragLeave={() => updateBorder("leave")}
                 >
-                  <input {...getInputProps()} />
-                  <p>
-                    <i className='fa fa-camera' aria-hidden='true'></i>
-                  </p>
-                </div>
-              )}
-            </Dropzone>
+                  {({ getRootProps, getInputProps }) => (
+                    <div
+                      {...getRootProps({ className: "drop-zone" })}
+                      ref={dropRef}
+                    >
+                      <input {...getInputProps()} />
+                      <p>
+                        <i className='fa fa-camera' aria-hidden='true'></i>
+                      </p>
+                    </div>
+                  )}
+                </Dropzone>
 
-            <div className='image-preview2'>
-              <img
-                className='preview-image'
-                src={`/img/${profilePayload}`}
-                // alt='Preview'
-              />
-            </div>
-            {previewSrc ? (
-              isPreviewAvailable ? (
                 <div className='image-preview2'>
-                  <img className='preview-image' src={previewSrc} />
+                  <img
+                    className='preview-image'
+                    src={`/img/${profilePayload}`}
+                    // alt='Preview'
+                  />
                 </div>
-              ) : (
-                <div className='preview-message'>
-                  {/* <p>No preview available for this file</p> */}
-                </div>
-              )
-            ) : (
-              <div className='preview-message2'>
-                {/* <p>Image Preview</p> */}
+                {previewSrc ? (
+                  isPreviewAvailable ? (
+                    <div className='image-preview2'>
+                      <img className='preview-image' src={previewSrc} />
+                    </div>
+                  ) : (
+                    <div className='preview-message'>
+                      {/* <p>No preview available for this file</p> */}
+                    </div>
+                  )
+                ) : (
+                  <div className='preview-message2'>
+                    {/* <p>Image Preview</p> */}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        <div className='dash-buttons'>
-          <button
-            onClick={() => togglePersonalInputs(!displayPersonalInputs)}
-            type='button'
-            className='btn btn-dark'
-          >
-            <i className='fa fa-address-book'></i> Personal Information
-          </button>
-        </div>
-        {displayPersonalInputs && (
-          <Fragment>
-            <div style={{ display: "block", flexDirection: "row" }}>
-              <Search panTo={panTo} />
-              {/* <Locate panTo={panTo} /> */}
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={13}
-                center={{ lat: editLat, lng: editLng }}
-                options={options}
-                onClick={
-                  onMapClick
-                  // () => toggleOldAddress(!hideOldAddress),
-                  // () => toggleOldAddress(!newAddress))
-                }
-                onLoad={onMapLoad}
+            <div className='dash-buttons'>
+              <button
+                onClick={() => togglePersonalInputs(!displayPersonalInputs)}
+                type='button'
+                className='btn btn-dark'
               >
-                <Marker
-                  position={{ lat: editLat, lng: editLng }}
-                  icon={{
-                    url: "/icons/map/pin.png",
-                    scaledSize: new window.google.maps.Size(30, 30),
-                    origin: new window.google.maps.Point(0, 0),
-                    anchor: new window.google.maps.Point(15, 15),
-                  }}
-                  onClick={() => {
-                    setSelected(marker);
-                  }}
-                />
+                <i className='fa fa-address-book'></i> Personal Information
+              </button>
+            </div>
+            {displayPersonalInputs && (
+              <Fragment>
+                <div style={{ display: "block", flexDirection: "row" }}>
+                  <Search panTo={panTo} />
+                  {/* <Locate panTo={panTo} /> */}
+                  <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={13}
+                    center={{ lat: editLat, lng: editLng }}
+                    options={options}
+                    onClick={
+                      onMapClick
+                      // () => toggleOldAddress(!hideOldAddress),
+                      // () => toggleOldAddress(!newAddress))
+                    }
+                    onLoad={onMapLoad}
+                  >
+                    <Marker
+                      position={{ lat: editLat, lng: editLng }}
+                      icon={{
+                        url: "/icons/map/pin.png",
+                        scaledSize: new window.google.maps.Size(30, 30),
+                        origin: new window.google.maps.Point(0, 0),
+                        anchor: new window.google.maps.Point(15, 15),
+                      }}
+                      onClick={() => {
+                        setSelected(marker);
+                      }}
+                    />
 
-                {/* {selected ? (
+                    {/* {selected ? (
                   <InfoWindow
                     position={{ lat: selected.lat, lng: selected.lng }}
                     onCloseClick={() => {
@@ -511,26 +515,26 @@ const EditProfile = ({
                     </div>
                   </InfoWindow>
                 ) : null} */}
-              </GoogleMap>
+                  </GoogleMap>
 
-              {hideOldAddress && (
-                <div className='form-group'>
-                  <input type='text' value={completeaddress} />
-                  <small className='form-text'> * Home address </small>
-                </div>
-              )}
+                  {hideOldAddress && (
+                    <div className='form-group'>
+                      <input type='text' value={completeaddress} />
+                      <small className='form-text'> * Home address </small>
+                    </div>
+                  )}
 
-              {newAddress && (
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    name='completeaddress'
-                    value={com_address.currentaddress}
-                    onChange={c => onChange(c)}
-                  />
-                  <small className='form-text'> New Home Address</small>
+                  {newAddress && (
+                    <div className='form-group'>
+                      <input
+                        type='text'
+                        name='completeaddress'
+                        value={com_address.currentaddress}
+                        onChange={c => onChange(c)}
+                      />
+                      <small className='form-text'> New Home Address</small>
 
-                  {/* <input
+                      {/* <input
                   // style={{ display: "none" }}
                   type='text'
                   name='city'
@@ -567,324 +571,340 @@ const EditProfile = ({
                   value={editLng}
                   onChange={c => onChange(c)}
                 /> */}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            <div className='form-group'>
-              <select name='gender' value={gender} onChange={c => onChange(c)}>
-                <option value='0'>* Gender</option>
-                <option value='Male'>Male</option>
-                <option value='Female'>Female</option>
-                <option value='LGBT'>LGBT</option>
-              </select>
-              <small className='form-text'>Choose your gender</small>
-            </div>
+                <div className='form-group'>
+                  <select
+                    name='gender'
+                    value={gender}
+                    onChange={c => onChange(c)}
+                  >
+                    <option value='0'>* Gender</option>
+                    <option value='Male'>Male</option>
+                    <option value='Female'>Female</option>
+                    <option value='LGBT'>LGBT</option>
+                  </select>
+                  <small className='form-text'>Choose your gender</small>
+                </div>
 
-            <div className='form-group'>
-              <select
-                name='civilstatus'
-                value={civilstatus}
-                onChange={c => onChange(c)}
+                <div className='form-group'>
+                  <select
+                    name='civilstatus'
+                    value={civilstatus}
+                    onChange={c => onChange(c)}
+                  >
+                    <option value='0'>* Civil Status</option>
+                    <option value='Single'>Single</option>
+                    <option value='Married'>Married</option>
+                    <option value='Widowed'>Widowed</option>
+                    <option value='Separated'>Separated</option>
+                  </select>
+                  <small className='form-text'>Choose civil status</small>
+                </div>
+                <div className='form-group'>
+                  <p className='form-text'>Birthday </p>
+
+                  <input
+                    type='date'
+                    name='birthday'
+                    value={moment(birthday).format("YYYY-MM-DD")}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <textarea
+                    placeholder='A short bio of yourself and'
+                    name='bio'
+                    value={bio}
+                    onChange={c => onChange(c)}
+                    rows='6'
+                  ></textarea>
+                  <small className='form-text'>
+                    Tell us a little about yourself
+                  </small>
+                </div>
+              </Fragment>
+            )}
+            <div className='dash-buttons'>
+              <button
+                onClick={() =>
+                  toggleOrganizationInputs(!displayOrganizationInputs)
+                }
+                type='button'
+                className='btn btn-dark'
               >
-                <option value='0'>* Civil Status</option>
-                <option value='Single'>Single</option>
-                <option value='Married'>Married</option>
-                <option value='Widowed'>Widowed</option>
-                <option value='Separated'>Separated</option>
-              </select>
-              <small className='form-text'>Choose civil status</small>
+                <i className='fa fa-building'></i> Organization/Company
+              </button>
             </div>
-            <div className='form-group'>
-              <p className='form-text'>Birthday </p>
-
-              <input
-                type='date'
-                name='birthday'
-                value={moment(birthday).format("YYYY-MM-DD")}
-                onChange={c => onChange(c)}
-              />
-            </div>
-
-            <div className='form-group'>
-              <textarea
-                placeholder='A short bio of yourself and'
-                name='bio'
-                value={bio}
-                onChange={c => onChange(c)}
-                rows='6'
-              ></textarea>
-              <small className='form-text'>
-                Tell us a little about yourself
-              </small>
-            </div>
-          </Fragment>
-        )}
-        <div className='dash-buttons'>
-          <button
-            onClick={() => toggleOrganizationInputs(!displayOrganizationInputs)}
-            type='button'
-            className='btn btn-dark'
-          >
-            <i className='fa fa-building'></i> Organization/Company
-          </button>
-        </div>
-        {displayOrganizationInputs && (
-          <Fragment>
-            <div className='form-group'>
-              <select name='status' value={status} onChange={c => onChange(c)}>
-                <option value='0'>* Select Responder Status</option>
-                <option value='Dispatch'>Emergency Dispatch Operator</option>
-                <option value='EMS'>Emergency Medical Service</option>
-                <option value='Fireman'>Firefighter</option>
-                <option value='Policeman'>Police Officer</option>
-                <option value='Military'>Military</option>
-                <option value='QRT'>Quick Response</option>
-                <option value='Traffic Dept.'>Traffic Enforcer</option>
-                <option value='LGU Frontliner'>LGU Frontliner</option>
-                <option value='Volunteer'>Volunteer</option>
-                <option value='Others'>Others</option>
-              </select>
-              <small className='form-text'>
-                Give us an idea of where you are at in your emergency response
-                career
-              </small>
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Organization'
-                name='organization'
-                value={organization}
-                onChange={c => onChange(c)}
-              />
-              <small className='form-text'>
-                Organization you are affiliated/member
-              </small>
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Website'
-                name='website'
-                value={website}
-                onChange={c => onChange(c)}
-              />
-              <small className='form-text'>Our organization website</small>
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Address'
-                name='location'
-                value={location}
-                onChange={c => onChange(c)}
-              />
-              <small className='form-text'>City or Municipalilty located</small>
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='* Skills'
-                name='skills'
-                value={skills}
-                onChange={c => onChange(c)}
-              />
-              <small className='form-text'>
-                Please use comma separated values (eg. Patient Care, EMS, EMT,
-                CPR, Hazardous Materials, Trauma)
-              </small>
-            </div>
-          </Fragment>
-        )}
-        <div className='dash-buttons'>
-          <button
-            onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
-            type='button'
-            className='btn btn-dark'
-          >
-            <i className='fa fa-building'></i> Emergency Information
-          </button>
-        </div>
-        {displayEmergencyInputs && (
-          <Fragment>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='* Contact Person'
-                name='contactperson'
-                value={contactperson}
-                onChange={c => onChange(c)}
-                required
-              />
-            </div>
-
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='* Relationship'
-                name='relationship'
-                value={relationship}
-                onChange={c => onChange(c)}
-                required
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='tel'
-                placeholder='* 09XX XXX XXXX'
-                name='contactnumber'
-                value={contactnumber}
-                onChange={c => onChange(c)}
-                required
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='* Address'
-                name='address'
-                value={address}
-                onChange={c => onChange(c)}
-                required
-              />
-            </div>
-
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Blood Type'
-                name='bloodtype'
-                value={bloodtype}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Body Build'
-                name='build'
-                value={build}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Birth Mark'
-                name='birthmark'
-                value={birthmark}
-                onChange={c => onChange(c)}
-              />
-            </div>
-
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Height'
-                name='height'
-                value={height}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Weight'
-                name='weight'
-                value={weight}
-                onChange={c => onChange(c)}
-              />
-            </div>
-
-            <div className='form-group'>
-              <select
-                name='insured'
-                value={insured}
-                onChange={c => onChange(c)}
+            {displayOrganizationInputs && (
+              <Fragment>
+                <div className='form-group'>
+                  <select
+                    name='status'
+                    value={status}
+                    onChange={c => onChange(c)}
+                  >
+                    <option value='0'>* Select Responder Status</option>
+                    <option value='Dispatch'>
+                      Emergency Dispatch Operator
+                    </option>
+                    <option value='EMS'>Emergency Medical Service</option>
+                    <option value='Fireman'>Firefighter</option>
+                    <option value='Policeman'>Police Officer</option>
+                    <option value='Military'>Military</option>
+                    <option value='QRT'>Quick Response</option>
+                    <option value='Traffic Dept.'>Traffic Enforcer</option>
+                    <option value='LGU Frontliner'>LGU Frontliner</option>
+                    <option value='Volunteer'>Volunteer</option>
+                    <option value='Others'>Others</option>
+                  </select>
+                  <small className='form-text'>
+                    Give us an idea of where you are at in your emergency
+                    response career
+                  </small>
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Organization'
+                    name='organization'
+                    value={organization}
+                    onChange={c => onChange(c)}
+                  />
+                  <small className='form-text'>
+                    Organization you are affiliated/member
+                  </small>
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Website'
+                    name='website'
+                    value={website}
+                    onChange={c => onChange(c)}
+                  />
+                  <small className='form-text'>Our organization website</small>
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Address'
+                    name='location'
+                    value={location}
+                    onChange={c => onChange(c)}
+                  />
+                  <small className='form-text'>
+                    City or Municipalilty located
+                  </small>
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='* Skills'
+                    name='skills'
+                    value={skills}
+                    onChange={c => onChange(c)}
+                  />
+                  <small className='form-text'>
+                    Please use comma separated values (eg. Patient Care, EMS,
+                    EMT, CPR, Hazardous Materials, Trauma)
+                  </small>
+                </div>
+              </Fragment>
+            )}
+            <div className='dash-buttons'>
+              <button
+                onClick={() => toggleEmergencyInputs(!displayEmergencyInputs)}
+                type='button'
+                className='btn btn-dark'
               >
-                <option value='0'>Insured</option>
-                <option value='Yes'>Yes</option>
-                <option value='No'>No</option>
-              </select>
+                <i className='fa fa-building'></i> Emergency Information
+              </button>
             </div>
-          </Fragment>
-        )}
+            {displayEmergencyInputs && (
+              <Fragment>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='* Contact Person'
+                    name='contactperson'
+                    value={contactperson}
+                    onChange={c => onChange(c)}
+                    required
+                  />
+                </div>
 
-        <div className='dash-buttons'>
-          <button
-            onClick={() => toggleSocialInputs(!displaySocialInputs)}
-            type='button'
-            className='btn btn-dark'
-          >
-            <i className='fa fa-desktop'></i> Social Network Links
-          </button>
-        </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='* Relationship'
+                    name='relationship'
+                    value={relationship}
+                    onChange={c => onChange(c)}
+                    required
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='tel'
+                    placeholder='* 09XX XXX XXXX'
+                    name='contactnumber'
+                    value={contactnumber}
+                    onChange={c => onChange(c)}
+                    required
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='* Address'
+                    name='address'
+                    value={address}
+                    onChange={c => onChange(c)}
+                    required
+                  />
+                </div>
 
-        {displaySocialInputs && (
-          <Fragment>
-            <div className='form-group social-input'>
-              <i className='fab fa-twitter fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Twitter URL'
-                name='twitter'
-                value={twitter}
-                onChange={c => onChange(c)}
-              />
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Blood Type'
+                    name='bloodtype'
+                    value={bloodtype}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Body Build'
+                    name='build'
+                    value={build}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Birth Mark'
+                    name='birthmark'
+                    value={birthmark}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Height'
+                    name='height'
+                    value={height}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    type='text'
+                    placeholder='Weight'
+                    name='weight'
+                    value={weight}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <select
+                    name='insured'
+                    value={insured}
+                    onChange={c => onChange(c)}
+                  >
+                    <option value='0'>Insured</option>
+                    <option value='Yes'>Yes</option>
+                    <option value='No'>No</option>
+                  </select>
+                </div>
+              </Fragment>
+            )}
+
+            <div className='dash-buttons'>
+              <button
+                onClick={() => toggleSocialInputs(!displaySocialInputs)}
+                type='button'
+                className='btn btn-dark'
+              >
+                <i className='fa fa-desktop'></i> Social Network Links
+              </button>
             </div>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-facebook fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Facebook URL'
-                name='facebook'
-                value={facebook}
-                onChange={c => onChange(c)}
-              />
-            </div>
+            {displaySocialInputs && (
+              <Fragment>
+                <div className='form-group social-input'>
+                  <i className='fab fa-twitter fa-2x'></i>
+                  <input
+                    type='text'
+                    placeholder='Twitter URL'
+                    name='twitter'
+                    value={twitter}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-youtube fa-2x'></i>
-              <input
-                type='text'
-                placeholder='YouTube URL'
-                name='youtube'
-                value={youtube}
-                onChange={c => onChange(c)}
-              />
-            </div>
+                <div className='form-group social-input'>
+                  <i className='fab fa-facebook fa-2x'></i>
+                  <input
+                    type='text'
+                    placeholder='Facebook URL'
+                    name='facebook'
+                    value={facebook}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-linkedin fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Linkedin URL'
-                name='linkedin'
-                value={linkedin}
-                onChange={c => onChange(c)}
-              />
-            </div>
+                <div className='form-group social-input'>
+                  <i className='fab fa-youtube fa-2x'></i>
+                  <input
+                    type='text'
+                    placeholder='YouTube URL'
+                    name='youtube'
+                    value={youtube}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
 
-            <div className='form-group social-input'>
-              <i className='fab fa-instagram fa-2x'></i>
-              <input
-                type='text'
-                placeholder='Instagram URL'
-                name='instagram'
-                value={instagram}
-                onChange={c => onChange(c)}
-              />
-            </div>
-          </Fragment>
-        )}
+                <div className='form-group social-input'>
+                  <i className='fab fa-linkedin fa-2x'></i>
+                  <input
+                    type='text'
+                    placeholder='Linkedin URL'
+                    name='linkedin'
+                    value={linkedin}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
 
-        <input type='submit' className='btn btn-primary my-1' />
-        <Link className='btn btn-light my-1' to='/dashboard'>
-          Go Back
-        </Link>
-      </form>
+                <div className='form-group social-input'>
+                  <i className='fab fa-instagram fa-2x'></i>
+                  <input
+                    type='text'
+                    placeholder='Instagram URL'
+                    name='instagram'
+                    value={instagram}
+                    onChange={c => onChange(c)}
+                  />
+                </div>
+              </Fragment>
+            )}
+
+            <input type='submit' className='btn btn-primary my-1' />
+            <Link className='btn btn-light my-1' to='/dashboard'>
+              Go Back
+            </Link>
+          </form>
+        </Fragment>
+      )}{" "}
     </Fragment>
   );
 };
