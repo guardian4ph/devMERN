@@ -24,6 +24,7 @@ import Post from "./components/post/Post";
 import NotFound from "./components/layout/NotFound";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import PostImage from "./components/post/PostImage";
+import ID from "./components/profile/id";
 import { getProfiles } from "./actions/profile";
 
 if (localStorage.token) {
@@ -56,6 +57,7 @@ const App = () => {
                 path='/create-profile'
                 component={CreateProfile}
               />
+              <PrivateRoute exact path='/ID' component={ID} />
               <PrivateRoute
                 exact
                 path='/edit-profile'
@@ -79,7 +81,7 @@ const App = () => {
                 path='/posts/:id/:articleImage'
                 component={PostImage}
               />
-              <Route component={NotFound} />
+              {/* <Route component={NotFound} /> */}
             </Switch>
           </section>
         </Fragment>

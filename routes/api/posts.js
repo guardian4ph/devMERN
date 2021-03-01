@@ -208,6 +208,7 @@ router.post(
       const newComment = {
         text: req.body.text,
         name: user.name,
+        lname: user.lname,
         profilepic: profile.profilepic,
         user: req.user.id,
       };

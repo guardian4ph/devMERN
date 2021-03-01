@@ -20,9 +20,11 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         <i className='fas fa-user'></i> Welcome to GUARDIAN community
       </p>
       <PostForm />
-      <div className='posts'>
+      <div>
         {posts.map(post => (
-          <PostItem key={post._id} post={post} />
+          <div className='posts'>
+            <PostItem key={post._id} post={post} />
+          </div>
         ))}
       </div>
     </Fragment>

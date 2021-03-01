@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -17,12 +17,49 @@ const PostItem = ({
   post: { _id, text, name, lname, articleImage, user, likes, comments, date },
   showActions,
 }) => {
+  const [shortComment, toggleShortComment] = useState(true);
+  const [fullComment, toggleFullComment] = useState(false);
+
+  const onButtonClick = useCallback(
+    e => {
+      toggleShortComment(!shortComment);
+      toggleFullComment(!fullComment);
+    },
+    [fullComment, shortComment]
+  );
+
+  const timeDifference = () => {
+    var current = new Date();
+    var formatDate = new Date(date);
+
+    var minutes = 60 * 1000;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var months = days * 30;
+    var years = days * 365;
+
+    var elapsed = current - formatDate;
+
+    if (elapsed < minutes) {
+      return Math.round(elapsed / 1000) + " seconds ago";
+    } else if (elapsed < hours) {
+      return Math.round(elapsed / minutes) + " minutes ago";
+    } else if (elapsed < days) {
+      return Math.round(elapsed / hours) + " hours ago";
+    } else if (elapsed < months) {
+      return "approximately " + Math.round(elapsed / days) + " days ago";
+    } else if (elapsed < years) {
+      return "approximately " + Math.round(elapsed / months) + " months ago";
+    } else {
+      return "approximately " + Math.round(elapsed / years) + " years ago";
+    }
+  };
   return (
     <Fragment>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='post bg-white'>
+        <div className='comment bg-white'>
           <Link to={`/profile/${user}`}>
             {/* map all profiles here */}
             {profiles.length > 0 ? (
@@ -44,7 +81,13 @@ const PostItem = ({
                           borderBottom: "1px solid #ddd",
                         }}
                       >
-                        <div className=' p'>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingLeft: "10px",
+                          }}
+                        >
                           <img
                             className='post-profile'
                             src={`/img/${profile.profilepic}`}
@@ -69,7 +112,8 @@ const PostItem = ({
 
                           <p className='post-date p-11 '>
                             {" "}
-                            Posted <Moment format='LLLL'>{date}</Moment>
+                            Posted <Moment format='ll'>{date}</Moment> -{" "}
+                            {timeDifference()}
                           </p>
                         </div>
                         <div style={{ width: "20%" }}></div>
@@ -98,12 +142,34 @@ const PostItem = ({
           <div>
             <div>
               {text.length > MAX_LENGTH ? (
-                <div className='m-1'>
-                  {`${text.substring(0, MAX_LENGTH)}...`}{" "}
-                  <Link to={`/posts/${_id}/${articleImage}`}>see more</Link>
+                <div className=' commentFont m f-2'>
+                  {shortComment && (
+                    <div>
+                      {`${text.substring(0, MAX_LENGTH)}...`}
+                      <button
+                        className='btn-comment'
+                        onClick={onButtonClick}
+                        type='button'
+                      >
+                        see more
+                      </button>
+                    </div>
+                  )}
+                  {fullComment && (
+                    <div>
+                      <p style={{ whiteSpace: "pre-line" }}>{text}</p>
+                      {/* <button
+                        className='btn-comment'
+                        onClick={onButtonClick}
+                        type='button'
+                      >
+                        see less
+                      </button> */}
+                    </div>
+                  )}
                 </div>
               ) : (
-                <p className='m-1'>{text}</p>
+                <p className='commentFont m f-2'>{text}</p>
               )}
             </div>
             <div
@@ -141,7 +207,7 @@ const PostItem = ({
                 <Link
                   onClick={c => addLike(_id)}
                   type='button'
-                  className='btn-post '
+                  className='btn-post f-2 '
                 >
                   <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
                   <p style={{ marginLeft: "3px" }}> Like</p>
@@ -154,12 +220,12 @@ const PostItem = ({
                 <Link
                   onClick={c => removeLike(_id)}
                   type='button'
-                  className='btn-post'
+                  className='btn-post f-2'
                 >
                   <i className='fa fa-thumbs-o-down' aria-hidden='true'></i>
                   <p style={{ marginLeft: "3px" }}>Unlike</p>
                 </Link>
-                <Link to={`/posts/${_id}`} className='btn-post'>
+                <Link to={`/posts/${_id}`} className='btn-post f-2'>
                   <i className='fa fa-comment-o' aria-hidden='true'></i>{" "}
                   <p style={{ marginLeft: "3px" }}>Comments </p>
                   {comments.length > 0 && (
@@ -167,7 +233,7 @@ const PostItem = ({
                   )}
                 </Link>
 
-                <Link to={`/posts/${_id}`} className='btn-post'>
+                <Link to={`/posts/${_id}`} className='btn-post f-2'>
                   <i className='fa fa-share-square-o' aria-hidden='true'></i>{" "}
                   <p style={{ marginLeft: "3px" }}>Share</p>
                 </Link>
@@ -176,9 +242,9 @@ const PostItem = ({
                   <button
                     onClick={c => deletePost(_id)}
                     type='button'
-                    className='btn btn-danger'
+                    className='btn-post f-2'
                   >
-                    <i className='fas fa-times'></i>
+                    <i class='fa fa-trash-o' aria-hidden='true'></i>
                   </button>
                 )}
               </Fragment>

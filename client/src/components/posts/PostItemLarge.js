@@ -19,6 +19,32 @@ const PostItem = ({
   post: { _id, text, name, lname, articleImage, user, likes, comments, date },
   showActions,
 }) => {
+  const timeDifference = () => {
+    var current = new Date();
+    var formatDate = new Date(date);
+
+    var minutes = 60 * 1000;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    var months = days * 30;
+    var years = days * 365;
+
+    var elapsed = current - formatDate;
+
+    if (elapsed < minutes) {
+      return Math.round(elapsed / 1000) + " seconds ago";
+    } else if (elapsed < hours) {
+      return Math.round(elapsed / minutes) + " minutes ago";
+    } else if (elapsed < days) {
+      return Math.round(elapsed / hours) + " hours ago";
+    } else if (elapsed < months) {
+      return "approximately " + Math.round(elapsed / days) + " days ago";
+    } else if (elapsed < years) {
+      return "approximately " + Math.round(elapsed / months) + " months ago";
+    } else {
+      return "approximately " + Math.round(elapsed / years) + " years ago";
+    }
+  };
   return (
     <Fragment>
       {loading ? (
@@ -26,16 +52,7 @@ const PostItem = ({
       ) : (
         <div className='post-large bg-white'>
           {/* Image post container */}
-          <div
-            style={{
-              position: "relative",
-              height: "500px",
-              background: "#eee",
-              marginTop: "2.5rem",
-              width: "100%",
-              borderRadius: "5px",
-            }}
-          >
+          <div className='postContainer'>
             <Link to={`/posts/${_id}/${articleImage}`}>
               <img
                 className='postImageLarge'
@@ -45,7 +62,7 @@ const PostItem = ({
               />
             </Link>
           </div>
-          <div>
+          <div style={{ backgroundColor: "#fff" }}>
             {/* user details */}
 
             <Link to={`/profile/${user}`}>
@@ -95,7 +112,8 @@ const PostItem = ({
 
                             <p style={{ color: "#aaa", fontSize: "10px" }}>
                               {" "}
-                              Posted <Moment format='LLLL'>{date}</Moment>
+                              Posted <Moment format='ll'>{date}</Moment> -{" "}
+                              {timeDifference()}
                             </p>
                           </div>
                           <div style={{ width: "20%" }}></div>
@@ -106,6 +124,7 @@ const PostItem = ({
                             ></i>
                           </div>
                         </div>
+                        <p className=' commentFont m f-2'>{text}</p>
                         <div
                           style={{
                             display: "flex",
@@ -172,9 +191,12 @@ const PostItem = ({
                                 <button
                                   onClick={c => deletePost(_id)}
                                   type='button'
-                                  className='btn btn-danger'
+                                  className='btn-post f-2'
                                 >
-                                  <i className='fas fa-times'></i>
+                                  <i
+                                    class='fa fa-trash-o'
+                                    aria-hidden='true'
+                                  ></i>
                                 </button>
                               )}
                             </Fragment>
@@ -202,19 +224,7 @@ const PostItem = ({
                 margin: "10px",
                 overflow: "auto",
               }}
-            >
-              <p
-                style={{
-                  fontSize: "13px",
-                  textAlign: "justify",
-                  textJustify: "auto",
-                  padding: "10px",
-                  margin: "4px",
-                }}
-              >
-                {text}
-              </p>
-            </div>
+            ></div>
           </div>
         </div>
       )}

@@ -1,20 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 const DashboardActions = () => {
   return (
-    <div className='dash-buttons'>
-      <Link to='/edit-profile' className='btn btn-primary'>
-        <i className='fas fa-user-circle text-light'></i> Edit Profile
-      </Link>
+    <Fragment>
+      <div className='btnTitle'>
+        <Link to='/edit-profile' className='btn  btn-primary btn-width'>
+          <i className='fas fa-user-circle text-light'></i> <p>Profile </p>
+        </Link>
 
-      <Link to='/add-experience' className='btn btn-primary'>
-        <i className='fab fa-black-tie text-light'></i> Add Trainings/Experience
-      </Link>
-      <Link to='/add-education' className='btn btn-primary'>
-        <i className='fas fa-graduation-cap text-light'></i> Add Education
-      </Link>
-    </div>
+        <Link to='/add-experience' className='btn btn-primary btn-width'>
+          <i className='fab fa-black-tie text-light'></i>{" "}
+          <p>Trainings/Experience</p>
+        </Link>
+        <Link to='/add-education' className='btn btn-primary btn-width'>
+          <i className='fas fa-graduation-cap text-light'></i> <p>Education</p>
+        </Link>
+      </div>
+    </Fragment>
   );
 };
 

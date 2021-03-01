@@ -28,39 +28,56 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign In</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Sign into your Account
-      </p>
-      <form className='form' onSubmit={c => onSubmit(c)}>
-        <div className='form-group'>
-          <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={c => onChange(c)}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={c => onChange(c)}
-            minLength='8'
-          />
-        </div>
+      <div
+        style={{
+          padding: "20px",
+          background: "#fff",
+          borderRadius: "10px",
+        }}
+      >
+        <div
+          style={{
+            display: "block",
+            borderRadius: "10px",
 
-        <input type='submit' className='btn btn-primary' value='Log-in' />
-      </form>
-      <p className='my-1'>
-        Don't have an account? <Link to='/register'>Sign Up</Link>
-      </p>
-      <p className='my-1'>
-        Forgot passsword? <Link to='/forgot_pass'>Forgot</Link>
-      </p>
+            padding: "20px",
+          }}
+        >
+          <h1 className='large text-primary'>Sign In</h1>
+          <p className='lead'>
+            <i className='fas fa-user'></i> Sign into your Account
+          </p>
+          <form className='form' onSubmit={c => onSubmit(c)}>
+            <div className='form-group'>
+              <input
+                type='email'
+                placeholder='Email Address'
+                name='email'
+                value={email}
+                onChange={c => onChange(c)}
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                placeholder='Password'
+                name='password'
+                value={password}
+                onChange={c => onChange(c)}
+                minLength='8'
+              />
+            </div>
+
+            <input type='submit' className='btn btn-primary' value='Log-in' />
+          </form>
+          <p className='my-1'>
+            Don't have an account? <Link to='/register'>Sign Up</Link>
+          </p>
+          <p className='my-1'>
+            Forgot passsword? <Link to='/forgot_pass'>Forgot</Link>
+          </p>
+        </div>
+      </div>
     </Fragment>
   );
 };

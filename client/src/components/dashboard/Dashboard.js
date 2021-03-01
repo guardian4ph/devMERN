@@ -30,18 +30,20 @@ const Dashboard = ({
         </p>
         {profile !== null ? (
           <Fragment>
-            <DashboardActions />
-            {/* pass the experience array from state */}
-            <Experience experience={profile.experience} />
-            {/* pass the education array from state */}
-            <Education education={profile.education} />
-            <div className='my-2'>
-              <button
-                className='btn btn-danger'
-                onClick={() => deleteAccount()}
-              >
-                <i className='fas fa-user-minus'></i> Delete My Account
-              </button>
+            <div>
+              <DashboardActions />
+              {/* pass the experience array from state */}
+              <Experience experience={profile.experience} />
+              {/* pass the education array from state */}
+              <Education education={profile.education} />
+              <div className='my-2'>
+                <button
+                  className='btn btn-danger'
+                  onClick={() => deleteAccount()}
+                >
+                  <i className='fas fa-user-minus'></i> Delete My Account
+                </button>
+              </div>
             </div>
           </Fragment>
         ) : (

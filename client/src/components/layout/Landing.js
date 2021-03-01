@@ -15,7 +15,7 @@ const Landing = ({ isAuthenticated }) => {
           <p className='x-large'>GUARDIAN</p>
 
           <p className='subTitle'>
-            Create a profile, share posts and connect with other volunteers.
+            Create a profile, and connect with other volunteers and reponders.
           </p>
           <div className='buttons'>
             <Link

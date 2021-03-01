@@ -20,11 +20,12 @@ const CommentForm = ({ postId, addComment }) => {
         <textarea
           name='text'
           cols='30'
-          rows='5'
+          rows='3'
           placeholder='Leave Comment'
           value={text}
           onChange={c => setText(c.target.value)}
           required
+          autoFocus
         ></textarea>
         <input type='submit' className='btn btn-dark my-1' value='Submit' />
       </form>

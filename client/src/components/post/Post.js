@@ -17,10 +17,6 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
     <Spinner />
   ) : (
     <Fragment>
-      <Link to='/posts' className='btn'>
-        {" "}
-        Back to Posts
-      </Link>
       <PostItem post={post} showActions={true} />
       <CommentForm postId={post._id} />
       {/* loop thru to comments array at the backend then display */}
