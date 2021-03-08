@@ -15,8 +15,9 @@ const PostItem = ({
   removeLike,
   deletePost,
   auth,
-  profile: { profiles, loading },
+
   post: { _id, text, name, lname, articleImage, user, likes, comments, date },
+  profile: { profiles, loading },
   showActions,
 }) => {
   const timeDifference = () => {
