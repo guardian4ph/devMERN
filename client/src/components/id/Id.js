@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import profile from "../../reducers/profile";
-import { QRCode } from "react-qrcode-logo";
 
 const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
   useEffect(() => {
@@ -37,27 +36,29 @@ const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
                 height: "100%",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  // padding: "10px",
-                  height: "32%",
-                  borderRadius: " 5px 5px 0px 0px",
-                  // backgroundColor: "#AFBFC6",
-                  backgroundColor: "#fff",
-                  alignItems: "center",
-                }}
-              >
-                <div style={{ margin: "auto" }}>
-                  <img
-                    className='profile-img'
-                    src={`/img/${profile.profilepic}`}
-                    alt=''
-                  />
-                </div>
-                <small> Tap photo to show QR code</small>
-                {/* <div className='qr-code-id'>
+              <Link to='/QR'>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    // padding: "10px",
+                    height: "32%",
+                    borderRadius: " 5px 5px 0px 0px",
+                    // backgroundColor: "#AFBFC6",
+                    backgroundColor: "#fff",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ margin: "auto" }}>
+                    <img
+                      className='profile-img'
+                      src={`/img/${profile.profilepic}`}
+                      alt=''
+                    />
+                  </div>
+
+                  <small> Tap photo to show QR code</small>
+                  {/* <div className='qr-code-id'>
                   <QRCode
                     size='125'
                     includeMargin='true'
@@ -65,7 +66,8 @@ const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
                     value={profile.user._id}
                   />
                 </div> */}
-              </div>
+                </div>
+              </Link>
               <div style={{ height: "5px", backgroundColor: "#eee" }}></div>
               <div className='id-container-validity'>
                 Valid Until: Dec. 31, 2021

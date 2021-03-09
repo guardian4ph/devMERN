@@ -26,6 +26,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import PostImage from "./components/post/PostImage";
 import ID from "./components/id/Id";
 import { getProfiles } from "./actions/profile";
+import QrPhoto from "./components/id/QrPhoto";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -58,6 +59,7 @@ const App = () => {
                 component={CreateProfile}
               />
               <PrivateRoute exact path='/ID' component={ID} />
+              <PrivateRoute exact path='/QR' component={QrPhoto} />
               <PrivateRoute
                 exact
                 path='/edit-profile'
