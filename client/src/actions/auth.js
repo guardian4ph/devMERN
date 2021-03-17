@@ -103,29 +103,27 @@ export const logout = () => dispatch => {
   dispatch({ type: CLEAR_PROFILE });
 };
 
-//  Check if User Exist via mobile number
+//  Check if User Exist via email
 
-export const forgot_password = number => async dispatch => {
+export const forgot_password = email => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  const body = JSON.stringify({ number });
+  const body = JSON.stringify({ email });
   try {
     const res = await axios.post("/api/auth/forgot", body, config);
     dispatch({
       type: RESET_PASSWORD,
       payload: res.data,
     });
-    dispatch(send_otp());
-    dispatch(
-      setAlert(
-        "One time pin (OTP) send to your mobile number. Please dont share this pin to anyone.",
-        "success"
-      )
-    );
+
+    // dispatch(send_otp());
+    // dispatch(
+    //   setAlert("One time pin (OTP) send to your mobile number.", "success")
+    // );
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

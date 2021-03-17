@@ -5,11 +5,13 @@ import Spinner from "../layout/Spinner";
 import { getPosts } from "../../actions/post";
 import PostItem from "./PostItem";
 import PostForm from "./PostForm";
+import { getProfiles } from "../../actions/profile";
 
-const Posts = ({ getPosts, post: { posts, loading } }) => {
+const Posts = ({ getProfiles, getPosts, post: { posts, loading } }) => {
   useEffect(() => {
+    getProfiles();
     getPosts();
-  }, [getPosts]);
+  }, [getPosts, getProfiles]);
 
   return loading ? (
     <Spinner />
@@ -34,10 +36,12 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   post: state.post,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, getProfiles })(Posts);

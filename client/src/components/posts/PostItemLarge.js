@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -7,19 +7,24 @@ import { addLike, removeLike, deletePost } from "../../actions/post";
 import Spinner from "../layout/Spinner";
 import CommentItem from "../../components/post/CommentItem";
 import CommentForm from "../../components/post/CommentForm";
+import { getProfiles } from "../../actions/profile";
 
 const MAX_LENGTH = 150;
 
 const PostItem = ({
+  getProfiles,
   addLike,
   removeLike,
   deletePost,
   auth,
-
   post: { _id, text, name, lname, articleImage, user, likes, comments, date },
   profile: { profiles, loading },
   showActions,
 }) => {
+  useEffect(() => {
+    getProfiles();
+  }, [getProfiles]);
+
   const timeDifference = () => {
     var current = new Date();
     var formatDate = new Date(date);
@@ -63,7 +68,7 @@ const PostItem = ({
               />
             </Link>
           </div>
-          <div style={{ backgroundColor: "#fff" }}>
+          <div style={{ backgroundColor: "#fff", height: "89vh" }}>
             {/* user details */}
 
             <Link to={`/profile/${user}`}>
@@ -88,7 +93,7 @@ const PostItem = ({
                             borderBottom: "1px solid #ddd",
                           }}
                         >
-                          <div className=' p'>
+                          <div className='p'>
                             <img
                               className='post-profile'
                               src={`/img/${profile.profilepic}`}
@@ -125,7 +130,7 @@ const PostItem = ({
                             ></i>
                           </div>
                         </div>
-                        <p className=' commentFont m f-2'>{text}</p>
+                        <p className=' commentFontLarge m f-2'>{text}</p>
                         <div
                           style={{
                             display: "flex",
@@ -245,6 +250,7 @@ PostItem.propTypes = {
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
+  getProfiles: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -256,4 +262,5 @@ export default connect(mapStateToProps, {
   addLike,
   removeLike,
   deletePost,
+  getProfiles,
 })(PostItem);

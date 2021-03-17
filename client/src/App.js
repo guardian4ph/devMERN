@@ -27,6 +27,7 @@ import PostImage from "./components/post/PostImage";
 import ID from "./components/id/Id";
 import { getProfiles } from "./actions/profile";
 import QrPhoto from "./components/id/QrPhoto";
+import Otp from "./components/auth/Otp";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -35,7 +36,7 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
-    store.dispatch(getProfiles());
+    // store.dispatch(getProfiles());
   }, []);
 
   return (
@@ -51,6 +52,7 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/profiles' component={Profiles} />
               <Route exact path='/forgot_pass' component={ForgotPassword} />
+              <Route exact path='/otp' component={Otp} />
               <Route exact path='/profile/:id' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute

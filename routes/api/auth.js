@@ -31,10 +31,7 @@ router.post(
   "/forgot",
   [
     //express validation -> body of the request
-    check(
-      "number",
-      "Please put a valid Philippines mobile number"
-    ).isMobilePhone("en-PH"),
+    check("email", "Please input valid email").isEmail(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -42,22 +39,20 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { number } = req.body;
+    const { email } = req.body;
     try {
-      let user = await User.findOne({ number }).select("-password");
+      let user = await User.findOne({ email }).select("-password");
+      // .select("-number");
 
       if (!user) {
         // if (user || mail)
         return res
           .status(400)
           .json({ errors: [{ msg: "User does not exists" }] });
+        console.log("Not Exist");
+      } else {
+        return res.status(200).json(user);
       }
-      console.log("User Exist");
-
-      // res
-      //   .status(200)
-      //   .json((user),{ msg: "One Time Password is sent to your mobile number" });
-      res.json(user);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

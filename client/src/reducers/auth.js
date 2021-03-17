@@ -17,6 +17,7 @@ import {
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
+  isUser: null,
   loading: true,
   user: null,
   otp_auth: [],
@@ -49,6 +50,7 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: false,
+        isUser: true,
         loading: false,
       };
     case SEND_OTP:

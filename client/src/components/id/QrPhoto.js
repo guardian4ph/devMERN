@@ -41,25 +41,27 @@ const QrPhoto = ({
                 height: "100%",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  height: "60%",
-                  borderRadius: " 5px 5px 0px 0px",
-                  backgroundColor: "#fff",
-                  alignItems: "center",
-                }}
-              >
-                <div className='qr-code-id-big'>
-                  <QRCode
-                    size='320'
-                    includeMargin='true'
-                    fgColor='#333'
-                    value={profile.user._id}
-                  />
+              <Link to='/ID'>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    height: "60%",
+                    borderRadius: " 5px 5px 0px 0px",
+                    backgroundColor: "#fff",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className='qr-code-id-big'>
+                    <QRCode
+                      size='260'
+                      includeMargin='true'
+                      fgColor='#333'
+                      value={profile.user._id}
+                    />
+                  </div>
                 </div>
-              </div>
+              </Link>
               <div style={{ height: "5px", backgroundColor: "#eee" }}></div>
 
               <div className='id-container-name'>

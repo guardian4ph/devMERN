@@ -11,7 +11,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <ul>
       <li>
         <Link to='/ID'>
-          <i class='fa fa-id-badge' aria-hidden='true'></i>{" "}
+          <i className='fa fa-id-badge' aria-hidden='true'></i>{" "}
           <span className='hide-sm'>ID </span>
         </Link>
       </li>

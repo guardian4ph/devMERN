@@ -42,7 +42,7 @@ img {
 
   margin-top: 3.8rem;
   margin-bottom: 3rem;
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 10px;
   padding: 4px;
 }
@@ -490,6 +490,15 @@ button {
   background-color: #eee;
 }
 
+.profile-id {
+  height: 155px;
+  width: 155px;
+  border-radius: 50%;
+  border: 3px #eee solid;
+  color: #ffffff;
+  /* -webkit-filter: drop-shadow(5px 5px 5px #444444); */
+  filter: drop-shadow(4px 4px 4px #444444);
+}
 .id-container p {
   color: #888;
   text-align: center;
@@ -716,6 +725,18 @@ button {
   margin: 4px;
   white-space: pre-line;
   color: #333;
+  /* overflow: scroll;
+  height: 70vh; */
+}
+.commentFontLarge {
+  font-size: 13px;
+  text-align: justify;
+  padding: 10px 10px;
+  margin: 4px;
+  white-space: pre-line;
+  color: #333;
+  overflow: scroll;
+  height: 70vh;
 }
 .f {
   font-size: xx-small;
@@ -783,6 +804,12 @@ button {
   .id-container-validity {
     height: 30px;
     font-size: 18px;
+  }
+
+  /* QR Code */
+  .qr-code-id-big {
+    width: 350px;
+    height: 350px;
   }
   /* Text Styles */
   .x-large {
@@ -1073,8 +1100,8 @@ button {
 .qr-code-id-big {
   display: flex;
   padding: 2px;
-  width: 350px;
-  height: 350px;
+  width: 290px;
+  height: 290px;
   border: 3px #eee solid;
   border-radius: 5px;
   margin: auto;
@@ -1089,6 +1116,8 @@ button {
 .image-preview2 {
   height: inherit;
   position: absolute;
+  height: 200px;
+  width: 200px;
   border-radius: 100%;
   z-index: -2;
 }

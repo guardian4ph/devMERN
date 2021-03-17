@@ -51,7 +51,7 @@ const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
                 >
                   <div style={{ margin: "auto" }}>
                     <img
-                      className='profile-img'
+                      className='profile-id'
                       src={`/img/${profile.profilepic}`}
                       alt=''
                     />
@@ -102,7 +102,7 @@ const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
                 }}
               >
                 <h1>{profile.status}</h1>
-                <p className='post-date p-11'>at</p>
+                <h5 className='post-date p-11'>at</h5>
                 <h3> {profile.organization}</h3>
               </div>
               <div style={{ height: "2px", backgroundColor: "#eee" }}></div>
@@ -140,8 +140,12 @@ const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
                   }}
                 >
                   <img
-                    className='post-profile'
-                    src={`/img/${profile.profilepic}`}
+                    style={{
+                      height: "40%",
+                      margin: "auto",
+                      width: "40%",
+                    }}
+                    src={`/img/mandaue.png.png`}
                     alt=''
                   />
                 </div>
