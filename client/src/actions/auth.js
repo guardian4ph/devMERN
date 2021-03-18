@@ -131,37 +131,3 @@ export const forgot_password = email => async dispatch => {
     }
   }
 };
-
-//  SEND OTP
-
-export const send_otp = number => async dispatch => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: "devckie=db59-b300-9176-0043",
-    },
-  };
-  const text = Math.floor(Math.random() * 899999 + 100000);
-  const body = JSON.stringify({
-    text: `Testing lng po ${text}`,
-    param: [{ number: "09173146624" }],
-  });
-  try {
-    const res = await axios.post(
-      "https://192.168.1.2/api/send_sms",
-      body,
-      config
-    );
-    dispatch({
-      type: SEND_OTP,
-      payload: res.data,
-    });
-
-    dispatch(loadUser());
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    }
-  }
-};

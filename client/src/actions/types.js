@@ -26,7 +26,7 @@ export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
 export const USER_DOEST_EXIST = "USER_DOEST_EXIST";
-export const SEND_OTP = "SEND_OTP";
+
 export const GET_POST_IMAGE = "GET_POST_IMAGE";
 export const POST_IMG_ERROR = "POST_IMG_ERROR";
 // Map Actions
@@ -37,3 +37,8 @@ export const GET_STATE = "GET_STATE";
 export const GET_COUNTRY = "GET_COUNTRY";
 export const MAP_LOCATE = "MAP_LOCATE";
 export const MAP_SEARCH = "MAP_SEARCH";
+
+// SMS
+
+export const SEND_OTP = "SEND_OTP";
+export const SEND_OTP_FAIL = "SEND_OTP_FAIL";

@@ -11,7 +11,6 @@ import {
   RESET_PASSWORD,
   PASSWORD_CHANGED,
   USER_DOEST_EXIST,
-  SEND_OTP,
 } from "../actions/types";
 
 const initialState = {
@@ -20,7 +19,6 @@ const initialState = {
   isUser: null,
   loading: true,
   user: null,
-  otp_auth: [],
 };
 // eslint-disable-next-line
 export default function (state = initialState, action) {
@@ -53,13 +51,7 @@ export default function (state = initialState, action) {
         isUser: true,
         loading: false,
       };
-    case SEND_OTP:
-      return {
-        ...state,
-        isAuthenticated: false,
-        loading: false,
-        otp_auth: payload,
-      };
+
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
