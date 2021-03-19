@@ -13,13 +13,16 @@ const { text } = require("express");
 
 router.post("/sendOtp", async (req, res) => {
   const { number, msg } = req.body;
-  const axios_digest = new AxiosDigest("admin", "admin1234");
+  const axios_digest = new AxiosDigest(
+    process.env.DINSTAR_USER,
+    process.env.DINSTAR_PASS
+  );
   console.log(axios_digest);
   // console.log(process.env.DINSTAR_USER);
   console.log("request body", req.body);
 
   try {
-    await axios_digest.post("http://10.128.50.222/api/send_sms", {
+    await axios_digest.post(process.env.DINSTAR_ENDPOINT + "/api/send_sms", {
       text: msg,
       param: [{ number: number }],
     });

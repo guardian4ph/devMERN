@@ -16,6 +16,7 @@ export default function (state = initialState, action) {
         ...state,
         number: payload,
         msg: payload,
+
         loading: false,
       };
 

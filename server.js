@@ -6,6 +6,7 @@ const app = express();
 
 //Connect to the Database
 connectDB();
+require("dotenv").config();
 
 //Init Middleware for body parser json
 app.use(express.json({ extended: false }));

@@ -2,15 +2,17 @@ import axios from "axios";
 import { SEND_OTP, SEND_OTP_FAIL } from "./types";
 import { setAlert } from "./alert";
 
-export const sendOtp = ({ number, msg }) => async dispatch => {
+export const sendOtp = (number, msg) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ number, msg });
+  // console.log("actions", number);
   try {
-    const res = await axios.get(
-      process.env.REACT_APP_SMS_ENDPOINT + "/api/send_sms",
-      {
-        text: msg,
-        param: [{ number: number }],
-      }
-    );
+    const res = await axios.post("/api/sms/sendOtp", body, config);
     dispatch({
       type: SEND_OTP,
       payload: res.data,
