@@ -32,7 +32,7 @@ const ForgotPassword = ({ forgot_password, isUser }) => {
       <form className='form' onSubmit={c => onSubmit(c)}>
         <div className='form-group'>
           <input
-            type='tel'
+            type='text'
             placeholder='juandelacruz@guardian.ph'
             name='email'
             value={email}

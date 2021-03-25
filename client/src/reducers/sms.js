@@ -1,8 +1,7 @@
-import { SEND_OTP, SEND_OTP_FAIL } from "../actions/types";
+import { SEND_OTP, SEND_OTP_FAIL, REMOVE_OTP } from "../actions/types";
 
 const initialState = {
-  number: [],
-  msg: null,
+  otp: null,
   loading: true,
   error: {},
 };
@@ -14,8 +13,7 @@ export default function (state = initialState, action) {
     case SEND_OTP:
       return {
         ...state,
-        number: payload,
-        msg: payload,
+        otp: payload,
 
         loading: false,
       };
@@ -25,6 +23,16 @@ export default function (state = initialState, action) {
         ...state,
         error: payload,
       };
+    case REMOVE_OTP:
+      return {
+        ...state,
+        otp: null,
+        loading: false,
+      };
+
+    //   return state.filter(otps => otps.id !== payload);
+
+    // // return { otps: state.otps.filter(otp => otp.id !== payload) };
 
     default:
       return state;
