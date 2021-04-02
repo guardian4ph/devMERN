@@ -38,9 +38,12 @@ export const GET_COUNTRY = "GET_COUNTRY";
 export const MAP_LOCATE = "MAP_LOCATE";
 export const MAP_SEARCH = "MAP_SEARCH";
 
-// SMS
+// SMS/OTP/ Update Password
 
 export const SEND_OTP = "SEND_OTP";
 export const SEND_OTP_FAIL = "SEND_OTP_FAIL";
-export const OTP_ACTIVE = "OTP_ACTIVE";
 export const REMOVE_OTP = "REMOVE_OTP";
+export const OTP_MATCH = "OTP_MATCH";
+export const OTP_NOT_MATCH = "OTP_NOT_MATCH";
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
+export const CHANGE_PASSWORD_FAIL = "CHANGE_PASSWORD_FAIL";

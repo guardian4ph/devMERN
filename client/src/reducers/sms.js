@@ -1,7 +1,15 @@
-import { SEND_OTP, SEND_OTP_FAIL, REMOVE_OTP } from "../actions/types";
+import {
+  SEND_OTP,
+  SEND_OTP_FAIL,
+  REMOVE_OTP,
+  OTP_MATCH,
+  OTP_NOT_MATCH,
+} from "../actions/types";
 
 const initialState = {
   otp: null,
+  number: null,
+  isMatch: false,
   loading: true,
   error: {},
 };
@@ -28,6 +36,23 @@ export default function (state = initialState, action) {
         ...state,
         otp: null,
         loading: false,
+      };
+
+    case OTP_MATCH:
+      return {
+        ...state,
+        otp: null,
+
+        isMatch: true,
+        loading: false,
+      };
+
+    case OTP_NOT_MATCH:
+      return {
+        ...state,
+        isMatch: false,
+        number: null,
+        loading: true,
       };
 
     //   return state.filter(otps => otps.id !== payload);

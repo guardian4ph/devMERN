@@ -25,29 +25,44 @@ const ForgotPassword = ({ forgot_password, isUser }) => {
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Forgot Password</h1>
-      <p className='lead'>
-        <i className='fa fa-mobile'></i> Enter email address.
-      </p>
-      <form className='form' onSubmit={c => onSubmit(c)}>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='juandelacruz@guardian.ph'
-            name='email'
-            value={email}
-            onChange={c => onChange(c)}
-          />
-          <small className='form-text'>
-            Please input a valid email address.
-          </small>
-        </div>
+      <div
+        style={{
+          padding: "20px",
+          background: "#fff",
+          borderRadius: "10px",
+        }}
+      >
+        <div
+          style={{
+            display: "block",
+            borderRadius: "10px",
 
-        <input type='submit' className='btn btn-primary' value='Send' />
-      </form>
-      <p className='my-1'>
-        Don't have an account? <Link to='/register'>Sign Up</Link>
-      </p>
+            padding: "20px",
+          }}
+        >
+          <h1 className='large text-primary'>Forgot Password</h1>
+          <p className='lead'>
+            <i className='fa fa-envelope-o'></i> Enter your email address, for
+            verification.
+          </p>
+          <form className='form' onSubmit={c => onSubmit(c)}>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='juandelacruz@guardian.ph'
+                name='email'
+                value={email}
+                onChange={c => onChange(c)}
+              />
+            </div>
+
+            <input type='submit' className='btn btn-primary' value='Send OTP' />
+          </form>
+          <p className='my-1'>
+            Don't have an account? <Link to='/register'>Sign Up</Link>
+          </p>
+        </div>
+      </div>
     </Fragment>
   );
 };

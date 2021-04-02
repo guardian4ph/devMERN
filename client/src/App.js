@@ -28,6 +28,7 @@ import ID from "./components/id/Id";
 import { getProfiles } from "./actions/profile";
 import QrPhoto from "./components/id/QrPhoto";
 import Otp from "./components/auth/Otp";
+import ChangePassword from "./components/auth/ChangePassword";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -53,6 +54,8 @@ const App = () => {
               <Route exact path='/profiles' component={Profiles} />
               <Route exact path='/forgot_pass' component={ForgotPassword} />
               <Route exact path='/otp' component={Otp} />
+              <Route exact path='/changepassword' component={ChangePassword} />
+
               <Route exact path='/profile/:id' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute

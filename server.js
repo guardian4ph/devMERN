@@ -29,7 +29,7 @@ app.use("/api/posts", require("./routes/api/posts"));
 //Auth Route
 app.use("/api/auth", require("./routes/api/auth"));
 
-//Auth Route
+//OTP Route
 app.use("/api/sms", require("./routes/api/sms"));
 
 //Serve static assets in production

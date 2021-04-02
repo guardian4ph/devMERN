@@ -2,10 +2,10 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { sendOtp } from "../../actions/sms";
+import { otpMatch, sendOtp, changepassword } from "../../actions/sms";
 import { setAlert } from "../../actions/alert";
 
-const Otp = ({ setAlert, sendOtp, auth, sms }) => {
+const Otp = ({ setAlert, otpMatch, sendOtp, auth, sms, isMatch }) => {
   // Display hide div
   const [displayTimer, hideTimer] = useState(false);
   const [displayBtn, hideBtn] = useState(true);
@@ -61,17 +61,13 @@ const Otp = ({ setAlert, sendOtp, auth, sms }) => {
 
   const onSubmit = async c => {
     c.preventDefault();
-    if (sent_otp === sms.otp.sent_otp) {
-      console.log("state OTP", sent_otp);
-      console.log("state OTP", sms.otp.sent_otp);
-
-      setAlert("Passwords  match", "success");
-    } else {
-      //register is the action from reducers
-      // register({ name, lname, number, email, password });
-      setAlert("OTP don't match", "danger");
-    }
+    otpMatch(number, sent_otp);
+    console.log("onsubmit", number, sent_otp);
   };
+
+  if (isMatch) {
+    return <Redirect to='/changepassword' />;
+  }
 
   return (
     <Fragment>
@@ -86,11 +82,10 @@ const Otp = ({ setAlert, sendOtp, auth, sms }) => {
           style={{
             display: "block",
             borderRadius: "10px",
-
             padding: "20px",
           }}
         >
-          <h1 className='large text-primary'>Change Password</h1>
+          <h1 className='large text-primary'>Forgot Password</h1>
           <p className='lead'>
             <i className='fa fa-key' aria-hidden='true'></i> You will receive a
             One-Time Password (OTP) on your registered mobile number.
@@ -109,6 +104,8 @@ const Otp = ({ setAlert, sendOtp, auth, sms }) => {
                 name='sent_otp'
                 value={sent_otp}
                 onChange={c => onChange(c)}
+                required
+                minLength='6'
               />
               <div
                 style={{
@@ -183,24 +180,6 @@ const Otp = ({ setAlert, sendOtp, auth, sms }) => {
               Administrator at admin@guardian.ph
             </small>
 
-            {/* <div className='form-group'>
-              <input
-                type='text'
-                placeholder='09173146624'
-                name='number'
-                value={auth.number}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Text here'
-                name='msg'
-                value={otp}
-                onChange={c => onChange(c)}
-              />
-            </div> */}
             <input type='submit' className='btn btn-primary' value='Proceed' />
           </form>
         </div>
@@ -211,12 +190,15 @@ const Otp = ({ setAlert, sendOtp, auth, sms }) => {
 
 Otp.propTypes = {
   sendOtp: PropTypes.func.isRequired,
+  otpMatch: PropTypes.func.isRequired,
   isUser: PropTypes.bool,
   setAlert: PropTypes.func.isRequired,
+  isMatch: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   sms: state.sms,
+  isMatch: state.sms.isMatch,
 });
-export default connect(mapStateToProps, { setAlert, sendOtp })(Otp);
+export default connect(mapStateToProps, { setAlert, sendOtp, otpMatch })(Otp);

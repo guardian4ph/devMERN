@@ -7,10 +7,11 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_DELETED,
-  FORGOT_PASSWORD,
+  // FORGOT_PASSWORD,
   RESET_PASSWORD,
-  PASSWORD_CHANGED,
   USER_DOEST_EXIST,
+  CHANGE_PASSWORD_FAIL,
+  PASSWORD_CHANGED,
 } from "../actions/types";
 
 const initialState = {
@@ -53,6 +54,7 @@ export default function (state = initialState, action) {
       };
 
     case REGISTER_FAIL:
+    case CHANGE_PASSWORD_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
