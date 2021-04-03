@@ -1,22 +1,34 @@
+require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const path = require("path");
+const webpush = require("web-push");
 
 const app = express();
 
+// Body Parser
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+// Static Path
+app.use(express.static(path.join(__dirname, "client")));
+
 //Connect to the Database
 connectDB();
-require("dotenv").config();
-
-//Init Middleware for body parser json
-app.use(express.json({ extended: false }));
 
 //Samaple API Call
 
 //Omitted for production build
-//app.get("/", (req, res) => res.send("API Running"));
+// app.get("/", (req, res) => res.send("API Running"));
 
 //Define Routes
+
+// // Push notification
+app.use("/api/subscribe", require("./routes/api/subscribe"));
 //User Route
 app.use("/api/users", require("./routes/api/users"));
 

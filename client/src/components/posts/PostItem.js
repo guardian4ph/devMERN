@@ -244,7 +244,7 @@ const PostItem = ({
                     type='button'
                     className='btn-post f-2'
                   >
-                    <i class='fa fa-trash-o' aria-hidden='true'></i>
+                    <i className='fa fa-trash-o' aria-hidden='true'></i>
                   </button>
                 )}
               </Fragment>

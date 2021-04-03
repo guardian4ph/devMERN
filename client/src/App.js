@@ -25,7 +25,6 @@ import NotFound from "./components/layout/NotFound";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import PostImage from "./components/post/PostImage";
 import ID from "./components/id/Id";
-import { getProfiles } from "./actions/profile";
 import QrPhoto from "./components/id/QrPhoto";
 import Otp from "./components/auth/Otp";
 import ChangePassword from "./components/auth/ChangePassword";
@@ -37,7 +36,6 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
-    // store.dispatch(getProfiles());
   }, []);
 
   return (

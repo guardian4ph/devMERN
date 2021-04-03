@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { otpMatch, sendOtp, changepassword } from "../../actions/sms";
+import { otpMatch, sendOtp } from "../../actions/sms";
 import { setAlert } from "../../actions/alert";
 
 const Otp = ({ setAlert, otpMatch, sendOtp, auth, sms, isMatch }) => {

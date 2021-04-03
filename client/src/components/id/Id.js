@@ -4,12 +4,10 @@ import { getCurrentProfile } from "../../actions/profile";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
-import profile from "../../reducers/profile";
 
 const Id = ({ getCurrentProfile, profile: { profile, loading }, auth }) => {
   useEffect(() => {
     getCurrentProfile();
-    console.log(profile);
   }, [getCurrentProfile]);
 
   return (
@@ -162,7 +160,6 @@ Id.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -9,8 +9,6 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   RESET_PASSWORD,
-  FORGOT_PASSWORD,
-  SEND_OTP,
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";

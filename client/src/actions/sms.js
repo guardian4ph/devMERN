@@ -6,7 +6,6 @@ import {
   REMOVE_OTP,
   OTP_MATCH,
   OTP_NOT_MATCH,
-  RESET_PASSWORD,
   CHANGE_PASSWORD_FAIL,
   PASSWORD_CHANGED,
 } from "./types";

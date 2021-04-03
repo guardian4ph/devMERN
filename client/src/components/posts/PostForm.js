@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
+import { send } from "../../utils/push";
 
 const PostForm = ({ addPost }) => {
   //const [text, setText] = useState("");
@@ -31,6 +32,7 @@ const PostForm = ({ addPost }) => {
     addPost(payload);
     setFormData({ text: "", articleImage: "" });
     setImageName("");
+    send("GUARDIAN NOTIFICATION", `${text}`);
   };
 
   //
