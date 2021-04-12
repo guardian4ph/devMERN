@@ -15,9 +15,9 @@ const Landing = ({ isAuthenticated }) => {
           <p className='x-large'>GUARDIAN</p>
 
           <p className='subTitle'>
-            Create a profile, and connect with other volunteers and reponders.
+            Create a profile, and connect with other volunteers and responders.
           </p>
-          <div className='buttons'>
+          <div className='buttons' style={{ paddingTop: "5px" }}>
             <Link
               to='/register'
               className='btn btn-primary'
@@ -32,6 +32,29 @@ const Landing = ({ isAuthenticated }) => {
             >
               Login
             </Link>
+            <div className='buttons'>
+              <p style={{ paddingTop: "30px" }}>
+                Register your Operation Center here
+                <div
+                  style={{
+                    fontSize: ".7rem",
+                    bottom: "1rem",
+                    letterSpacing: "1.2px",
+                    fontWeight: "200",
+                    color: "fff",
+                  }}
+                >
+                  <p>For Local Goverment Units, Volunteer Organization...</p>
+                </div>
+              </p>
+              <Link
+                to='/typeopcen'
+                className='btn btn-light'
+                style={{ width: "303px", marginLeft: "3px" }}
+              >
+                Create Operation Center
+              </Link>
+            </div>
             <div className='small-txt'>
               <p>
                 Geographic Unified Assistanace and Response to Distress

@@ -47,3 +47,6 @@ export const OTP_MATCH = "OTP_MATCH";
 export const OTP_NOT_MATCH = "OTP_NOT_MATCH";
 export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 export const CHANGE_PASSWORD_FAIL = "CHANGE_PASSWORD_FAIL";
+
+// OPCEN
+export const CREATE_OPCEN = "CREATE_OPCEN";

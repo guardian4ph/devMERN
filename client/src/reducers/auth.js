@@ -42,6 +42,7 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
+        isUser: true,
         loading: false,
       };
     case RESET_PASSWORD:

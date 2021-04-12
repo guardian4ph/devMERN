@@ -73,7 +73,7 @@ img {
   margin-top: 4.5rem;
   font-size: 0.7rem;
   bottom: 1rem;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   font-weight: 200;
   color: #ffffff;
 }
@@ -1187,4 +1187,17 @@ button {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/* OPcen */
+
+.bigIcon {
+  height: 200px;
+  width: 200px;
+  text-align: center;
+
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
 }
