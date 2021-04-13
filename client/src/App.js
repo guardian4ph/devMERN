@@ -29,7 +29,7 @@ import QrPhoto from "./components/id/QrPhoto";
 import Otp from "./components/auth/Otp";
 import ChangePassword from "./components/auth/ChangePassword";
 import TypeOpCen from "./components/operation-center/Type_opcen";
-import OperationCenter from "./components/operation-center/create_opcen";
+import OperationCenter from "./components/operation-center/Create_opcen";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);

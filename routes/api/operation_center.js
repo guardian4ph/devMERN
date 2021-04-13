@@ -27,7 +27,7 @@ router.post(
     }
 
     //Destructure the req.boby from post request
-    const { name, category, description } = req.body;
+    const { _id, name, category, description } = req.body;
 
     try {
       // See if the user exist, if exist sent error by filtering email and mobile number
@@ -41,6 +41,7 @@ router.post(
       }
 
       opcen = new Operation_Center({
+        _id,
         name,
         category,
         description,

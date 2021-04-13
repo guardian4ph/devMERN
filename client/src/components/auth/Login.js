@@ -3,8 +3,10 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import { setCreateOpCen } from "../../actions/opcen";
+import { setAlert } from "../../actions/alert";
 
-const Login = ({ login, isAuthenticated, isUser }) => {
+const Login = ({ login, isAuthenticated, isUser, createOpcen, setAlert }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,6 +23,10 @@ const Login = ({ login, isAuthenticated, isUser }) => {
   };
 
   //Redirect if Logged in
+
+  if (isAuthenticated && createOpcen) {
+    return <Redirect to='/create-operation-center' />;
+  }
 
   if (isAuthenticated) {
     return <Redirect to='/posts' />;
@@ -43,6 +49,12 @@ const Login = ({ login, isAuthenticated, isUser }) => {
             padding: "20px",
           }}
         >
+          {createOpcen ? (
+            <p className='alert alert-danger '>
+              Log-in or create an account first{" "}
+            </p>
+          ) : null}
+
           <h1 className='large text-primary'>Sign In</h1>
           <p className='lead'>
             <i className='fas fa-user'></i> Sign into your Account
@@ -88,11 +100,16 @@ const Login = ({ login, isAuthenticated, isUser }) => {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  createOpcen: PropTypes.bool,
+  setAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isUser: state.auth.isUser,
+  createOpcen: state.opcen.createOpcen,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, setCreateOpCen, setAlert })(
+  Login
+);

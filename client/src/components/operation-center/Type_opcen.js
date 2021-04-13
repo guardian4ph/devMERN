@@ -1,10 +1,13 @@
-import React, { Fragment, useState, useCallback } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
 import { setCreateOpCen } from "../../actions/opcen";
 import { connect } from "react-redux";
 
-const Type_opcen = ({ setCreateOpCen }) => {
+const Type_opcen = ({ setCreateOpCen, createOpcen, isAuthenticated }) => {
+  if (!isAuthenticated && createOpcen) {
+    return <Redirect to='/login' />;
+  }
   return (
     <Fragment>
       <div
@@ -38,32 +41,37 @@ const Type_opcen = ({ setCreateOpCen }) => {
         >
           <Link className='bigIcon'>
             <div
-              style={{ marginTop: "35%" }}
+              style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Gov")}
             >
               <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
               <p> Government</p>
-              <small>(Agencies, Province, City, Municipality, Barangays)</small>
+              <small className='small-txt-blk'>
+                (Agencies, Province, City)
+              </small>
             </div>
           </Link>
           <Link className='bigIcon'>
             <div
-              style={{ marginTop: "35%" }}
+              style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Vol")}
             >
               <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
               <p> Volunteer Org.</p>
-              <small>(NDCN, REAVO)</small>
+              <small className='small-txt-blk'>(Rotary,JCI, )</small>
             </div>
           </Link>
           <Link className='bigIcon'>
             <div
-              style={{ marginTop: "35%" }}
+              style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Pri")}
             >
               <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p> Private</p>
+              <small className='small-txt-blk'>
+                (Construction, Utilities etc. )
+              </small>
             </div>
           </Link>
         </div>
@@ -74,6 +82,13 @@ const Type_opcen = ({ setCreateOpCen }) => {
 
 Type_opcen.propTypes = {
   setCreateOpCen: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  createOpcen: PropTypes.bool,
 };
 
-export default connect(null, { setCreateOpCen })(Type_opcen);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  createOpcen: state.opcen.createOpcen,
+});
+
+export default connect(mapStateToProps, { setCreateOpCen })(Type_opcen);

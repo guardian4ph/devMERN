@@ -78,6 +78,15 @@ img {
   color: #ffffff;
 }
 
+.small-txt-blk {
+  font-size: 0.7rem;
+  bottom: 1rem;
+  letter-spacing: 0.2px;
+  font-weight: 400;
+  line-height: 1px;
+  color: #333;
+}
+
 .lead {
   font-size: 1rem;
   margin-bottom: 4px;
