@@ -18,6 +18,9 @@ const Operation_Center_Schema = new Schema({
   description: {
     type: String,
   },
+  type: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

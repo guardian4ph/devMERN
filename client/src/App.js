@@ -28,8 +28,11 @@ import ID from "./components/id/Id";
 import QrPhoto from "./components/id/QrPhoto";
 import Otp from "./components/auth/Otp";
 import ChangePassword from "./components/auth/ChangePassword";
+// Operation Center
 import TypeOpCen from "./components/operation-center/Type_opcen";
-import OperationCenter from "./components/operation-center/Create_opcen";
+import CreateOperationCenter from "./components/operation-center/Create_opcen";
+import DashBoard from "./components/opcens/OpcenConsole";
+import Opcens from "./components/opcens/Opcens";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -63,7 +66,14 @@ const App = () => {
               <PrivateRoute
                 exact
                 path='/create-operation-center'
-                component={OperationCenter}
+                component={CreateOperationCenter}
+              />
+              <PrivateRoute exact path='/operation-center' component={Opcens} />
+
+              <PrivateRoute
+                exact
+                path='/operation-center/:user_id/:id'
+                component={DashBoard}
               />
 
               <PrivateRoute exact path='/dashboard' component={Dashboard} />

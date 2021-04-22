@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { setCreateOpCen } from "../../actions/opcen";
 import { connect } from "react-redux";
 
@@ -39,41 +39,41 @@ const Type_opcen = ({ setCreateOpCen, createOpcen, isAuthenticated }) => {
             justifyContent: "space-around",
           }}
         >
-          <Link className='bigIcon'>
+          <div className='bigIcon'>
             <div
               style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Gov")}
             >
-              <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
+              <i className='fas fa-landmark' aria-hidden='true'></i>
               <p> Government</p>
               <small className='small-txt-blk'>
                 (Agencies, Province, City)
               </small>
             </div>
-          </Link>
-          <Link className='bigIcon'>
+          </div>
+          <div className='bigIcon'>
             <div
               style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Vol")}
             >
-              <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
+              <i className='fa fa-hand-paper-o' aria-hidden='true'></i>
               <p> Volunteer Org.</p>
               <small className='small-txt-blk'>(Rotary,JCI, )</small>
             </div>
-          </Link>
-          <Link className='bigIcon'>
+          </div>
+          <div className='bigIcon'>
             <div
               style={{ marginTop: "30%" }}
               onClick={c => setCreateOpCen("Pri")}
             >
-              <i className='fa fa-thumbs-o-up' aria-hidden='true'></i>
+              <i className='fa fa-building-o' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p> Private</p>
               <small className='small-txt-blk'>
                 (Construction, Utilities etc. )
               </small>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </Fragment>

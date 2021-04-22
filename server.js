@@ -26,7 +26,7 @@ connectDB();
 // app.get("/", (req, res) => res.send("API Running"));
 
 //Define Routes
-app.use("api/operation_center", require("./routes/api/operation_center"));
+app.use("/api/operation_center", require("./routes/api/operation_center"));
 
 // // Push notification
 app.use("/api/subscribe", require("./routes/api/subscribe"));

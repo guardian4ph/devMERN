@@ -6,11 +6,11 @@ import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import { Fragment } from "react";
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to='/create-operation-center'>
+        <Link to={`/operation-center`}>
           <i className='fa fa-building-o' aria-hidden='true'></i>{" "}
           <span className='hide-sm'>Operation Center </span>
         </Link>
@@ -83,6 +83,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  // user: state.auth.user._id,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

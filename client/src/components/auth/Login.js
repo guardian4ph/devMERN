@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
-import { setCreateOpCen } from "../../actions/opcen";
 import { setAlert } from "../../actions/alert";
 
 const Login = ({ login, isAuthenticated, isUser, createOpcen, setAlert }) => {
@@ -110,6 +109,4 @@ const mapStateToProps = state => ({
   createOpcen: state.opcen.createOpcen,
 });
 
-export default connect(mapStateToProps, { login, setCreateOpCen, setAlert })(
-  Login
-);
+export default connect(mapStateToProps, { login, setAlert })(Login);

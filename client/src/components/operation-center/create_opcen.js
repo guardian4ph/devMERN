@@ -4,8 +4,16 @@ import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import { registerOpcen } from "../../actions/opcen";
 import PropTypes from "prop-types";
+import Spinner from "../layout/Spinner";
 
-const Create_opcen = ({ setAlert, registerOpcen, isAuthenticated, auth }) => {
+const Create_opcen = ({
+  opcen: { type, loading, opcen },
+  setAlert,
+  registerOpcen,
+  isAuthenticated,
+  user,
+}) => {
+  // console.log("Opcen Id", opcen._id);
   //Use state hooks
   const [formData, setFormData] = useState({
     name: "",
@@ -15,20 +23,23 @@ const Create_opcen = ({ setAlert, registerOpcen, isAuthenticated, auth }) => {
   //destructure so you would do formData.name formData.number
   //Object Syntax use {}
   const { name, category, description } = formData;
-  let id = auth._id;
 
   const onChange = async c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
 
   const onSubmit = async c => {
     c.preventDefault();
-    registerOpcen({ id, name, category, description });
+    registerOpcen({ user, name, category, description, type });
   };
-  // if (isAuthenticated) {
-  //   return <Redirect to='/dashboard' />;
+  if (isAuthenticated && opcen !== null) {
+    return <Redirect to={`/operation-center/${user}`} />;
+  }
+  //   return <Redirect to={`/operation-center`} />;
   // }
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <div
         style={{
@@ -65,10 +76,12 @@ const Create_opcen = ({ setAlert, registerOpcen, isAuthenticated, auth }) => {
             required
           >
             <option value='0'>Pubic Safety Category (required)</option>
-            <option value='Male'>Emergency Management</option>
-            <option value='Female'>First Responders</option>
-            <option value='LGBT'>Law Enforcement</option>
-            <option value='LGBT'>Transportation Security Administration</option>
+            <option value='Emergency Management'>Emergency Management</option>
+            <option value='First Responders'>First Responders</option>
+            <option value='Law Enforcement'>Law Enforcement</option>
+            <option value='Transporation'>
+              Transportation Security Administration
+            </option>
           </select>
           <small className='form-text'>
             Choose a category that describes what type of services your
@@ -78,7 +91,7 @@ const Create_opcen = ({ setAlert, registerOpcen, isAuthenticated, auth }) => {
           <div className='form-group'>
             <textarea
               placeholder='Tell us a little about your operation center'
-              name='descriptiom'
+              name='description'
               value={description}
               onChange={c => onChange(c)}
               rows='6'
@@ -103,12 +116,16 @@ Create_opcen.propTypes = {
   setAlert: PropTypes.func.isRequired,
   registerOpcen: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  auth: PropTypes.object.isRequired,
+
+  opcen: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
+  user: state.auth.user,
   isAuthenticated: state.auth.isAuthenticated,
-  auth: state.auth,
+
+  opcen: state.opcen,
 });
 
 export default connect(mapStateToProps, { registerOpcen, setAlert })(

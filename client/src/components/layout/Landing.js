@@ -35,18 +35,18 @@ const Landing = ({ isAuthenticated }) => {
             <div className='buttons'>
               <p style={{ paddingTop: "30px" }}>
                 Register your Operation Center here
-                <div
-                  style={{
-                    fontSize: ".7rem",
-                    bottom: "1rem",
-                    letterSpacing: "1.2px",
-                    fontWeight: "200",
-                    color: "fff",
-                  }}
-                >
-                  <p>For Local Goverment Units, Volunteer Organization...</p>
-                </div>
               </p>
+              <div
+                style={{
+                  fontSize: ".7rem",
+                  bottom: "1rem",
+                  letterSpacing: "1.2px",
+                  fontWeight: "200",
+                  color: "fff",
+                }}
+              >
+                <p>For Local Goverment Units, Volunteer Organization...</p>
+              </div>
               <Link
                 to='/typeopcen'
                 className='btn btn-light'

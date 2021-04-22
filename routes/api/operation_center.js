@@ -27,7 +27,7 @@ router.post(
     }
 
     //Destructure the req.boby from post request
-    const { _id, name, category, description } = req.body;
+    const { user, name, category, description, type } = req.body;
 
     try {
       // See if the user exist, if exist sent error by filtering email and mobile number
@@ -41,20 +41,70 @@ router.post(
       }
 
       opcen = new Operation_Center({
-        _id,
+        user,
         name,
         category,
         description,
+        type,
       });
 
       await opcen.save();
 
-      res.send("Operation Center Added");
+      res.json(opcen);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
 );
+
+//@route GET api/operation_center/myopcen
+//@desc  Get Current user Profile
+//@access Private
+
+router.get("/myopcen/:user_id", auth, async (req, res) => {
+  try {
+    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
+    const opcen = await Operation_Center.find({
+      user: req.params.user_id,
+    }).sort({ date: -1 });
+
+    if (!opcen) {
+      return res.status(400).json({ msg: "There is no opcen for this user" });
+    }
+
+    res.json(opcen);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == "ObjectId") {
+      return res
+        .status(400)
+        .json({ msg: "Operation center not found ObjectId" });
+    }
+  }
+});
+
+router.get("/myopcen/:user/:_id", auth, async (req, res) => {
+  console.log("hit");
+  try {
+    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
+    const opcen = await Operation_Center.findOne({
+      _id: req.params._id,
+    });
+
+    if (!opcen) {
+      return res.status(400).json({ msg: "There is no opcen for this user" });
+    }
+
+    res.json(opcen);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == "ObjectId") {
+      return res
+        .status(400)
+        .json({ msg: "Operation center not found ObjectId" });
+    }
+  }
+});
 
 module.exports = router;
