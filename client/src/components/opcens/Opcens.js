@@ -11,7 +11,7 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
     // loadUser();
     getOpcens(user);
   }, [getOpcens]);
-  return loading ? (
+  return loading || opcens === null ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -25,15 +25,18 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
       >
         <h1 className='large text-primary'> Operation Center</h1>
 
-        <div style={{ marginTop: "10%" }}>
+        <div style={{ marginTop: "1%" }}>
           <p>Command your team and control your resources.</p>
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              height: "100%",
+              height: "68vh",
+
               justifyContent: "space-around",
+              flexWrap: "wrap",
+              overflowY: "auto",
             }}
           >
             {opcens.map(opcen => (

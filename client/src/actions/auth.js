@@ -9,6 +9,7 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
   RESET_PASSWORD,
+  USER_OPCEN_ADMIN,
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -122,6 +123,32 @@ export const forgot_password = email => async dispatch => {
     // dispatch(
     //   setAlert("One time pin (OTP) send to your mobile number.", "success")
     // );
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+};
+
+// Add Access Rigths
+
+export const accessrigths = opcenadmin => async dispatch => {
+  console.log("access right hit");
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.put("api/users/accessrights", opcenadmin);
+
+    dispatch({
+      type: USER_OPCEN_ADMIN,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Admin rights added", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

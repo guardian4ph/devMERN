@@ -4,7 +4,6 @@ import Dropzone from "react-dropzone";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
-
 import moment from "moment";
 // Map
 import Search from "../../utils/searchMap";
@@ -236,10 +235,6 @@ const CreateProfile = ({ createProfile, history }) => {
     contactnumber,
     eaddress,
     bloodtype,
-    build,
-    birthmark,
-    height,
-    weight,
     insured,
   } = formData;
 
@@ -289,7 +284,7 @@ const CreateProfile = ({ createProfile, history }) => {
   payload.append("status", formData.status);
   payload.append("skills", formData.skills);
   payload.append("bio", formData.bio);
-  //Organization
+  //Social
   payload.append("youtube", formData.youtube);
   payload.append("twitter", formData.twitter);
   payload.append("facebook", formData.facebook);
@@ -304,10 +299,6 @@ const CreateProfile = ({ createProfile, history }) => {
   payload.append("contactnumber", formData.contactnumber);
   payload.append("eaddress", formData.eaddress);
   payload.append("bloodtype", formData.bloodtype);
-  payload.append("build", formData.build);
-  payload.append("birthmark", formData.birthmark);
-  payload.append("height", formData.height);
-  payload.append("weight", formData.weight);
   payload.append("insured", formData.insured);
 
   const onSubmit = async c => {
@@ -388,7 +379,6 @@ const CreateProfile = ({ createProfile, history }) => {
           <Fragment>
             {/* google map redered here */}
             <div style={{ display: "block", flexDirection: "row" }}>
-              <Search panTo={panTo} />
               {/* <Locate panTo={panTo} /> */}
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
@@ -398,6 +388,19 @@ const CreateProfile = ({ createProfile, history }) => {
                 onClick={onMapClick}
                 onLoad={onMapLoad}
               >
+                <div
+                  style={{
+                    display: "flex",
+                    position: "relative",
+                    alignContent: "center",
+                    width: "100%",
+                    zIndex: "1",
+                    margin: "1px 2px 2px 1px",
+                    marginTop: "2px",
+                  }}
+                >
+                  <Search panTo={panTo} />
+                </div>
                 <Marker
                   position={{
                     lat: marker.lat,
@@ -460,7 +463,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   type='text'
                   name='city'
                   value={city}
-                  placeholder={com_address.city}
+                  placeholder={city}
                   onChange={c => onChange(c)}
                 />
                 <small className='form-text' style={{ display: "none" }}>
@@ -478,7 +481,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   Your area
                 </small>
                 <input
-                  // style={{ display: "none" }}
+                  style={{ display: "none" }}
                   type='text'
                   name='lat'
                   value={lat}
@@ -489,7 +492,7 @@ const CreateProfile = ({ createProfile, history }) => {
                   Your latitude
                 </small>
                 <input
-                  // style={{ display: "none" }}
+                  style={{ display: "none" }}
                   type='text'
                   name='lng'
                   value={lng}
@@ -693,43 +696,6 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder='Blood Type'
                 name='bloodtype'
                 value={bloodtype}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Body Build'
-                name='build'
-                value={build}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Birth Mark'
-                name='birthmark'
-                value={birthmark}
-                onChange={c => onChange(c)}
-              />
-            </div>
-
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Height'
-                name='height'
-                value={height}
-                onChange={c => onChange(c)}
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                placeholder='Weight'
-                name='weight'
-                value={weight}
                 onChange={c => onChange(c)}
               />
             </div>

@@ -50,6 +50,17 @@ export default function (state = initialState, action) {
         opcen: payload, //from the action file
         loading: false,
       };
+
+    case ERROR_CREATE_OPCEN:
+      return {
+        ...state,
+        createOpcen: false,
+        type: null,
+        opcen: null,
+        opcens: null,
+        loading: true,
+        error: payload,
+      };
     default:
       return state;
   }

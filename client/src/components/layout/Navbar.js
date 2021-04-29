@@ -29,8 +29,8 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       </li>
       <li>
         <Link to='/posts'>
-          <i className='fa fa-envelope-o'></i>{" "}
-          <span className='hide-sm'>Posts</span>
+          <i className='fa fa-bell-o'></i>{" "}
+          <span className='hide-sm'>Notifications</span>
         </Link>
       </li>
       <li>

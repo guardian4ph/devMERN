@@ -4,6 +4,7 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const auth = require("../../middleware/auth");
 
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
@@ -99,4 +100,29 @@ router.post(
   }
 );
 
+//@route POST api/users/accessrights
+//@desc  Register User
+//@access Private
+
+router.put("/accessrigths", [auth], async (req, res) => {
+  console.log("put admin rights hit");
+  console.log("request user id", req.user.id);
+  const { opcen_id, rights } = req.body;
+  const newaccessrigths = {
+    opcen_id,
+    rights,
+  };
+  try {
+    const user = await User.findOne({ _id: req.user.id })
+      .select("-password")
+      .select("-email")
+      .select("-number");
+    user.rigths.unshift(newaccessrigths);
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;

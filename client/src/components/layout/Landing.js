@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to='/posts' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
@@ -15,7 +15,7 @@ const Landing = ({ isAuthenticated }) => {
           <p className='x-large'>GUARDIAN</p>
 
           <p className='subTitle'>
-            Create a profile, and connect with other volunteers and responders.
+            Command your teams and Control your resources
           </p>
           <div className='buttons' style={{ paddingTop: "5px" }}>
             <Link

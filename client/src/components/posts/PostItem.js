@@ -62,6 +62,7 @@ const PostItem = ({
         <div className='comment bg-white'>
           <Link to={`/profile/${user}`}>
             {/* map all profiles here */}
+
             {profiles.length > 0 ? (
               profiles.map(profile => {
                 if (profile.user._id === user) {

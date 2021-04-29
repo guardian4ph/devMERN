@@ -158,24 +158,6 @@ const ProfileSchema = new mongoose.Schema({
     bloodtype: {
       type: String,
     },
-    build: {
-      type: String,
-    },
-    birthmark: {
-      type: String,
-    },
-    height: {
-      type: String,
-    },
-    weight: {
-      type: String,
-    },
-    eyecolor: {
-      type: String,
-    },
-    haircolor: {
-      type: String,
-    },
 
     insured: {
       type: String,

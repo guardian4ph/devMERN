@@ -5,6 +5,7 @@ import { setAlert } from "../../actions/alert";
 import { registerOpcen } from "../../actions/opcen";
 import PropTypes from "prop-types";
 import Spinner from "../layout/Spinner";
+import { accessrigths } from "../../actions/auth";
 
 const Create_opcen = ({
   opcen: { type, loading, opcen },
@@ -20,9 +21,11 @@ const Create_opcen = ({
     category: "",
     description: "",
   });
+
   //destructure so you would do formData.name formData.number
   //Object Syntax use {}
   const { name, category, description } = formData;
+  const { opcenadmin } = true;
 
   const onChange = async c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
@@ -30,14 +33,15 @@ const Create_opcen = ({
   const onSubmit = async c => {
     c.preventDefault();
     registerOpcen({ user, name, category, description, type });
+    accessrigths(opcenadmin);
   };
   if (isAuthenticated && opcen !== null) {
-    return <Redirect to={`/operation-center/${user}`} />;
+    return <Redirect to={`/operation-center/${user._id}/${opcen._id}`} />;
   }
   //   return <Redirect to={`/operation-center`} />;
   // }
 
-  return loading ? (
+  return loading && user._id == null ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -90,7 +94,7 @@ const Create_opcen = ({
 
           <div className='form-group'>
             <textarea
-              placeholder='Tell us a little about your operation center'
+              placeholder='Tell us about your operation center'
               name='description'
               value={description}
               onChange={c => onChange(c)}

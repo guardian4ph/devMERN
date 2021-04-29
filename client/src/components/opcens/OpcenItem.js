@@ -59,7 +59,6 @@ export const OpcenItem = ({
           </div>
         </Fragment>
       )}
-      ;
     </Fragment>
   );
 };

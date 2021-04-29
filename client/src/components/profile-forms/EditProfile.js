@@ -75,12 +75,8 @@ const EditProfile = ({
     contactperson: "",
     relationship: "",
     contactnumber: "",
-    address: "",
+    eaddress: "",
     bloodtype: "",
-    build: "",
-    birthmark: "",
-    height: "",
-    weight: "",
     insured: "",
   });
 
@@ -99,13 +95,14 @@ const EditProfile = ({
       state: loading || !profile.state ? "" : profile.state,
       lat: loading || !profile.lat ? "" : profile.lat,
       lng: loading || !profile.lng ? "" : profile.lng,
-
       profilepic: loading || !profile.profilepic ? "" : profile.profilepic,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      // Organizations
       organization:
         loading || !profile.organization ? "" : profile.organization,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
-      bio: loading || !profile.bio ? "" : profile.bio,
+
       status: loading || !profile.status ? "" : profile.status,
       skills: loading || !profile.skills ? "" : profile.skills.join(","),
       // Social Inputs
@@ -123,10 +120,9 @@ const EditProfile = ({
       contactnumber:
         loading || !profile.contactnumber ? "" : profile.contactnumber,
 
-      address: loading || !profile.address ? "" : profile.address,
+      eaddress: loading || !profile.eaddress ? "" : profile.eaddress,
       bloodtype: loading || !profile.bloodtype ? "" : profile.bloodtype,
-      build: loading || !profile.build ? "" : profile.build,
-      birthmark: loading || !profile.birthmark ? "" : profile.birthmark,
+
       insured: loading || !profile.insured ? "" : profile.insured,
     });
   }, [loading, getCurrentProfile]);
@@ -157,29 +153,28 @@ const EditProfile = ({
     contactperson,
     relationship,
     contactnumber,
-    address,
+    eaddress,
     bloodtype,
-    build,
-    birthmark,
-    height,
-    weight,
     insured,
   } = formData;
 
   const [image, setFile] = useState(null); // state for storing actual image
-  const center = {
-    lat: 10.3272994,
-    lng: 123.9431079,
-  };
-  const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
+
+  const [marker, setMarker] = useState({ lat: profile.lat, lng: profile.lng });
   const [com_address, setAddress] = useState({
-    currentaddress: "",
-    city: "",
-    area: "",
-    state: "",
-    lat: "",
-    lng: "",
+    scompleteaddress: profile.completeaddress,
+    scity: profile.city,
+    sarea: profile.area,
+    sstate: profile.state,
+    slat: profile.lat,
+    slng: profile.lng,
   });
+
+  const editLat =
+    com_address.slat !== marker.lat ? marker.lat : com_address.slat;
+  const editLng =
+    com_address.slng !== marker.lng ? marker.lng : com_address.slng;
+
   const [displayPersonalInputs, togglePersonalInputs] = useState(true);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
@@ -245,17 +240,12 @@ const EditProfile = ({
 
   const onMapClick = useCallback(e => {
     const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
-
     toggleOldAddress(!hideOldAddress);
     toggleNewAddress(!newAddress);
-
-    console.log("on Map click", latlng);
     setMarker(latlng);
-    console.log("set marker", marker);
     panTo(latlng);
 
     Geodcode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(response => {
-      console.log("Response on map click", response);
       const address = response.results[0].formatted_address,
         addressArray = response.results[0].address_components,
         city = getCity(addressArray),
@@ -263,10 +253,10 @@ const EditProfile = ({
         area = getArea(addressArray);
 
       setAddress({
-        currentaddress: address ? address : "",
-        city: city ? city : "",
-        area: area ? area : "",
-        state: state ? city : "",
+        scompleteaddress: address ? address : "",
+        scity: city ? city : "",
+        sarea: area ? area : "",
+        sstate: state ? city : "",
       });
     });
   }, []);
@@ -276,21 +266,20 @@ const EditProfile = ({
 
   const onMapLoad = useCallback(map => {
     mapRef.current = map;
-    console.log("MapRef load is ", map);
+
     Geodcode.fromLatLng(map.center.lat(), map.center.lng()).then(response => {
-      console.log("Response on map log", response);
       const address = response.results[0].formatted_address,
         addressArray = response.results[0].address_components,
         city = getCity(addressArray),
         state = getState(addressArray),
         area = getArea(addressArray);
 
-      setAddress({
-        currentaddress: address ? address : "",
-        city: city ? city : "",
-        area: area ? area : "",
-        state: state ? city : "",
-      });
+      // setAddress({
+      //   currentaddress: address ? address : "",
+      //   city: city ? city : "",
+      //   area: area ? area : "",
+      //   state: state ? city : "",
+      // });
     });
   }, []);
 
@@ -302,7 +291,6 @@ const EditProfile = ({
 
   if (loadError) return "Error Loading Map";
   if (!isLoaded) return <Spinner />;
-  // if (com_address)
 
   const onDrop = files => {
     const [uploadedFile] = files;
@@ -332,28 +320,14 @@ const EditProfile = ({
 
   const profilePayload = image !== null ? image : `${profilepic}`;
 
-  const editAddress =
-    completeaddress === com_address.currentaddress
-      ? completeaddress
-      : com_address.currentaddress;
-
-  const editCity = city === com_address.city ? city : com_address.city;
-
-  const editArea = area === com_address.area ? area : com_address.area;
-
-  const editState = state === com_address.state ? state : com_address.state;
-
-  const editLat = formData.lat === marker.lat ? formData.lat : marker.lat;
-  const editLng = formData.lng === marker.lng ? formData.lng : marker.lng;
-
   const payload = new FormData();
   payload.append("gender", formData.gender);
   payload.append("civilstatus", formData.civilstatus);
   payload.append("birthday", formData.birthday);
-  payload.append("completeaddress", editAddress);
-  payload.append("city", editCity);
-  payload.append("area", editArea);
-  payload.append("state", editState);
+  payload.append("completeaddress", com_address.scompleteaddress);
+  payload.append("city", com_address.scity);
+  payload.append("area", com_address.sarea);
+  payload.append("state", com_address.sstate);
   payload.append("lat", editLat);
   payload.append("lng", editLng);
   payload.append("organization", formData.organization);
@@ -376,16 +350,11 @@ const EditProfile = ({
   payload.append("contactnumber", formData.contactnumber);
   payload.append("eaddress", formData.eaddress);
   payload.append("bloodtype", formData.bloodtype);
-  payload.append("build", formData.build);
-  payload.append("birthmark", formData.birthmark);
-  payload.append("height", formData.height);
-  payload.append("weight", formData.weight);
   payload.append("insured", formData.insured);
 
   const onSubmit = async c => {
     c.preventDefault();
     createProfile(payload, history, true);
-    console.log("profilePaylod", profilePayload);
   };
 
   return (
@@ -458,7 +427,6 @@ const EditProfile = ({
             {displayPersonalInputs && (
               <Fragment>
                 <div style={{ display: "block", flexDirection: "row" }}>
-                  <Search panTo={panTo} />
                   {/* <Locate panTo={panTo} /> */}
                   <GoogleMap
                     mapContainerStyle={mapContainerStyle}
@@ -472,8 +440,24 @@ const EditProfile = ({
                     }
                     onLoad={onMapLoad}
                   >
+                    <div
+                      style={{
+                        display: "flex",
+                        position: "relative",
+                        alignContent: "center",
+                        width: "100%",
+                        zIndex: "1",
+                        margin: "1px 2px 2px 1px",
+                        marginTop: "2px",
+                      }}
+                    >
+                      <Search panTo={panTo} />
+                    </div>
                     <Marker
-                      position={{ lat: editLat, lng: editLng }}
+                      position={{
+                        lat: editLat,
+                        lng: editLng,
+                      }}
                       icon={{
                         url: "/icons/map/pin.png",
                         scaledSize: new window.google.maps.Size(30, 30),
@@ -484,95 +468,34 @@ const EditProfile = ({
                         setSelected(marker);
                       }}
                     />
-
-                    {/* {selected ? (
-                  <InfoWindow
-                    position={{ lat: selected.lat, lng: selected.lng }}
-                    onCloseClick={() => {
-                      setSelected(null);
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "block",
-                        alignContent: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <div>
-                        <h4>Close</h4>
-                      </div>
-
-                      <div>
-                        <p> Incident!</p>
-                      </div>
-                      <p>
-                        Date{" "}
-                        <Moment fromNow ago='LLLL'>
-                          {selected.time}
-                        </Moment>
-                      </p>
-                    </div>
-                  </InfoWindow>
-                ) : null} */}
                   </GoogleMap>
+                  <div className='form-group'>
+                    <input
+                      type='text'
+                      name='completeaddress'
+                      value={com_address.scompleteaddress}
+                      onChange={c => onChange(c)}
+                    />
+                    <small className='form-text'> New Home Address</small>
 
-                  {hideOldAddress && (
-                    <div className='form-group'>
-                      <input type='text' value={completeaddress} />
-                      <small className='form-text'> * Home address </small>
-                    </div>
-                  )}
-
-                  {newAddress && (
-                    <div className='form-group'>
-                      <input
-                        type='text'
-                        name='completeaddress'
-                        value={com_address.currentaddress}
-                        onChange={c => onChange(c)}
-                      />
-                      <small className='form-text'> New Home Address</small>
-
-                      {/* <input
-                  // style={{ display: "none" }}
-                  type='text'
-                  name='city'
-                  value={editCity}
-                  onChange={c => onChange(c)}
-                />
-                <small className='form-text' style={{ display: "none" }}>
-                  area
-                </small>
-                <input
-                  // style={{ display: "none" }}
-                  type='text'
-                  name='area'
-                  value={editArea}
-                  onChange={c => onChange(c)}
-                />
-                <small className='form-text' style={{ display: "none" }}>
-                  Your area
-                </small>
-                <input
-                  // style={{ display: "none" }}
-                  type='text'
-                  name='lat'
-                  value={editLat}
-                  onChange={c => onChange(c)}
-                />
-                <small className='form-text' style={{ display: "none" }}>
-                  Your latitude
-                </small>
-                <input
-                  // style={{ display: "none" }}
-                  type='text'
-                  name='lng'
-                  value={editLng}
-                  onChange={c => onChange(c)}
-                /> */}
-                    </div>
-                  )}
+                    <input
+                      style={{ display: "none" }}
+                      type='text'
+                      name='lat'
+                      value={editLat}
+                      onChange={c => onChange(c)}
+                    />
+                    <small className='form-text' style={{ display: "none" }}>
+                      Your latitude
+                    </small>
+                    <input
+                      style={{ display: "none" }}
+                      type='text'
+                      name='lng'
+                      value={editLng}
+                      onChange={c => onChange(c)}
+                    />
+                  </div>
                 </div>
 
                 <div className='form-group'>
@@ -761,8 +684,8 @@ const EditProfile = ({
                   <input
                     type='text'
                     placeholder='* Address'
-                    name='address'
-                    value={address}
+                    name='eaddress'
+                    value={eaddress}
                     onChange={c => onChange(c)}
                     required
                   />
@@ -774,43 +697,6 @@ const EditProfile = ({
                     placeholder='Blood Type'
                     name='bloodtype'
                     value={bloodtype}
-                    onChange={c => onChange(c)}
-                  />
-                </div>
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Body Build'
-                    name='build'
-                    value={build}
-                    onChange={c => onChange(c)}
-                  />
-                </div>
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Birth Mark'
-                    name='birthmark'
-                    value={birthmark}
-                    onChange={c => onChange(c)}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Height'
-                    name='height'
-                    value={height}
-                    onChange={c => onChange(c)}
-                  />
-                </div>
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Weight'
-                    name='weight'
-                    value={weight}
                     onChange={c => onChange(c)}
                   />
                 </div>

@@ -27,7 +27,9 @@ function Search({ panTo }) {
   });
 
   return (
-    <div style={{ display: "block", width: "100%" }}>
+    <div
+      style={{ display: "block", margin: "10px 30px 20px 30px", width: "100%" }}
+    >
       <Combobox
         onSelect={async address => {
           setValue(address, false);
@@ -50,11 +52,9 @@ function Search({ panTo }) {
             setValue(e.target.value);
           }}
           disabled={!ready}
-          placeholder=' Search your home address here'
+          placeholder=' Search nearest landmark or click map'
         />
-        <small className='form-text'>
-          Use search above and/or tap the map to pin your home address.
-        </small>
+
         <ComboboxPopover>
           <ComboboxList>
             {/* Suggestions  */}

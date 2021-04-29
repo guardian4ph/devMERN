@@ -46,14 +46,12 @@ router.post(
     }
 
     if (!req.file) {
-      console.log("PROFILE POST", req.file);
       const {
         organization,
         gender,
         civilstatus,
         birthday,
         completeaddress,
-
         profilepic,
         state,
         city,
@@ -71,24 +69,19 @@ router.post(
         twitter,
         instagram,
         linkedin,
-        // profilepic,
+
         //Emergency Info
         contactperson,
         relationship,
         contactnumber,
-        address,
+        eaddress,
         bloodtype,
-        build,
-        birthmark,
-        height,
-        weight,
         insured,
       } = req.body;
 
       // Build Profile Object
       const profileFields = {};
       profileFields.user = req.user.id;
-      // profileFields.profilepic = req.file.filename;
 
       if (profilepic) profileFields.profilepic = profilepic;
       if (gender) profileFields.gender = gender;
@@ -130,12 +123,8 @@ router.post(
       if (relationship) profileFields.emergencyinfo.relationship = relationship;
       if (contactnumber)
         profileFields.emergencyinfo.contactnumber = contactnumber;
-      if (address) profileFields.emergencyinfo.address = address;
+      if (eaddress) profileFields.emergencyinfo.eaddress = eaddress;
       if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
-      if (build) profileFields.emergencyinfo.build = build;
-      if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
-      if (height) profileFields.emergencyinfo.height = height;
-      if (weight) profileFields.emergencyinfo.weight = weight;
       if (insured) profileFields.emergencyinfo.insured = insured;
 
       try {
@@ -187,12 +176,8 @@ router.post(
         contactperson,
         relationship,
         contactnumber,
-        address,
+        eaddress,
         bloodtype,
-        build,
-        birthmark,
-        height,
-        weight,
         insured,
       } = req.body;
 
@@ -240,12 +225,8 @@ router.post(
       if (relationship) profileFields.emergencyinfo.relationship = relationship;
       if (contactnumber)
         profileFields.emergencyinfo.contactnumber = contactnumber;
-      if (address) profileFields.emergencyinfo.address = address;
+      if (eaddress) profileFields.emergencyinfo.eaddress = eaddress;
       if (bloodtype) profileFields.emergencyinfo.bloodtype = bloodtype;
-      if (build) profileFields.emergencyinfo.build = build;
-      if (birthmark) profileFields.emergencyinfo.birthmark = birthmark;
-      if (height) profileFields.emergencyinfo.height = height;
-      if (weight) profileFields.emergencyinfo.weight = weight;
       if (insured) profileFields.emergencyinfo.insured = insured;
 
       try {
@@ -517,7 +498,7 @@ router.put(
         "Please a valid Philippines mobile number"
       ).isMobilePhone("en-PH"),
 
-      check("address", "Address is required").not().isEmpty(),
+      check("eaddress", "Address is required").not().isEmpty(),
       check("bloodtype", "Blood type is required").not().isEmpty(),
     ],
   ],
@@ -532,12 +513,6 @@ router.put(
       contactnumber,
       address,
       bloodtype,
-      build,
-      birthmark,
-      height,
-      weight,
-      eyecolor,
-      haircolor,
       insured,
     } = req.body;
 
@@ -547,12 +522,6 @@ router.put(
       contactnumber,
       address,
       bloodtype,
-      build,
-      birthmark,
-      height,
-      weight,
-      eyecolor,
-      haircolor,
       insured,
     };
     try {

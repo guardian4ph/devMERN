@@ -28,6 +28,49 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+
+  rigths: [
+    {
+      opcen_id: {
+        type: String,
+      },
+      rights: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
+  team: {
+    team_id: {
+      type: String,
+    },
+
+    position: {
+      type: String,
+    },
+  },
+
+  assignment: {
+    facility_id: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+  },
+
+  accesspass: {
+    access_id: {
+      type: String,
+    },
+    type: {
+      type: String,
+    },
+  },
   date: {
     type: Date,
     default: Date.now,

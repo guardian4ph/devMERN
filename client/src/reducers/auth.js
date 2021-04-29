@@ -12,6 +12,7 @@ import {
   USER_DOEST_EXIST,
   CHANGE_PASSWORD_FAIL,
   PASSWORD_CHANGED,
+  USER_OPCEN_ADMIN,
 } from "../actions/types";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   isUser: null,
   loading: true,
   user: null,
+  isOpcenAdmin: null,
 };
 // eslint-disable-next-line
 export default function (state = initialState, action) {
@@ -43,6 +45,18 @@ export default function (state = initialState, action) {
         ...payload,
         isAuthenticated: true,
         isUser: true,
+        loading: false,
+      };
+
+    case USER_OPCEN_ADMIN:
+      //save token to local storage
+      localStorage.setItem("token", payload.token);
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        isUser: true,
+        isOpcenAdmin: true,
         loading: false,
       };
     case RESET_PASSWORD:
