@@ -17,14 +17,22 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
     <Fragment>
       <div
         style={{
-          padding: "20px",
+          padding: "10px",
           background: "#fff",
           borderRadius: "10px",
           height: "88vh",
         }}
       >
-        <h1 className='large text-primary'> Operation Center</h1>
-
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: " 2fr 1fr",
+            alignItems: "center",
+          }}
+        >
+          <h1 className='large text-primary'> Operation Center</h1>
+          <button className='btn btn-primary'> Create OpCen</button>
+        </div>
         <div style={{ marginTop: "1%" }}>
           <p>Command your team and control your resources.</p>
           <div
@@ -32,7 +40,7 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              height: "68vh",
+              maxheight: "68vh",
 
               justifyContent: "space-around",
               flexWrap: "wrap",
@@ -45,9 +53,6 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
               </div>
             ))}
           </div>
-        </div>
-        <div>
-          <button className='btn btn-primary'> Create Operation Center</button>
         </div>
       </div>
     </Fragment>

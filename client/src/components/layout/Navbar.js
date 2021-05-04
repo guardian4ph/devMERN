@@ -5,26 +5,18 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import { Fragment } from "react";
+import Spinner from "./Spinner";
 
-const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+const Navbar = ({
+  auth: { isAuthenticated, isOpcenAdmin, loading },
+  logout,
+}) => {
   const authLinks = (
     <ul>
-      <li>
-        <Link to={`/operation-center`}>
-          <i className='fa fa-building-o' aria-hidden='true'></i>{" "}
-          <span className='hide-sm'>Operation Center </span>
-        </Link>
-      </li>
       <li>
         <Link to='/ID'>
           <i className='fa fa-id-badge' aria-hidden='true'></i>{" "}
           <span className='hide-sm'>ID </span>
-        </Link>
-      </li>
-      <li>
-        <Link to='/profiles'>
-          <i className='fa fa-ambulance'></i>{" "}
-          <span className='hide-sm'>Responders</span>
         </Link>
       </li>
       <li>
@@ -48,11 +40,39 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </ul>
   );
 
-  const guestLinks = (
+  const opcenLinks = (
     <ul>
       <li>
-        <Link to='/profiles'>Responders</Link>
+        <Link to={`/operation-center`}>
+          <i className='fa fa-building-o' aria-hidden='true'></i>{" "}
+          <span className='hide-sm'>Operation Center </span>
+        </Link>
       </li>
+
+      <li>
+        <Link to='/profiles'>
+          <i className='fa fa-users'></i>{" "}
+          <span className='hide-sm'>Responders</span>
+        </Link>
+      </li>
+      <li>
+        <Link to='/posts'>
+          <i className='fa fa-bell-o'></i>{" "}
+          <span className='hide-sm'>Notifications</span>
+        </Link>
+      </li>
+
+      <li>
+        <Link onClick={logout} to='/'>
+          <i className='fas fa-sign-out-alt' />{" "}
+          <span className='hide-sm'>Logout</span>
+        </Link>
+      </li>
+    </ul>
+  );
+
+  const guestLinks = (
+    <ul>
       <li>
         <Link to='/register'>Register</Link>
       </li>
@@ -61,7 +81,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       </li>
     </ul>
   );
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <nav className='navbar bg-dark'>
       <Logo />
       {/* <h4>
@@ -70,7 +92,13 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         </Link>
       </h4> */}
       {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        <Fragment>
+          {isAuthenticated && isOpcenAdmin
+            ? opcenLinks
+            : isAuthenticated
+            ? authLinks
+            : guestLinks}
+        </Fragment>
       )}
     </nav>
   );
@@ -83,7 +111,6 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  // user: state.auth.user._id,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

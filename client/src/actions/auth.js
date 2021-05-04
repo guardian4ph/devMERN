@@ -26,6 +26,20 @@ export const loadUser = () => async dispatch => {
       type: USER_LOADED,
       payload: res.data,
     });
+    dispatch(loadRigths());
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+
+export const loadRigths = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/auth/accessrigths");
+
+    dispatch({
+      type: USER_OPCEN_ADMIN,
+      payload: res.data,
+    });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
@@ -53,6 +67,9 @@ export const register = ({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
+    dispatch(loadUser());
+
+    // dispatch(loadRigths());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -133,7 +150,7 @@ export const forgot_password = email => async dispatch => {
 
 // Add Access Rigths
 
-export const accessrigths = opcenadmin => async dispatch => {
+export const accessrigths = rigths => async dispatch => {
   console.log("access right hit");
   try {
     const config = {
@@ -141,7 +158,7 @@ export const accessrigths = opcenadmin => async dispatch => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.put("api/users/accessrights", opcenadmin);
+    const res = await axios.put("api/users/accessrigths", rigths);
 
     dispatch({
       type: USER_OPCEN_ADMIN,

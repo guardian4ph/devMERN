@@ -52,6 +52,9 @@ export default function (state = initialState, action) {
       };
 
     case ERROR_CREATE_OPCEN:
+    case OPCEN_REGISTER_FAIL:
+    case GET_OPCENS_FAIL:
+    case GET_OPCEN_FAIL:
       return {
         ...state,
         createOpcen: false,

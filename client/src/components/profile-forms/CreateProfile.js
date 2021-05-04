@@ -35,7 +35,7 @@ const options = {
   zoomControl: true,
 };
 
-const CreateProfile = ({ createProfile, history }) => {
+const CreateProfile = ({ auth, createProfile, history }) => {
   const [image, setImage] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
@@ -794,6 +794,11 @@ const CreateProfile = ({ createProfile, history }) => {
 
 CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
 
 export default connect(null, { createProfile })(withRouter(CreateProfile));

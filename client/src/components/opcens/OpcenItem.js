@@ -20,8 +20,8 @@ export const OpcenItem = ({
             style={{
               display: "flex",
               flexDirection: "row",
-              width: "150px",
-              height: "150px",
+              width: "200px",
+              height: "200px",
               justifyContent: "space-around",
             }}
           >
@@ -30,8 +30,8 @@ export const OpcenItem = ({
                 padding: "5px",
                 background: "#fff",
                 borderRadius: "10px",
-                width: "150px",
-                height: "150px",
+                width: "200px",
+                height: "200px",
               }}
             >
               <div
@@ -45,14 +45,68 @@ export const OpcenItem = ({
                 }}
               >
                 <Link
-                  className='smallIcon'
+                  className='bigIcon'
                   onClick={c => getOpcen(user, _id)}
                   to={`/operation-center/${user}/${_id}`}
                 >
-                  <h5>{name}</h5>
+                  <div
+                    style={{
+                      height: "40px",
+                      margin: "auto",
+                      padding: "8px",
+                      height: "40px",
+                      width: "40px",
+                      borderRadius: "50%",
+                      background: "#ccc",
+                    }}
+                  >
+                    {type === "Gov" ? (
+                      <i className='fas fa-landmark' aria-hidden='true'></i>
+                    ) : type === "Pri" ? (
+                      <i className='fa fa-hand-paper-o' aria-hidden='true'></i>
+                    ) : (
+                      <i className='fa fa-building-o' aria-hidden='true'></i>
+                    )}
+                  </div>
 
-                  <small>{category}</small>
-                  <small> {type} </small>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      lineHeight: "10px",
+                      marginTop: "3px",
+                      padding: " 5px 0 5px 0 ",
+                    }}
+                  >
+                    {name}
+                  </p>
+
+                  <p
+                    style={{
+                      fontSize: "8px",
+                      lineHeight: "10px",
+                      color: "#333",
+                    }}
+                  >
+                    {category}
+                  </p>
+                  <div
+                    style={{
+                      height: "25px",
+                      width: "25px",
+
+                      margin: "auto",
+                      marginTop: "10px",
+                      alignSelf: "end",
+                      padding: "1px",
+
+                      borderRadius: "5px",
+                      background: "#dc3545",
+                      color: "#fff",
+                    }}
+                  >
+                    <i className='fa fa-trash-o' aria-hidden='true'></i>
+                  </div>
                 </Link>
               </div>
             </div>

@@ -31,10 +31,7 @@ const UserSchema = new mongoose.Schema({
 
   rigths: [
     {
-      opcen_id: {
-        type: String,
-      },
-      rights: {
+      rigths: {
         type: String,
       },
       date: {

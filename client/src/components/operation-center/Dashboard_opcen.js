@@ -31,7 +31,7 @@ const Dashboard_opcen = props => {
     <Fragment>
       <div
         style={{
-          padding: "20px",
+          padding: "25px",
           background: "#fff",
           borderRadius: "10px",
         }}
@@ -59,9 +59,9 @@ const Dashboard_opcen = props => {
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-building' aria-hidden='true'></i>
-              <p>Profile</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Profile</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
                 (update your opcen profile)
               </div>
@@ -70,9 +70,9 @@ const Dashboard_opcen = props => {
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-users' aria-hidden='true'></i>
-              <p>Responders</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Responders</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
                 (manage you responders)
               </div>
@@ -81,9 +81,9 @@ const Dashboard_opcen = props => {
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-cogs' aria-hidden='true'></i>
-              <p>Teams/Groups</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Teams</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
                 (monitor your teams)
               </div>
@@ -93,11 +93,22 @@ const Dashboard_opcen = props => {
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-ambulance' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
-              <p>Vehicles</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Vehicles</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
                 (manage your mobile assets)
+              </div>
+            </div>
+          </Link>
+          <Link className='smallIcon'>
+            <div style={{ marginTop: "22%" }}>
+              <i className='fa fa-h-square' aria-hidden='true'></i>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Facilities</p>
+              <div
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
+              >
+                (locations that the opcen is operating or monitoring)
               </div>
             </div>
           </Link>
@@ -117,7 +128,7 @@ const Dashboard_opcen = props => {
               <i className='fa fa-map' aria-hidden='true'></i>
               <p>Live Map</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "9px", lineHeight: "10px", color: "#333" }}
               >
                 (current location of your responders and other resources)
               </div>
@@ -128,7 +139,7 @@ const Dashboard_opcen = props => {
               <i className='fa fa-bullhorn' aria-hidden='true'></i>
               <p>Notifications</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "9px", lineHeight: "10px", color: "#333" }}
               >
                 (notify your contituents about urgent matters concerning the
                 city)
@@ -141,7 +152,19 @@ const Dashboard_opcen = props => {
               <i aria-hidden='true'></i>
               <p>Incident</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "9px", lineHeight: "10px", color: "#333" }}
+              >
+                (dashboard of current incidents the opcen is addressing)
+              </div>
+            </div>
+          </Link>
+          <Link className='bigIcon'>
+            <div style={{ marginTop: "20%" }}>
+              <i className='fa fa-headphones' aria-hidden='true'></i>
+              <i aria-hidden='true'></i>
+              <p>Dispatch</p>
+              <div
+                style={{ fontSize: "9px", lineHeight: "10px", color: "#333" }}
               >
                 (dashboard of current incidents the opcen is addressing)
               </div>
@@ -160,21 +183,24 @@ const Dashboard_opcen = props => {
         >
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
-              <i className='fa fa-h-square' aria-hidden='true'></i>
-              <p>Facilities</p>
+              <i className='fa fa-id-badge' aria-hidden='true'></i>
+              <i aria-hidden='true'></i>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>
+                Passes/ID's
+              </p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
-                (locations that the opcen is operating or monitoring)
+                (issue identifaction for access)
               </div>
             </div>
           </Link>
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-male' aria-hidden='true'></i>
-              <p>Volunteers</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Volunteers</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
                 (manage you volunteers)
               </div>
@@ -183,9 +209,11 @@ const Dashboard_opcen = props => {
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
               <i className='fa fa-bolt' aria-hidden='true'></i>
-              <p>OP's/Events</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>
+                OP's/Events
+              </p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
                 className='small-txt-blk'
               >
                 (operations or events)
@@ -194,11 +222,24 @@ const Dashboard_opcen = props => {
           </Link>
           <Link className='smallIcon'>
             <div style={{ marginTop: "22%" }}>
+              <i className='fa fa-book' aria-hidden='true'></i>
+              <i aria-hidden='true'></i>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Inventory</p>
+              <div
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
+                className='small-txt-blk'
+              >
+                (download and/or retrieve )
+              </div>
+            </div>
+          </Link>
+          <Link className='smallIcon'>
+            <div style={{ marginTop: "22%" }}>
               <i className='fa fa-tachometer' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
-              <p>Reports</p>
+              <p style={{ fontSize: "12px", lineHeight: "10px" }}>Reports</p>
               <div
-                style={{ fontSize: "10px", lineHeight: "10px", color: "#333" }}
+                style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
                 className='small-txt-blk'
               >
                 (download and/or retrieve )

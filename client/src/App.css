@@ -1201,10 +1201,9 @@ button {
 /* OPcen */
 
 .bigIcon {
-  height: 160px;
-  width: 200px;
+  height: 140px;
+  width: 140px;
   text-align: center;
-
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
@@ -1213,10 +1212,9 @@ button {
 }
 
 .smallIcon {
-  height: 140px;
-  width: 150px;
+  height: 110px;
+  width: 110px;
   text-align: center;
-
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;

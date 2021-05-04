@@ -21,7 +21,7 @@ const initialState = {
   isUser: null,
   loading: true,
   user: null,
-  isOpcenAdmin: null,
+  isOpcenAdmin: false,
 };
 // eslint-disable-next-line
 export default function (state = initialState, action) {
@@ -50,13 +50,12 @@ export default function (state = initialState, action) {
 
     case USER_OPCEN_ADMIN:
       //save token to local storage
-      localStorage.setItem("token", payload.token);
+
       return {
         ...state,
-        ...payload,
         isAuthenticated: true,
         isUser: true,
-        isOpcenAdmin: true,
+        isOpcenAdmin: payload,
         loading: false,
       };
     case RESET_PASSWORD:

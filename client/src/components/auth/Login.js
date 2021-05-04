@@ -5,7 +5,13 @@ import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 import { setAlert } from "../../actions/alert";
 
-const Login = ({ login, isAuthenticated, isUser, createOpcen, setAlert }) => {
+const Login = ({
+  login,
+  isAuthenticated,
+  isOpcenAdmin,
+  createOpcen,
+  setAlert,
+}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,9 +33,14 @@ const Login = ({ login, isAuthenticated, isUser, createOpcen, setAlert }) => {
     return <Redirect to='/create-operation-center' />;
   }
 
-  if (isAuthenticated) {
+  if (isAuthenticated && isOpcenAdmin) {
+    return <Redirect to='/operation-center' />;
+  } else if (isAuthenticated && !isOpcenAdmin) {
     return <Redirect to='/posts' />;
   }
+  // if (isAuthenticated && !isOpcenAdmin) {
+  //   return <Redirect to='/posts' />;
+  // }
 
   return (
     <Fragment>
@@ -98,15 +109,18 @@ const Login = ({ login, isAuthenticated, isUser, createOpcen, setAlert }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
+  isOpcenAdmin: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   createOpcen: PropTypes.bool,
   setAlert: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  isUser: state.auth.isUser,
+  isOpcenAdmin: state.auth.isOpcenAdmin,
   createOpcen: state.opcen.createOpcen,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { login, setAlert })(Login);

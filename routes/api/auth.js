@@ -21,6 +21,24 @@ router.get("/", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+//@route GET api/auth
+//@desc  Test Route
+//@access Public
+
+router.get("/accessrigths", auth, async (req, res) => {
+  console.log("hit access rigths api", req.user.id);
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (Array.isArray(user.rigths) && user.rigths.length !== 0) {
+      return res.status(200).send("true");
+    }
+
+    res.status(204).send("false");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //@route GET api/auth/forgot
 //@desc  Test Route

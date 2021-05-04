@@ -12,6 +12,7 @@ const Create_opcen = ({
   setAlert,
   registerOpcen,
   isAuthenticated,
+  accessrigths,
   user,
 }) => {
   // console.log("Opcen Id", opcen._id);
@@ -25,15 +26,16 @@ const Create_opcen = ({
   //destructure so you would do formData.name formData.number
   //Object Syntax use {}
   const { name, category, description } = formData;
-  const { opcenadmin } = true;
 
   const onChange = async c =>
     setFormData({ ...formData, [c.target.name]: c.target.value });
 
+  const rigths = "opcen admin";
+
   const onSubmit = async c => {
     c.preventDefault();
     registerOpcen({ user, name, category, description, type });
-    accessrigths(opcenadmin);
+    accessrigths({ rigths });
   };
   if (isAuthenticated && opcen !== null) {
     return <Redirect to={`/operation-center/${user._id}/${opcen._id}`} />;
@@ -41,7 +43,7 @@ const Create_opcen = ({
   //   return <Redirect to={`/operation-center`} />;
   // }
 
-  return loading && user._id == null ? (
+  return loading && (user._id == null) & (opcen !== null) ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -132,6 +134,8 @@ const mapStateToProps = state => ({
   opcen: state.opcen,
 });
 
-export default connect(mapStateToProps, { registerOpcen, setAlert })(
-  Create_opcen
-);
+export default connect(mapStateToProps, {
+  registerOpcen,
+  setAlert,
+  accessrigths,
+})(Create_opcen);
