@@ -26,7 +26,6 @@ router.get("/", auth, async (req, res) => {
 //@access Public
 
 router.get("/accessrigths", auth, async (req, res) => {
-  console.log("hit access rigths api", req.user.id);
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (Array.isArray(user.rigths) && user.rigths.length !== 0) {
@@ -67,7 +66,6 @@ router.post(
         return res
           .status(400)
           .json({ errors: [{ msg: "User does not exists" }] });
-        console.log("Not Exist");
       } else {
         return res.status(200).json(user);
       }

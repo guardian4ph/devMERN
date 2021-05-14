@@ -29,8 +29,9 @@ import Spinner from "../layout/Spinner";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  height: `300px`,
+  height: `250px`,
   width: "100%",
+  borderRadius: "5px",
 };
 
 const options = {
@@ -178,8 +179,6 @@ const EditProfile = ({
   const [displayPersonalInputs, togglePersonalInputs] = useState(true);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [displayOrganizationInputs, toggleOrganizationInputs] = useState(false);
-  const [newAddress, toggleNewAddress] = useState(false);
-  const [hideOldAddress, toggleOldAddress] = useState(true);
 
   const [displayEmergencyInputs, toggleEmergencyInputs] = useState(false);
 
@@ -240,8 +239,7 @@ const EditProfile = ({
 
   const onMapClick = useCallback(e => {
     const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
-    toggleOldAddress(!hideOldAddress);
-    toggleNewAddress(!newAddress);
+
     setMarker(latlng);
     panTo(latlng);
 
@@ -273,13 +271,6 @@ const EditProfile = ({
         city = getCity(addressArray),
         state = getState(addressArray),
         area = getArea(addressArray);
-
-      // setAddress({
-      //   currentaddress: address ? address : "",
-      //   city: city ? city : "",
-      //   area: area ? area : "",
-      //   state: state ? city : "",
-      // });
     });
   }, []);
 
@@ -302,8 +293,6 @@ const EditProfile = ({
     };
     fileReader.readAsDataURL(uploadedFile);
     setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
-    dropRef.current.style.border = "2px dashed #e9ebeb";
-    dropRef.current.style.borderRadius = "50px";
   };
 
   const updateBorder = dragState => {
@@ -394,7 +383,6 @@ const EditProfile = ({
                   <img
                     className='preview-image'
                     src={`/img/${profilePayload}`}
-                    // alt='Preview'
                   />
                 </div>
                 {previewSrc ? (
@@ -433,11 +421,7 @@ const EditProfile = ({
                     zoom={13}
                     center={{ lat: editLat, lng: editLng }}
                     options={options}
-                    onClick={
-                      onMapClick
-                      // () => toggleOldAddress(!hideOldAddress),
-                      // () => toggleOldAddress(!newAddress))
-                    }
+                    onClick={onMapClick}
                     onLoad={onMapLoad}
                   >
                     <div

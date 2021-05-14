@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "user",
+  // },
   name: {
     type: String,
     required: true,
@@ -16,10 +16,12 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   number: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,

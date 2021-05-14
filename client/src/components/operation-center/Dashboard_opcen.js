@@ -1,51 +1,39 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setAlert } from "../../actions/alert";
-import { registerOpcen } from "../../actions/opcen";
 import PropTypes from "prop-types";
+import Spinner from "../layout/Spinner";
 
-const Dashboard_opcen = props => {
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    description: "",
-  });
+const Dashboard_opcen = ({
+  opcen,
+  opcenprofile: { profile, profiles, loading },
+}) => {
+  // const [displayProfileEdit, toggleProfileEdit] = useState(false);
+  // useEffect(() => {});
 
-  //destructure so you would do formData.name formData.number
-  //Object Syntax use {}
-  const { name, category, description } = formData;
-
-  const onChange = async c =>
-    setFormData({ ...formData, [c.target.name]: c.target.value });
-
-  const onSubmit = async c => {
-    c.preventDefault();
-    registerOpcen({ name, category, description });
-  };
-  //   if (isAuthenticated) {
-  //     return <Redirect to={`/operation-center/${user}`} />;
-  //   }
-
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <div
         style={{
-          padding: "25px",
+          padding: "10px",
           background: "#fff",
           borderRadius: "10px",
+          height: "72vh",
         }}
       >
         <div
           style={{
             display: "block",
             borderRadius: "10px",
-            padding: "10px",
+            padding: "5px",
+            lineHeight: "1px",
           }}
         >
-          <div style={{ fontSize: "12px", lineHeight: "10px", color: "#333" }}>
+          <small className='small-txt-blk'>
             Command and control your resources using this panel.
-          </div>
+          </small>
         </div>
 
         <div
@@ -53,11 +41,12 @@ const Dashboard_opcen = props => {
             display: "flex",
             flexDirection: "row",
             width: "100%",
+            height: "150px",
             justifyContent: "space-around",
           }}
         >
-          <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+          <div className='smallIcon'>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-building' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Profile</p>
               <div
@@ -65,10 +54,28 @@ const Dashboard_opcen = props => {
               >
                 (update your opcen profile)
               </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "3px",
+                }}
+              >
+                {profile === null ? (
+                  <Link to='/addoperation-center/profile'>
+                    <i className='fa fa-plus-square-o fa-xs'></i>
+                  </Link>
+                ) : (
+                  <Link to={`/edit-operation-center/profile/${profile._id}`}>
+                    <i className='fa fa-pencil fa-xs'></i>
+                  </Link>
+                )}
+              </div>
             </div>
-          </Link>
+          </div>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-users' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Responders</p>
               <div
@@ -76,21 +83,55 @@ const Dashboard_opcen = props => {
               >
                 (manage you responders)
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "3px",
+                }}
+              >
+                {profile === null ? (
+                  <Link to='/addoperation-center/profile'>
+                    <i className='fa fa-plus-square-o fa-xs'></i>
+                  </Link>
+                ) : (
+                  <Link to={`/edit-operation-center/profile/${profile._id}`}>
+                    <i className='fa fa-pencil fa-xs'></i>
+                  </Link>
+                )}
+              </div>
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-cogs' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Teams</p>
               <div
                 style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
-                (monitor your teams)
+                (manage/monitor your teams)
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "3px",
+                }}
+              >
+                {profile === null ? (
+                  <Link to='/addoperation-center/profile'>
+                    <i className='fa fa-plus-square-o fa-xs'></i>
+                  </Link>
+                ) : (
+                  <Link to={`/edit-operation-center/profile/${profile._id}`}>
+                    <i className='fa fa-pencil fa-xs'></i>
+                  </Link>
+                )}
               </div>
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-ambulance' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Vehicles</p>
@@ -99,16 +140,50 @@ const Dashboard_opcen = props => {
               >
                 (manage your mobile assets)
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "3px",
+                }}
+              >
+                {profile === null ? (
+                  <Link to='/addoperation-center/profile'>
+                    <i className='fa fa-plus-square-o fa-xs'></i>
+                  </Link>
+                ) : (
+                  <Link to={`/edit-operation-center/profile/${profile._id}`}>
+                    <i className='fa fa-pencil fa-xs'></i>
+                  </Link>
+                )}
+              </div>
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-h-square' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Facilities</p>
               <div
                 style={{ fontSize: "8px", lineHeight: "10px", color: "#333" }}
               >
-                (locations that the opcen is operating or monitoring)
+                (facilities operating/monitoring)
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "3px",
+                }}
+              >
+                {profile === null ? (
+                  <Link to='/addoperation-center/profile'>
+                    <i className='fa fa-plus-square-o fa-xs'></i>
+                  </Link>
+                ) : (
+                  <Link to={`/edit-operation-center/profile/${profile._id}`}>
+                    <i className='fa fa-pencil fa-xs'></i>
+                  </Link>
+                )}
               </div>
             </div>
           </Link>
@@ -166,7 +241,7 @@ const Dashboard_opcen = props => {
               <div
                 style={{ fontSize: "9px", lineHeight: "10px", color: "#333" }}
               >
-                (dashboard of current incidents the opcen is addressing)
+                (emergency dispatch operator log-in)
               </div>
             </div>
           </Link>
@@ -179,10 +254,11 @@ const Dashboard_opcen = props => {
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-around",
+            height: "150px",
           }}
         >
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-id-badge' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>
@@ -196,7 +272,7 @@ const Dashboard_opcen = props => {
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-male' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Volunteers</p>
               <div
@@ -207,7 +283,7 @@ const Dashboard_opcen = props => {
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-bolt' aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>
                 OP's/Events
@@ -221,7 +297,7 @@ const Dashboard_opcen = props => {
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-book' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Inventory</p>
@@ -234,7 +310,7 @@ const Dashboard_opcen = props => {
             </div>
           </Link>
           <Link className='smallIcon'>
-            <div style={{ marginTop: "22%" }}>
+            <div style={{ marginTop: "10%" }}>
               <i className='fa fa-tachometer' aria-hidden='true'></i>
               <i aria-hidden='true'></i>
               <p style={{ fontSize: "12px", lineHeight: "10px" }}>Reports</p>
@@ -254,10 +330,12 @@ const Dashboard_opcen = props => {
 
 Dashboard_opcen.propTypes = {
   opcen: PropTypes.object.isRequired,
+  opcenprofile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   opcen: state.opcen,
+  opcenprofile: state.opcen_profile,
 });
 
 export default connect(mapStateToProps, null)(Dashboard_opcen);

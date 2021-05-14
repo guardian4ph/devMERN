@@ -26,7 +26,7 @@ const ChangePassword = ({
 
   useEffect(() => {
     forgot_password(email);
-  }, []);
+  }, [forgot_password]);
   //destructure so you would do formData.name formData.number
   //Object Syntax use {}
   const { password, password2 } = formData;

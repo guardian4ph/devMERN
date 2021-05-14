@@ -1,10 +1,9 @@
-import { React, useEffect, Fragment, useState } from "react";
+import { React, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { getCurrentProfile } from "../../actions/profile";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
-import profile from "../../reducers/profile";
 import { QRCode } from "react-qrcode-logo";
 
 const QrPhoto = ({
@@ -14,7 +13,6 @@ const QrPhoto = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-    console.log(profile);
   }, [getCurrentProfile]);
 
   return (
@@ -121,7 +119,6 @@ QrPhoto.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({

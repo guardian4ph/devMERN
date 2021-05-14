@@ -230,7 +230,7 @@ const PostItem = ({
                   <i className='fa fa-comment-o' aria-hidden='true'></i>{" "}
                   <p style={{ marginLeft: "3px" }}>Comments </p>
                   {comments.length > 0 && (
-                    <span className='comment-count'>{comments.length}</span>
+                    <span className='p'>{comments.length}</span>
                   )}
                 </Link>
 

@@ -7,6 +7,7 @@ const Operation_Center_Schema = new Schema({
     ref: "user",
     required: true,
   },
+
   name: {
     type: String,
     required: true,
@@ -21,13 +22,14 @@ const Operation_Center_Schema = new Schema({
   type: {
     type: String,
   },
+
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = Operation = mongoose.model(
+module.exports = OpCen = mongoose.model(
   "operation_center",
   Operation_Center_Schema
 );

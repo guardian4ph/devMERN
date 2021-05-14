@@ -11,41 +11,38 @@ import {
 } from "./types";
 import { setAlert } from "./alert";
 
-export const sendOtp = (
-  user,
-  number,
-  name,
-  msg,
-  otp,
-  timeout = 300000
-) => async dispatch => {
-  const id = uuid();
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const sendOtp =
+  (user, number, name, msg, otp, timeout = 300000) =>
+  async dispatch => {
+    const id = uuid();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  const body = JSON.stringify({ user, number, name, msg, otp });
+    const body = JSON.stringify({ user, number, name, msg, otp });
 
-  try {
-    const res = await axios.post("/api/sms/sendOtp", body, config);
-    dispatch({
-      type: SEND_OTP,
-      payload: { user, name, id },
-    });
+    try {
+      const res = await axios.post("/api/sms/sendOtp", body, config);
+      dispatch({
+        type: SEND_OTP,
+        payload: { user, name, id },
+      });
 
-    setTimeout(() => dispatch({ type: REMOVE_OTP, payload: id }), timeout);
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      console.log(res);
+
+      setTimeout(() => dispatch({ type: REMOVE_OTP, payload: id }), timeout);
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      }
+      dispatch({
+        type: SEND_OTP_FAIL,
+      });
     }
-    dispatch({
-      type: SEND_OTP_FAIL,
-    });
-  }
-};
+  };
 
 export const otpMatch = (number, sent_otp) => async dispatch => {
   const config = {
@@ -62,6 +59,8 @@ export const otpMatch = (number, sent_otp) => async dispatch => {
       type: OTP_MATCH,
       payload: { number },
     });
+
+    console.log(res);
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -75,36 +74,30 @@ export const otpMatch = (number, sent_otp) => async dispatch => {
 
 // update user
 
-export const changepassword = (
-  id,
-  name,
-  lname,
-  number,
-  email,
-  password
-) => async dispatch => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const changepassword =
+  (id, name, lname, number, email, password) => async dispatch => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  const body = JSON.stringify({ id, name, lname, number, email, password });
+    const body = JSON.stringify({ id, name, lname, number, email, password });
 
-  try {
-    const res = await axios.post("/api/sms/changepassword", body, config);
-    dispatch({
-      type: PASSWORD_CHANGED,
-      payload: res.data,
-    });
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    try {
+      const res = await axios.post("/api/sms/changepassword", body, config);
+      dispatch({
+        type: PASSWORD_CHANGED,
+        payload: res.data,
+      });
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      }
+
+      dispatch({
+        type: CHANGE_PASSWORD_FAIL,
+      });
     }
-
-    dispatch({
-      type: CHANGE_PASSWORD_FAIL,
-    });
-  }
-};
+  };

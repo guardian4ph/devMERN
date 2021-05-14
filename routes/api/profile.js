@@ -30,10 +30,6 @@ router.post(
     auth,
     [
       check("gender").not().isEmpty().withMessage("Gender is required"),
-      // .custom((value, { req }) => {
-      //   if (!req.file) throw new Error("Profile image is required");
-      //   return true;
-      // }),
       check("civilstatus", "Civil status is required").not().isEmpty(),
       check("birthday", "Birthday is required").not().isEmpty(),
       check("completeaddress", "Complete Address is required").not().isEmpty(),
@@ -265,7 +261,7 @@ router.get("/me", auth, async (req, res) => {
     //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate("user", ["name", "lname", "avatar"]);
+    }).populate("user", ["name", "lname"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
@@ -284,11 +280,7 @@ router.get("/me", auth, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", [
-      "name",
-      "lname",
-      "avatar",
-    ]);
+    const profiles = await Profile.find().populate("user", ["name", "lname"]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -304,7 +296,7 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate("user", ["name", "lname", "avatar"]);
+    }).populate("user", ["name", "lname"]);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
 
@@ -358,15 +350,8 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const {
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description,
-    } = req.body;
+    const { title, company, location, from, to, current, description } =
+      req.body;
 
     const newExp = {
       title,
@@ -430,15 +415,8 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const {
-      school,
-      degree,
-      fieldofstudy,
-      from,
-      to,
-      current,
-      description,
-    } = req.body;
+    const { school, degree, fieldofstudy, from, to, current, description } =
+      req.body;
 
     const newEdu = {
       school,

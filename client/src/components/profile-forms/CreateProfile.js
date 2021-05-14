@@ -21,13 +21,14 @@ import Geodcode from "react-geocode";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  height: `350px`,
+  height: `250px`,
   width: "100%",
+  borderRadius: "5px",
 };
 
 const center = {
-  lat: 10.3272994,
-  lng: 123.9431079,
+  lat: 10.336425,
+  lng: 123.90789,
 };
 const options = {
   styles: MapStyles,
@@ -38,7 +39,7 @@ const options = {
 const CreateProfile = ({ auth, createProfile, history }) => {
   const [image, setImage] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
-  const [marker, setMarker] = useState({ lat: 10.3272994, lng: 123.9431079 });
+  const [marker, setMarker] = useState({ lat: 10.336425, lng: 123.90789 });
   const [com_address, setAddress] = useState({
     currentaddress: "",
     city: "",

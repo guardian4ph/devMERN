@@ -57,9 +57,9 @@ img {
 }
 
 .large {
-  font-size: 2rem;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  line-height: 0.5;
+  margin: 3px 0 1px 0;
 }
 
 .subTitle {
@@ -85,6 +85,7 @@ img {
   font-weight: 400;
   line-height: 1px;
   color: #333;
+  margin: 3px 0 3px 0;
 }
 
 .lead {
@@ -113,10 +114,10 @@ img {
 
 /* Padding */
 .p-11 {
-  padding: 0 0.1rem;
+  padding: 0 0.3rem;
 }
 .p {
-  padding: 0.1rem;
+  padding: 0.5rem;
 }
 .p-1 {
   padding: 1rem;
@@ -332,12 +333,12 @@ img {
 
 /* Forms */
 .form .form-group {
-  margin: 1.2rem 0;
+  margin: 0.2rem 0;
 }
 
 .form .form-text {
   display: block;
-  margin-top: 0.3rem;
+  margin-top: 2px;
   color: #888;
 }
 
@@ -351,7 +352,7 @@ img {
   display: block;
   width: 100%;
   padding: 0.4rem;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -709,7 +710,7 @@ button {
 .post .comment-count {
   background: var(--light-color);
   color: var(--primary-color);
-  padding: 0.1rem 0.2rem;
+  padding: 0.5rem 0.5rem;
   border-radius: 5px;
   font-size: 0.8rem;
 }

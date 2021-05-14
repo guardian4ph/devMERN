@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
-
+const multer = require("multer");
+const path = require("path");
 const config = require("config");
 const auth = require("../../middleware/auth");
-
 const { check, validationResult } = require("express-validator");
+
 const Operation_Center = require("../../models/Operation_Center");
+
+//@route POST api/operation_center/opcenprofile
+//@desc  Create or update user Profile
+//@access Private
 
 //@route POST api/operation_center
 //@desc  Register Operation Center
@@ -75,7 +80,6 @@ router.get("/myopcen/:user_id", auth, async (req, res) => {
 
     res.json(opcen);
   } catch (err) {
-    console.error(err.message);
     if (err.kind == "ObjectId") {
       return res
         .status(400)
@@ -85,9 +89,7 @@ router.get("/myopcen/:user_id", auth, async (req, res) => {
 });
 
 router.get("/myopcen/:user/:_id", auth, async (req, res) => {
-  console.log("hit");
   try {
-    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
     const opcen = await Operation_Center.findOne({
       _id: req.params._id,
     });
@@ -98,7 +100,6 @@ router.get("/myopcen/:user/:_id", auth, async (req, res) => {
 
     res.json(opcen);
   } catch (err) {
-    console.error(err.message);
     if (err.kind == "ObjectId") {
       return res
         .status(400)

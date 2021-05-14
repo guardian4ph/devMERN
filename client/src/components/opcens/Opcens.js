@@ -6,11 +6,20 @@ import { getOpcens } from "../../actions/opcen";
 import { loadUser } from "../../actions/auth";
 import OpcenItem from "./OpcenItem";
 
-const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
+import {
+  getOpcenProfile,
+  getOpcenProfileById,
+} from "../../actions/opcenprofile";
+
+const Opcens = ({
+  getOpcenProfile,
+  getOpcens,
+  user,
+  opcen: { opcen, opcens, loading },
+}) => {
   useEffect(() => {
-    // loadUser();
     getOpcens(user);
-  }, [getOpcens]);
+  }, [getOpcens, user]);
   return loading || opcens === null ? (
     <Spinner />
   ) : (
@@ -31,10 +40,11 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
           }}
         >
           <h1 className='large text-primary'> Operation Center</h1>
-          <button className='btn btn-primary'> Create OpCen</button>
         </div>
-        <div style={{ marginTop: "1%" }}>
-          <p>Command your team and control your resources.</p>
+        <div>
+          <small className='small-txt-blk'>
+            Command your team and control your resources.
+          </small>
           <div
             style={{
               display: "flex",
@@ -61,8 +71,9 @@ const Opcens = ({ getOpcens, user, opcen: { opcens, loading } }) => {
 
 Opcens.propTypes = {
   getOpcens: PropTypes.func.isRequired,
+  getOpcenProfile: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
-  opcen: PropTypes.func.isRequired,
+  opcen: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -70,4 +81,9 @@ const mapStateToProps = state => ({
   user: state.auth.user._id,
 });
 
-export default connect(mapStateToProps, { getOpcens, loadUser })(Opcens);
+export default connect(mapStateToProps, {
+  getOpcens,
+  loadUser,
+  getOpcenProfile,
+  getOpcenProfileById,
+})(Opcens);

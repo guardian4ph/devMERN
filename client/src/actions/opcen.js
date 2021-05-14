@@ -78,7 +78,6 @@ export const getOpcens = user_id => async dispatch => {
 };
 
 export const getOpcen = (user, _id) => async dispatch => {
-  console.log("opcen hit");
   try {
     const res = await axios.get(`/api/operation_center/myopcen/${user}/${_id}`);
     dispatch({

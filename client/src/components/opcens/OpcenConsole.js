@@ -3,12 +3,27 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Dashboard from "../operation-center/Dashboard_opcen";
 import Spinner from "../layout/Spinner";
-import { getOpcen } from "../../actions/opcen";
+import { getOpcenProfileById } from "../../actions/opcenprofile";
+import { getOpcens } from "../../actions/opcen";
+import { withRouter } from "react-router";
 
-export const OpcenConsole = ({ opcenmain: { opcen, loading } }) => {
-  return (
+const OpcenConsole = ({
+  user,
+  getOpcenProfileById,
+  opcen_id,
+  opcen,
+  opcen_profile: { profile, loading },
+}) => {
+  useEffect(() => {
+    getOpcens(user);
+    getOpcenProfileById(opcen_id);
+  }, [getOpcenProfileById]);
+
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
-      {loading || opcen === null ? (
+      {loading ? (
         <Spinner />
       ) : (
         <div
@@ -24,19 +39,36 @@ export const OpcenConsole = ({ opcenmain: { opcen, loading } }) => {
           }}
         >
           <div>
-            <img
-              style={{
-                height: "88px",
-                width: "88px",
-                padding: "8px",
-              }}
-              src='/img/mandaue.png.png'
-              alt=''
-            />
+            {profile === null ? (
+              <img
+                style={{
+                  height: "88px",
+                  width: "88px",
+                  padding: "8px",
+                  marginLeft: "5%",
+                }}
+                src={`/opcenlogo/guardian.png`}
+                alt=''
+              />
+            ) : (
+              <img
+                style={{
+                  height: "88px",
+                  width: "88px",
+                  padding: "8px",
+                  marginLeft: "5%",
+                }}
+                src={`/opcenlogo/${profile.logo}`}
+                alt=''
+              />
+            )}
           </div>
           <div>
-            <h2> {opcen.name}</h2>
-            <p> Category: {opcen.category}</p>
+            <h2 className='large text-primary'> {opcen.name}</h2>
+            <small className='small-txt-blk'> {opcen.category}</small>
+          </div>
+          <div style={{ alignItems: "center", margin: "auto" }}>
+            put stats here
           </div>
         </div>
       )}
@@ -46,14 +78,19 @@ export const OpcenConsole = ({ opcenmain: { opcen, loading } }) => {
 };
 
 OpcenConsole.propTypes = {
+  getOpcenProfileById: PropTypes.func.isRequired,
   opcen: PropTypes.object.isRequired,
+  opcen_id: PropTypes.object.isRequired,
+  opcen_profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   opcen: state.opcen.opcen,
-  opcenmain: state.opcen,
+  opcen_id: state.opcen.opcen._id,
+  opcen_profile: state.opcen_profile,
+  user: state.auth._id,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(OpcenConsole);
+export default connect(mapStateToProps, { getOpcenProfileById })(
+  withRouter(OpcenConsole)
+);

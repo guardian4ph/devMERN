@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getPost } from "../../actions/post";
 import PostItem from "../posts/PostItem";
-import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 //match is the id from url from params/props

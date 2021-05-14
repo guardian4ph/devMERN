@@ -4,11 +4,17 @@ import PropTypes from "prop-types";
 import { getOpcen } from "../../actions/opcen";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
+import { getOpcenProfileById } from "../../actions/opcenprofile";
 
 export const OpcenItem = ({
   getOpcen,
+  getOpcenProfileById,
   opcen: { _id, user, name, category, type, date, loading },
+  auth,
 }) => {
+  useEffect(() => {
+    getOpcen(auth.user._id, _id);
+  });
   return (
     <Fragment>
       {" "}
@@ -54,7 +60,6 @@ export const OpcenItem = ({
                       height: "40px",
                       margin: "auto",
                       padding: "8px",
-                      height: "40px",
                       width: "40px",
                       borderRadius: "50%",
                       background: "#ccc",
@@ -119,9 +124,12 @@ export const OpcenItem = ({
 
 OpcenItem.propTypes = {
   opcen: PropTypes.object.isRequired,
+  getOpcenProfileById: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getOpcen })(OpcenItem);
+export default connect(mapStateToProps, { getOpcen, getOpcenProfileById })(
+  OpcenItem
+);

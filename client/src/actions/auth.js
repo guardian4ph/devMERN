@@ -47,40 +47,36 @@ export const loadRigths = () => async dispatch => {
 
 //Register User
 
-export const register = ({
-  name,
-  lname,
-  number,
-  email,
-  password,
-}) => async dispatch => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const register =
+  ({ name, lname, number, email, password }) =>
+  async dispatch => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  const body = JSON.stringify({ name, lname, number, email, password });
-  try {
-    const res = await axios.post("/api/users", body, config);
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
-    dispatch(loadUser());
+    const body = JSON.stringify({ name, lname, number, email, password });
+    try {
+      const res = await axios.post("/api/users", body, config);
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data,
+      });
+      dispatch(loadUser());
 
-    // dispatch(loadRigths());
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      // dispatch(loadRigths());
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      }
+
+      dispatch({
+        type: REGISTER_FAIL,
+      });
     }
-
-    dispatch({
-      type: REGISTER_FAIL,
-    });
-  }
-};
+  };
 
 //Login User
 
@@ -158,7 +154,7 @@ export const accessrigths = rigths => async dispatch => {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.put("api/users/accessrigths", rigths);
+    const res = await axios.put("api/users/accessrigths", rigths, config);
 
     dispatch({
       type: USER_OPCEN_ADMIN,

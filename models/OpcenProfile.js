@@ -1,41 +1,62 @@
 const mongoose = require("mongoose");
 
-const OrgProfileSchema = new mongoose.Schema({
+const OpcenProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
-
-    required: true,
-    index: true,
   },
-  company: {
+  opcen: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "operation_center",
+  },
+  established: {
     type: String,
   },
-  profilepic: {
+  logo: {
     type: String,
   },
-
   website: {
     type: String,
   },
-  location: {
+  telcontact: {
     type: String,
+    require: true,
+  },
+  mcontact: {
+    type: String,
+    require: true,
+  },
+  completeaddress: {
+    type: String,
+    require: true,
+  },
+  city: {
+    type: String,
+  },
+  area: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+
+  lat: {
+    type: Number,
+  },
+  lng: {
+    type: Number,
   },
   status: {
     type: String,
     require: true,
   },
-  expertise: {
-    type: [String],
+  motto: {
+    type: String,
     require: true,
   },
-  history: {
+  opcenhistory: {
     type: String,
   },
-  // githubusername: {
-  //   type: String,
-  // },
-
   certification: [
     {
       title: {
@@ -93,7 +114,6 @@ const OrgProfileSchema = new mongoose.Schema({
       },
     },
   ],
-
   social: {
     youtube: {
       type: String,
@@ -111,11 +131,13 @@ const OrgProfileSchema = new mongoose.Schema({
       type: String,
     },
   },
-
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = Profile = mongoose.model("org_profile", OrgProfileSchema);
+module.exports = OpcenProfile = mongoose.model(
+  "opcen_profile",
+  OpcenProfileSchema
+);

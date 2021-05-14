@@ -46,10 +46,13 @@ const CommentItem = ({
     }
   };
 
-  const onButtonClick = useCallback(e => {
-    toggleShortComment(!shortComment);
-    toggleFullComment(!fullComment);
-  }, []);
+  const onButtonClick = useCallback(
+    e => {
+      toggleShortComment(!shortComment);
+      toggleFullComment(!fullComment);
+    },
+    [fullComment, shortComment]
+  );
   return (
     <Fragment>
       {loading ? (

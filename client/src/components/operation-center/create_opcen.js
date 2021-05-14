@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import { registerOpcen } from "../../actions/opcen";
@@ -72,6 +72,23 @@ const Create_opcen = ({
             />
             <small className='form-text'>
               Use the name of your organization .
+            </small>
+          </div>
+
+          <div className='form-group'>
+            <select
+              name='type'
+              value={type}
+              onChange={c => onChange(c)}
+              required
+            >
+              <option value='0'>* Type</option>
+              <option value='Gov'>Government</option>
+              <option value='Vol'>Volunteer Group</option>
+              <option value='Pri'>Private Org.</option>
+            </select>
+            <small className='form-text'>
+              Choose the Operation Center type
             </small>
           </div>
 

@@ -33,6 +33,8 @@ import TypeOpCen from "./components/operation-center/Type_opcen";
 import CreateOperationCenter from "./components/operation-center/Create_opcen";
 import DashBoard from "./components/opcens/OpcenConsole";
 import Opcens from "./components/opcens/Opcens";
+import OpcenProfile from "./components/opcenProfile-form/CreateOpcenProfile";
+import EditOpcenProfile from "./components/opcenProfile-form/EditOpcenProfile";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -68,12 +70,24 @@ const App = () => {
                 path='/create-operation-center'
                 component={CreateOperationCenter}
               />
+
               <PrivateRoute exact path='/operation-center' component={Opcens} />
 
               <PrivateRoute
                 exact
                 path='/operation-center/:user_id/:id'
                 component={DashBoard}
+              />
+
+              <PrivateRoute
+                exact
+                path='/addoperation-center/profile'
+                component={OpcenProfile}
+              />
+              <PrivateRoute
+                exact
+                path='/edit-operation-center/profile/:_id'
+                component={EditOpcenProfile}
               />
 
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
