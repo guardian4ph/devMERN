@@ -156,7 +156,7 @@ const EditOpcenProfile = ({
   Geodcode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   // Map info window
-  // const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   const getCity = addressArray => {
     let city = "";

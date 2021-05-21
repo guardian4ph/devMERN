@@ -11,7 +11,7 @@ const { check, validationResult } = require("express-validator");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "D:/1App/client/public/img");
+    callback(null, process.env.USER_PROFILE_IMG);
   },
   filename: (req, file, callback) => {
     callback(null, "Pic" + "-" + Date.now() + path.extname(file.originalname));

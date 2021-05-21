@@ -63,7 +63,7 @@ const PostItem = ({
               <img
                 className='postImageLarge'
                 // style={{ width: "305px", borderRadius: "5px" }}
-                src={`/img/${articleImage}`}
+                src={`/post/${articleImage}`}
                 alt='...'
               />
             </Link>

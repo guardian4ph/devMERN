@@ -14,6 +14,12 @@ const Navbar = ({
   const authLinks = (
     <ul>
       <li>
+        <Link to={`/operation-center`}>
+          <i className='fa fa-bullhorn' aria-hidden='true'></i>{" "}
+          <span className='hide-sm'>Report</span>
+        </Link>
+      </li>
+      <li>
         <Link to='/ID'>
           <i className='fa fa-id-badge' aria-hidden='true'></i>{" "}
           <span className='hide-sm'>ID </span>
@@ -44,8 +50,14 @@ const Navbar = ({
     <ul>
       <li>
         <Link to={`/operation-center`}>
+          <i className='fa fa-universal-access' aria-hidden='true'></i>{" "}
+          <span className='hide-sm'>Incident </span>
+        </Link>
+      </li>
+      <li>
+        <Link to={`/operation-center`}>
           <i className='fa fa-building-o' aria-hidden='true'></i>{" "}
-          <span className='hide-sm'>Operation Center </span>
+          <span className='hide-sm'>Operation Center</span>
         </Link>
       </li>
 

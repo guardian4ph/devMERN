@@ -4,11 +4,9 @@ import PropTypes from "prop-types";
 import { getOpcen } from "../../actions/opcen";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
-import { getOpcenProfileById } from "../../actions/opcenprofile";
 
 export const OpcenItem = ({
   getOpcen,
-  getOpcenProfileById,
   opcen: { _id, user, name, category, type, date, loading },
   auth,
 }) => {
@@ -124,12 +122,9 @@ export const OpcenItem = ({
 
 OpcenItem.propTypes = {
   opcen: PropTypes.object.isRequired,
-  getOpcenProfileById: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getOpcen, getOpcenProfileById })(
-  OpcenItem
-);
+export default connect(mapStateToProps, { getOpcen })(OpcenItem);

@@ -11,7 +11,7 @@ const Profile = require("../../models/Profile");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "D:/1App/client/public/img");
+    callback(null, process.env.POST_IMG);
   },
   filename: (req, file, callback) => {
     callback(null, "P" + "-" + Date.now() + path.extname(file.originalname));

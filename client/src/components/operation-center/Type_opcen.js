@@ -12,66 +12,74 @@ const Type_opcen = ({ setCreateOpCen, createOpcen, isAuthenticated }) => {
     <Fragment>
       <div
         style={{
-          padding: "20px",
-          background: "#fff",
-          borderRadius: "10px",
+          margin: "auto",
+          position: "fixed",
+          top: "25%",
         }}
       >
         <div
           style={{
-            display: "block",
-            borderRadius: "10px",
-
             padding: "20px",
+            background: "#fff",
+            borderRadius: "10px",
           }}
         >
-          <h1 className='large text-primary'>Create your Operation Center</h1>
-          <p className='lead'>
-            <i className='fas fa-user'></i> Choose your type of organization.
-          </p>
-        </div>
+          <div
+            style={{
+              display: "block",
+              borderRadius: "10px",
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-around",
-          }}
-        >
-          <div className='bigIcon'>
-            <div
-              style={{ marginTop: "30%" }}
-              onClick={c => setCreateOpCen("Gov")}
-            >
-              <i className='fas fa-landmark' aria-hidden='true'></i>
-              <p> Government</p>
-              <small className='small-txt-blk'>
-                (Agencies, Province, City)
-              </small>
-            </div>
+              padding: "20px",
+            }}
+          >
+            <h1 className='large text-primary'>Create your Operation Center</h1>
+            <p className='lead'>
+              <i className='fas fa-user'></i> Choose your type of organization.
+            </p>
           </div>
-          <div className='bigIcon'>
-            <div
-              style={{ marginTop: "30%" }}
-              onClick={c => setCreateOpCen("Vol")}
-            >
-              <i className='fa fa-hand-paper-o' aria-hidden='true'></i>
-              <p> Volunteer Org.</p>
-              <small className='small-txt-blk'>(Rotary,JCI, )</small>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-around",
+            }}
+          >
+            <div className='bigIcon'>
+              <div
+                style={{ marginTop: "12%" }}
+                onClick={c => setCreateOpCen("Gov")}
+              >
+                <i className='fas fa-landmark' aria-hidden='true'></i>
+                <p> Government</p>
+                <small className='small-txt-blk'>
+                  (Agencies, Province, City)
+                </small>
+              </div>
             </div>
-          </div>
-          <div className='bigIcon'>
-            <div
-              style={{ marginTop: "30%" }}
-              onClick={c => setCreateOpCen("Pri")}
-            >
-              <i className='fa fa-building-o' aria-hidden='true'></i>
-              <i aria-hidden='true'></i>
-              <p> Private</p>
-              <small className='small-txt-blk'>
-                (Construction, Utilities etc. )
-              </small>
+            <div className='bigIcon'>
+              <div
+                style={{ marginTop: "12%" }}
+                onClick={c => setCreateOpCen("Vol")}
+              >
+                <i className='fa fa-hand-paper-o' aria-hidden='true'></i>
+                <p> Volunteer Org.</p>
+                <small className='small-txt-blk'>(Rotary,JCI, )</small>
+              </div>
+            </div>
+            <div className='bigIcon'>
+              <div
+                style={{ marginTop: "12%" }}
+                onClick={c => setCreateOpCen("Pri")}
+              >
+                <i className='fa fa-building-o' aria-hidden='true'></i>
+                <i aria-hidden='true'></i>
+                <p> Private</p>
+                <small className='small-txt-blk'>
+                  (Construction, Utilities etc. )
+                </small>
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
@@ -6,6 +6,8 @@ import { getPosts } from "../../actions/post";
 import PostItem from "./PostItem";
 import PostForm from "./PostForm";
 import { getProfiles } from "../../actions/profile";
+import EmergencyBtn from "../layout/EmergencyBtn";
+import IncidentModal from "../layout/IncidentModal";
 
 const Posts = ({ getProfiles, getPosts, post: { posts, loading } }) => {
   useEffect(() => {
@@ -13,21 +15,29 @@ const Posts = ({ getProfiles, getPosts, post: { posts, loading } }) => {
     getPosts();
   }, [getPosts, getProfiles]);
 
+  const [show, setShow] = useState(false);
+
   return loading ? (
     <Spinner />
   ) : (
     <Fragment>
-      {/* <h1 className='large text-primary'>Posts</h1> */}
-      <p className='lead'>
-        <i className='fas fa-user'></i> Welcome to GUARDIAN community
-      </p>
-      <PostForm />
-      <div>
-        {posts.map(post => (
-          <div className='posts'>
-            <PostItem key={post._id} post={post} />
-          </div>
-        ))}
+      <div
+        style={{ background: "#fff", borderRadius: "10px", paddingTop: "10px" }}
+      >
+        <PostForm />
+        {/* Emergecny button */}
+        <div className='emergencybtn' onClick={() => setShow(true)}>
+          <img src='/icons/incident/Button.png' alt='' />
+        </div>
+        <IncidentModal onClose={() => setShow(false)} show={show} />
+        {/* <EmergencyBtn /> */}
+        <div>
+          {posts.map(post => (
+            <div className='posts'>
+              <PostItem key={post._id} post={post} />
+            </div>
+          ))}
+        </div>
       </div>
     </Fragment>
   );

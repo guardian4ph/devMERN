@@ -46,61 +46,70 @@ const Login = ({
     <Fragment>
       <div
         style={{
-          padding: "20px",
-          background: "#fff",
-          borderRadius: "10px",
+          margin: "auto",
+          position: "fixed",
+          top: "25%",
+          width: "640px",
         }}
       >
         <div
           style={{
-            display: "block",
-            borderRadius: "10px",
-
             padding: "20px",
+            background: "#fff",
+            borderRadius: "10px",
           }}
         >
-          {createOpcen ? (
-            <p className='alert alert-danger '>
-              Log-in or create an account first{" "}
+          <div
+            style={{
+              display: "block",
+              borderRadius: "10px",
+
+              padding: "20px",
+            }}
+          >
+            {createOpcen ? (
+              <p className='alert alert-danger '>
+                Log-in or create an account first{" "}
+              </p>
+            ) : null}
+
+            <h1 className='large text-primary'>Sign In</h1>
+            <p className='lead'>
+              <i className='fas fa-user'></i> Sign into your Account
             </p>
-          ) : null}
+            <form className='form' onSubmit={c => onSubmit(c)}>
+              <div className='form-group'>
+                <input
+                  type='email'
+                  placeholder='Email Address'
+                  name='email'
+                  value={email}
+                  onChange={c => onChange(c)}
+                  autoComplete='username email'
+                />
+              </div>
+              <div className='form-group'>
+                <input
+                  type='password'
+                  placeholder='Password'
+                  name='password'
+                  value={password}
+                  onChange={c => onChange(c)}
+                  // autocomplete='off'
+                  autoComplete='current-password'
+                  minLength='8'
+                />
+              </div>
 
-          <h1 className='large text-primary'>Sign In</h1>
-          <p className='lead'>
-            <i className='fas fa-user'></i> Sign into your Account
-          </p>
-          <form className='form' onSubmit={c => onSubmit(c)}>
-            <div className='form-group'>
-              <input
-                type='email'
-                placeholder='Email Address'
-                name='email'
-                value={email}
-                onChange={c => onChange(c)}
-                autoComplete='username email'
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='password'
-                placeholder='Password'
-                name='password'
-                value={password}
-                onChange={c => onChange(c)}
-                // autocomplete='off'
-                autoComplete='current-password'
-                minLength='8'
-              />
-            </div>
-
-            <input type='submit' className='btn btn-primary' value='Log-in' />
-          </form>
-          <p className='my-1'>
-            Don't have an account? <Link to='/register'>Sign Up</Link>
-          </p>
-          <p className='my-1'>
-            Forgot passsword? <Link to='/forgot_pass'>Forgot</Link>
-          </p>
+              <input type='submit' className='btn btn-primary' value='Log-in' />
+            </form>
+            <p className='my-1'>
+              Don't have an account? <Link to='/register'>Sign Up</Link>
+            </p>
+            <p className='my-1'>
+              Forgot passsword? <Link to='/forgot_pass'>Forgot</Link>
+            </p>
+          </div>
         </div>
       </div>
     </Fragment>

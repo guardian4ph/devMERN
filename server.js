@@ -27,10 +27,12 @@ connectDB();
 
 //Define Routes
 app.use("/api/opcen_profile", require("./routes/api/opcen_profile"));
-
+// Opcen Route
 app.use("/api/operation_center", require("./routes/api/operation_center"));
+// Incident Route
+app.use("/api/incident", require("./routes/api/incident"));
 
-// // Push notification
+// Push notification
 app.use("/api/subscribe", require("./routes/api/subscribe"));
 
 //User Route

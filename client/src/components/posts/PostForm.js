@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/post";
 import { send } from "../../utils/push";
+// import io from "socket.io-client";
 
 const PostForm = ({ addPost }) => {
   //const [text, setText] = useState("");
@@ -10,8 +11,21 @@ const PostForm = ({ addPost }) => {
     text: "",
     articleImage: "",
   });
+
   const [image, setImage] = useState("");
-  const [imageName, setImageName] = useState("Choose file");
+  const [imageName, setImageName] = useState("");
+  // const [socket, setSocket] = useState(null);
+
+  // useEffect(() => {
+  //   setSocket(io("ws://localhost:8900"));
+  // }, []);
+
+  // console.log(socket);
+  // // useEffect(() => {
+  // //   socket?.on("welcome", m => {
+  // //     console.log("Socket Server", m);
+  // //   });
+  // // }, [socket]);
 
   const { text } = formData;
   const onFileChange = c => {
@@ -48,7 +62,7 @@ const PostForm = ({ addPost }) => {
           name='text'
           cols='30'
           rows='2'
-          placeholder='Create a post'
+          placeholder='Send quick a notification to all users under your opcen'
           value={text}
           onChange={c => onChange(c)}
           required
@@ -58,8 +72,9 @@ const PostForm = ({ addPost }) => {
         <div>
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           {/* <label htmlFor='file'> */}
-          Upload Photo
+          <span style={{ fontSize: "14px" }}> Upload Photo </span>
           <input
+            className='btn btn-dark my-1'
             type='file'
             onChange={c => onFileChange(c)}
             accept='image/*,video/mp4,video/x-m4v,video/*'

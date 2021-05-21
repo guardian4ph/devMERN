@@ -9,7 +9,8 @@ const OpcenProfile = require("../../models/OpcenProfile");
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "D:/1App/client/public/opcenlogo");
+    // callback(null, "D:/1App/client/public/opcenlogo");
+    callback(null, process.env.OPCEN_PROFILE_IMG);
   },
   filename: (req, file, callback) => {
     callback(null, "Pic" + "-" + Date.now() + path.extname(file.originalname));

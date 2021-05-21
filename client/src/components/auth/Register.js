@@ -42,88 +42,97 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     <Fragment>
       <div
         style={{
-          padding: "20px",
-          background: "#fff",
-          borderRadius: "10px",
-          margin: "1rem",
+          margin: "auto",
+          position: "fixed",
+          top: "25%",
+          width: "640px",
         }}
       >
-        <h1 className='large text-primary'>Sign Up</h1>
-        <p className='lead'>
-          <i className='fas fa-user'></i> Create Your Account
-        </p>
-        <form className='form' onSubmit={c => onSubmit(c)}>
-          <div className='form-group'>
-            <input
-              type='text'
-              placeholder='First Name'
-              name='name'
-              //value is set value on state for onChange
-              value={name}
-              onChange={c => onChange(c)}
-              required
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='text'
-              placeholder='Last Name'
-              name='lname'
-              //value is set value on state for onChange
-              value={lname}
-              onChange={c => onChange(c)}
-              required
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='tel'
-              placeholder='09XX XXX XXXX'
-              name='number'
-              value={number}
-              onChange={c => onChange(c)}
-              required
-            />
-            <small className='form-text'>
-              This site uses your mobile number for authentication, sending
-              alerts and other communication.
-            </small>
-          </div>
-          <div className='form-group'>
-            <input
-              type='email'
-              placeholder='Email Address'
-              name='email'
-              value={email}
-              onChange={c => onChange(c)}
-            />
-            <small className='form-text'></small>
-          </div>
-          <div className='form-group'>
-            <input
-              type='password'
-              placeholder='Password'
-              name='password'
-              value={password}
-              onChange={c => onChange(c)}
-              minLength='8'
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='password'
-              placeholder='Confirm Password'
-              value={password2}
-              onChange={c => onChange(c)}
-              name='password2'
-              minLength='8'
-            />
-          </div>
-          <input type='submit' className='btn btn-primary' value='Register' />
-        </form>
-        <p className='my-1'>
-          Already have an account? <Link to='/login'>Sign In</Link>
-        </p>
+        <div
+          style={{
+            padding: "20px",
+            background: "#fff",
+            borderRadius: "10px",
+            margin: "1rem",
+          }}
+        >
+          <h1 className='large text-primary'>Register</h1>
+          <p className='lead'>
+            <i className='fas fa-user'></i> Create Your Account
+          </p>
+          <form className='form' onSubmit={c => onSubmit(c)}>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='First Name'
+                name='name'
+                //value is set value on state for onChange
+                value={name}
+                onChange={c => onChange(c)}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='Last Name'
+                name='lname'
+                //value is set value on state for onChange
+                value={lname}
+                onChange={c => onChange(c)}
+                required
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='tel'
+                placeholder='09XX XXX XXXX'
+                name='number'
+                value={number}
+                onChange={c => onChange(c)}
+                required
+              />
+              <small className='form-text'>
+                This site uses your mobile number for authentication, sending
+                alerts and other communication.
+              </small>
+            </div>
+            <div className='form-group'>
+              <input
+                type='email'
+                placeholder='Email Address'
+                name='email'
+                value={email}
+                onChange={c => onChange(c)}
+              />
+              <small className='form-text'></small>
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                placeholder='Password'
+                name='password'
+                value={password}
+                onChange={c => onChange(c)}
+                minLength='8'
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                placeholder='Confirm Password'
+                value={password2}
+                onChange={c => onChange(c)}
+                name='password2'
+                minLength='8'
+              />
+            </div>
+            <input type='submit' className='btn btn-primary' value='Register' />
+          </form>
+          <p className='my-1'>
+            Already have an account? <Link to='/login'>Sign In</Link>
+          </p>
+        </div>
       </div>
     </Fragment>
   );

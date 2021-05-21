@@ -7,6 +7,7 @@ import map from "./map";
 import sms from "./sms";
 import opcen from "./opcen";
 import opcen_profile from "./opcen_profile";
+import incident from "./incident";
 
 export default combineReducers({
   alert,
@@ -17,4 +18,5 @@ export default combineReducers({
   sms,
   opcen,
   opcen_profile,
+  incident,
 });
