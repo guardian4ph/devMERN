@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Operation_Center_Schema = new Schema({
-  user: {
+const Team_Schema = new Schema({
+  operation_center: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: "operation_center",
     required: true,
   },
 
@@ -16,23 +16,31 @@ const Operation_Center_Schema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  make: {
     type: String,
   },
-  type: {
+  yearmodel: {
+    type: String,
+    require: true,
+  },
+
+  petroltype: {
+    type: String,
+  },
+  marker: {
     type: String,
   },
 
-  status: {
-    type: String,
-  },
+  photos: [
+    {
+      type: String,
+    },
+  ],
+
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = OpCen = mongoose.model(
-  "operation_center",
-  Operation_Center_Schema
-);
+module.exports = Team = mongoose.model("team", Team_Schema);

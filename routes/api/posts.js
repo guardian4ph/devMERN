@@ -243,23 +243,16 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
     if (!comment) {
       return res.status(404).json({ msg: "Comment does not exist" });
     }
-    //Check user if user in the one  commenting
-    // comment.user is object in the DB so you need to convert it to string
+    // Check user
     if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "Can only delete your post" });
+      return res.status(401).json({ msg: "User not authorized" });
     }
 
-    //get remove index of Comment
-    const removeIndex = post.comments
-      .map(comment => comment.user.toString())
-      .indexOf(req.user.id);
+    post.comments = post.comments.filter(
+      ({ id }) => id !== req.params.comment_id
+    );
 
-    //Take it out splice it out from the array
-    post.comments.splice(removeIndex, 1);
-
-    //save to db
     await post.save();
-
     //return
     res.json(post.comments);
   } catch (err) {

@@ -35,12 +35,10 @@ const Login = ({
 
   if (isAuthenticated && isOpcenAdmin) {
     return <Redirect to='/operation-center' />;
-  } else if (isAuthenticated && !isOpcenAdmin) {
-    return <Redirect to='/posts' />;
   }
-  // if (isAuthenticated && !isOpcenAdmin) {
-  //   return <Redirect to='/posts' />;
-  // }
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>

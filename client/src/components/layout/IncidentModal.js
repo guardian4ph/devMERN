@@ -1,21 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { setCreateIncident } from "../../actions/incident";
 
-const IncidentModal = ({ setCreateIncident }) => {
-  // putt state to close modal toogle prop like modal
+const IncidentModal = ({
+  onClose,
+  show,
+  setCreateIncident,
+  isAuthenticated,
+  createIncident,
+}) => {
+  if (isAuthenticated && createIncident) {
+    return <Redirect to='/incident-details' />;
+  }
+
+  if (!show) {
+    return null;
+  }
+
   return (
-    // <div className='modal' onClick={props.onClose}>
-    <div className='modal'>
+    <div className='modal' onClick={onClose}>
       <div className='modal-content' onClick={e => e.stopPropagation()}>
         <div className='grid-container'>
           <div
             className='Ambulance emergencyicon'
-            onClick={c => setCreateIncident("Ambulance")}
+            onClick={c => setCreateIncident("Medical")}
           >
             <img
               className='emergencyimg'
+              style={{ height: "65px", width: "130px" }}
               src='/icons/incident/Medical.png'
               alt=''
             />
@@ -27,6 +41,7 @@ const IncidentModal = ({ setCreateIncident }) => {
           >
             <img
               className='emergencyimg'
+              style={{ height: "65px", width: "130px" }}
               src='/icons/incident/Crime.png'
               alt=''
             />
@@ -38,6 +53,7 @@ const IncidentModal = ({ setCreateIncident }) => {
           >
             <img
               className='emergencyimg'
+              style={{ height: "65`px", width: "130px" }}
               src='/icons/incident/Fire.png'
               alt=''
             />
@@ -73,11 +89,14 @@ const IncidentModal = ({ setCreateIncident }) => {
 IncidentModal.propTypes = {
   setCreateIncident: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  props: PropTypes.object.isRequired,
+  createIncident: PropTypes.bool,
+  show: PropTypes.bool,
+  onClose: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  createIncident: state.incident.createIncident,
 });
 
 export default connect(mapStateToProps, { setCreateIncident })(IncidentModal);

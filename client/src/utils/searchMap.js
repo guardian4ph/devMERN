@@ -28,7 +28,7 @@ function Search({ panTo }) {
 
   return (
     <div
-      style={{ display: "block", margin: "10px 30px 20px 30px", width: "100%" }}
+      style={{ display: "block", margin: "10px 20px 20px 20px", width: "100%" }}
     >
       <Combobox
         onSelect={async address => {
@@ -39,7 +39,7 @@ function Search({ panTo }) {
             const { lat, lng } = await getLatLng(result[0]);
             panTo({ lat, lng });
             // console.log(lat, lng);
-            console.log(result);
+            console.log("search result", result);
           } catch (error) {
             console.log(error);
           }
@@ -52,7 +52,7 @@ function Search({ panTo }) {
             setValue(e.target.value);
           }}
           disabled={!ready}
-          placeholder=' Search nearest landmark or click map'
+          placeholder=' Search nearest landmark and tap map'
         />
 
         <ComboboxPopover>

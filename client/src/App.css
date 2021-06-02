@@ -185,6 +185,22 @@ img {
   border-radius: 4px;
   text-align: center;
 }
+
+.btn-full {
+  display: inline-block;
+  background: var(--light-color);
+  color: var(--primary-color);
+  padding: 0.4rem 1.3rem;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+  margin: 0.5rem 1px 1px 1px;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  border-radius: 4px;
+  text-align: center;
+  width: 100%;
+}
 .btn-comment {
   display: inline-block;
   background: var(--light-color);
@@ -1173,6 +1189,22 @@ button {
   width: 100%;
   border-radius: 5px;
   border: #e4e4e4 1px solid;
+}
+
+.map-center {
+  display: block;
+  margin: 10px 10px 20px 10px;
+  width: 47px;
+  border-radius: 50%;
+  background-color: #dc3545;
+  color: #fff;
+  cursor: pointer;
+}
+
+.map-center:hover {
+  opacity: 0.8;
+  -webkit-filter: drop-shadow(2px 2px 2px #fff);
+  filter: drop-shadow(2px 2px 2px #fff);
 }
 
 .autocomplete {

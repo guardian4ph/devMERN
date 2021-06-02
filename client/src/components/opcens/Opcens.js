@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getOpcens } from "../../actions/opcen";
-import { loadUser } from "../../actions/auth";
 import OpcenItem from "./OpcenItem";
 
 import {
@@ -11,12 +10,7 @@ import {
   getOpcenProfileById,
 } from "../../actions/opcenprofile";
 
-const Opcens = ({
-  getOpcenProfile,
-  getOpcens,
-  user,
-  opcen: { opcen, opcens, loading },
-}) => {
+const Opcens = ({ getOpcens, user, opcen: { opcen, opcens, loading } }) => {
   useEffect(() => {
     getOpcens(user);
   }, [getOpcens, user]);
@@ -37,9 +31,11 @@ const Opcens = ({
             display: "grid",
             gridTemplateColumns: " 2fr 1fr",
             alignItems: "center",
+            marginTop: "20px",
           }}
         >
           <h1 className='large text-primary'> Operation Center</h1>
+          <button>sub opcen</button>
         </div>
         <div>
           <small className='small-txt-blk'>
@@ -72,7 +68,6 @@ const Opcens = ({
 Opcens.propTypes = {
   getOpcens: PropTypes.func.isRequired,
   getOpcenProfile: PropTypes.func.isRequired,
-  loadUser: PropTypes.func.isRequired,
   opcen: PropTypes.object.isRequired,
 };
 
@@ -83,7 +78,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getOpcens,
-  loadUser,
   getOpcenProfile,
   getOpcenProfileById,
 })(Opcens);

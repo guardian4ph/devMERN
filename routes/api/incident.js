@@ -4,11 +4,11 @@ const path = require("path");
 const config = require("config");
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
-
+const User = require("../../models/User");
 const Incident = require("../../models/Incidents");
 
 //@route POST api/incident
-//@desc  Create or update user Profile
+//@desc  Create incident
 //@access Private
 
 router.post(
@@ -16,8 +16,7 @@ router.post(
   [
     auth,
     //express validation -> body of the request
-    check("name", "Name not should be blank").not().isEmpty(),
-    check("category", "Category not should be blank").not().isEmpty(),
+    check("type", "Type not should be blank").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -27,30 +26,37 @@ router.post(
     }
 
     //Destructure the req.boby from post request
-    const { user, name, category, description, type } = req.body;
+    const { user, type, scompleteaddress, scity, sstate, sarea, slat, slng } =
+      req.body;
 
     try {
-      // See if the user exist, if exist sent error by filtering email and mobile number
-      let opcen = await Operation_Center.findOne({ name });
+      let incident = await Incident.findOne({ type });
 
-      if (opcen) {
+      let address = await Incident.findOne({ scompleteaddress });
+
+      // include here date and time 20 max minutes comparison to check of duoble reporting
+
+      if (incident && address) {
         // if (user || mail)
         return res
           .status(400)
-          .json({ errors: [{ msg: "Operation Center already exists" }] });
+          .json({ errors: [{ msg: "Incident already reported" }] });
       }
 
-      opcen = new Operation_Center({
+      incident = new Incident({
         user,
-        name,
-        category,
-        description,
         type,
+        scompleteaddress,
+        scity,
+        sstate,
+        sarea,
+        slat,
+        slng,
       });
 
-      await opcen.save();
+      await incident.save();
 
-      res.json(opcen);
+      res.json(incident);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -58,49 +64,81 @@ router.post(
   }
 );
 
-//@route GET api/operation_center/myopcen
-//@desc  Get Current user Profile
+//@route GET api/incident
+//@desc  Create incident
 //@access Private
 
-router.get("/myopcen/:user_id", auth, async (req, res) => {
+router.get("/", [auth], async (req, res) => {
+  try {
+    const incident = await Incident.find().populate("user", ["name", "lname"]);
+    res.json(incident);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+//@route Get api/incident/:incident_id
+//@desc  Get incidents by user id
+//@access Public
+
+router.get("/:incident_id", [auth], async (req, res) => {
+  try {
+    const incident = await Incident.findOne({
+      incident: req.params._id,
+    }).populate("user", ["name", "lname"]);
+
+    if (!incident) return res.status(400).json({ msg: "Incident not found" });
+
+    res.json(incident);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({ msg: "Incident not found ObjectId" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
+
+router.get("/me/:user_id", auth, async (req, res) => {
   try {
     //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
-    const opcen = await Operation_Center.find({
+    const incident = await Incident.find({
       user: req.params.user_id,
-    }).sort({ date: -1 });
-
-    if (!opcen) {
-      return res.status(400).json({ msg: "There is no opcen for this user" });
-    }
-
-    res.json(opcen);
-  } catch (err) {
-    if (err.kind == "ObjectId") {
-      return res
-        .status(400)
-        .json({ msg: "Operation center not found ObjectId" });
-    }
-  }
-});
-
-router.get("/myopcen/:user/:_id", auth, async (req, res) => {
-  try {
-    const opcen = await Operation_Center.findOne({
-      _id: req.params._id,
     });
+    console.log(" get incident by user", req.params.id);
 
-    if (!opcen) {
-      return res.status(400).json({ msg: "There is no opcen for this user" });
-    }
-
-    res.json(opcen);
-  } catch (err) {
-    if (err.kind == "ObjectId") {
+    if (!incident) {
       return res
         .status(400)
-        .json({ msg: "Operation center not found ObjectId" });
+        .json({ msg: "There is no incident reported for this user" });
     }
+
+    res.json(incident);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 
+router.get("/opcen/:opcen_id", auth, async (req, res) => {
+  try {
+    //user varialble pertains at the profile schema user: type: mongoose.Schema.Types.ObjectId,
+    const incident = await Incident.find({
+      opcen: req.params.opcen_id,
+    });
+    console.log(" get incident by user", req.params.id);
+
+    if (!incident) {
+      return res
+        .status(400)
+        .json({ msg: "There is no incident reported for this user" });
+    }
+
+    res.json(incident);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;

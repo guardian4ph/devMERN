@@ -1,15 +1,24 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "user",
-  // },
+const ResponderSchema = new mongoose.Schema({
+  operation_center: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "operation_center",
+  },
+
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "team",
+  },
   name: {
     type: String,
     required: true,
   },
   lname: {
+    type: String,
+    required: true,
+  },
+  position: {
     type: String,
     required: true,
   },
@@ -43,6 +52,29 @@ const UserSchema = new mongoose.Schema({
     },
   ],
 
+  team: {
+    team_id: {
+      type: String,
+    },
+
+    position: {
+      type: String,
+    },
+  },
+
+  facility: {
+    facility: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "facility",
+    },
+    name: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+  },
+
   accesspass: {
     access_id: {
       type: String,
@@ -52,19 +84,19 @@ const UserSchema = new mongoose.Schema({
     },
   },
 
-  opcen: {
-    operation_center: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "operation_center",
+  likes: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
     },
-    dateadded: {
-      type: String,
-    },
-  },
+  ],
+
   date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = Responder = mongoose.model("responder", ResponderSchema);

@@ -198,7 +198,6 @@ const CreateOpcenProfile = ({
   // if (com_address)
 
   const {
-    opcen,
     established,
     website,
     telcontact,
@@ -231,7 +230,6 @@ const CreateOpcenProfile = ({
     };
     fileReader.readAsDataURL(uploadedFile);
     setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
-    dropRef.current.style.border = "2px dashed #e9ebeb";
   };
 
   const updateBorder = dragState => {

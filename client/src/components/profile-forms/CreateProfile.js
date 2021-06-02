@@ -1,5 +1,11 @@
-import React, { useState, Fragment, useRef, useCallback } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, {
+  useState,
+  Fragment,
+  useRef,
+  useCallback,
+  useEffect,
+} from "react";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,7 +13,7 @@ import { createProfile } from "../../actions/profile";
 import moment from "moment";
 // Map
 import Search from "../../utils/searchMap";
-import Locate from "../../utils/locateMap";
+// import Locate from "../../utils/locateMap";
 import {
   GoogleMap,
   useLoadScript,
@@ -17,6 +23,8 @@ import {
 import MapStyles from "../layout/MapStyles";
 import Moment from "react-moment";
 import Geodcode from "react-geocode";
+import Spinner from "../layout/Spinner";
+import { getCurrentProfile } from "../../actions/profile";
 
 const libraries = ["places"];
 
@@ -36,7 +44,16 @@ const options = {
   zoomControl: true,
 };
 
-const CreateProfile = ({ auth, createProfile, history }) => {
+const CreateProfile = ({
+  getCurrentProfile,
+  createProfile,
+  history,
+  profile: { profile, loading },
+}) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   const [image, setImage] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(""); // state for storing previewImage
   const [marker, setMarker] = useState({ lat: 10.336425, lng: 123.90789 });
@@ -152,11 +169,9 @@ const CreateProfile = ({ auth, createProfile, history }) => {
   const onMapClick = useCallback(e => {
     const latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     setMarker(latlng);
-    console.log("create profile onmapclick", marker);
     panTo(latlng);
 
     Geodcode.fromLatLng(e.latLng.lat(), e.latLng.lng()).then(response => {
-      console.log("Response", response);
       const address = response.results[0].formatted_address,
         addressArray = response.results[0].address_components,
         city = getCity(addressArray),
@@ -176,9 +191,8 @@ const CreateProfile = ({ auth, createProfile, history }) => {
 
   const onMapLoad = useCallback(map => {
     mapRef.current = map;
-    console.log("MapRef load is ", map);
+
     Geodcode.fromLatLng(map.center.lat(), map.center.lng()).then(response => {
-      console.log("Response", response);
       const address = response.results[0].formatted_address,
         addressArray = response.results[0].address_components,
         city = getCity(addressArray),
@@ -202,7 +216,7 @@ const CreateProfile = ({ auth, createProfile, history }) => {
   }, []);
 
   if (loadError) return "Error Loading Map";
-  if (!isLoaded) return "Loading Map...";
+  if (!isLoaded) return <Spinner />;
   // if (com_address)
 
   const {
@@ -242,7 +256,6 @@ const CreateProfile = ({ auth, createProfile, history }) => {
   const onDrop = files => {
     const [uploadedFile] = files;
     setImage(uploadedFile);
-    console.log("drop image", image);
 
     const fileReader = new FileReader();
     fileReader.onload = () => {
@@ -307,7 +320,13 @@ const CreateProfile = ({ auth, createProfile, history }) => {
     createProfile(payload, history);
   };
 
-  return (
+  if (profile !== null) {
+    return <Redirect to='/posts' />;
+  }
+
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <p className='lead'>Create Your Profile</p>
       <small>
@@ -795,11 +814,13 @@ const CreateProfile = ({ auth, createProfile, history }) => {
 
 CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
-
 const mapStateToProps = state => ({
-  auth: state.auth,
+  profile: state.profile,
 });
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { getCurrentProfile, createProfile })(
+  withRouter(CreateProfile)
+);

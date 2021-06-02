@@ -5,28 +5,163 @@ const Incident_Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
-    required: true,
   },
 
   type: {
     type: String,
     required: true,
   },
-  marker: {
-    type: String,
-    required: true,
-  },
-  completeaddress: {
+  scompleteaddress: {
     type: String,
   },
-  lat: {
+  slat: {
     type: String,
   },
-  lng: {
+  slng: {
     type: String,
   },
-  city: {
+  scity: {
     type: String,
+  },
+  sarea: {
+    type: String,
+  },
+  sstate: {
+    type: String,
+  },
+
+  // dispatcher credentials
+  dispatcher: {
+    responder: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "responder",
+    },
+    name: {
+      type: String,
+    },
+    lname: {
+      type: String,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+
+  chat: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+
+      incident: {
+        type: Schema.Types.ObjectId,
+        ref: "incident",
+      },
+      text: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+      },
+      lname: {
+        type: String,
+      },
+      profilepic: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
+  recording: {
+    incident: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "incident",
+    },
+
+    name: {
+      type: String,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+
+  team: [
+    {
+      incident: {
+        type: Schema.Types.ObjectId,
+        ref: "incident",
+      },
+
+      name: {
+        type: String,
+      },
+
+      profilepic: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
+  facility: {
+    incident: {
+      type: Schema.Types.ObjectId,
+      ref: "incident",
+    },
+    name: {
+      type: String,
+    },
+    receivedby: {
+      type: String,
+    },
+    signature: {
+      type: String,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+
+  alarm: [
+    {
+      incident: {
+        type: Schema.Types.ObjectId,
+        ref: "incident",
+      },
+      level: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
+  opcen: {
+    opcen: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "operation_center",
+    },
+  },
+  calltaker: {
+    responder: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "responder",
+    },
   },
 
   date: {

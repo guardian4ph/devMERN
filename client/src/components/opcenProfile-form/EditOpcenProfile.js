@@ -155,9 +155,6 @@ const EditOpcenProfile = ({
 
   Geodcode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
-  // Map info window
-  const [selected, setSelected] = useState(null);
-
   const getCity = addressArray => {
     let city = "";
     for (let index = 0; index < addressArray.length; index++) {
@@ -318,7 +315,7 @@ const EditOpcenProfile = ({
         <Spinner />
       ) : (
         <Fragment>
-          <p className='lead'>Create Your Operation Center Profile</p>
+          <p className='lead'>Edit Your Operation Center Profile</p>
           <small>
             <i className='fa fa-building-o'></i> Let's get some information to
             make your profile stand out.
@@ -419,41 +416,7 @@ const EditOpcenProfile = ({
                     origin: new window.google.maps.Point(0, 0),
                     anchor: new window.google.maps.Point(15, 15),
                   }}
-                  onClick={() => {
-                    setSelected(marker);
-                  }}
                 />
-
-                {/* {selected ? (
-                  <InfoWindow
-                    position={{ lat: selected.lat, lng: selected.lng }}
-                    onCloseClick={() => {
-                      setSelected(null);
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "block",
-                        alignContent: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <div>
-                        <h4>Close</h4>
-                      </div>
-
-                      <div>
-                        <p> Incident!</p>
-                      </div>
-                      <p>
-                        Date{" "}
-                        <Moment fromNow ago='LLLL'>
-                          {selected.time}
-                        </Moment>
-                      </p>
-                    </div>
-                  </InfoWindow>
-                ) : null} */}
               </GoogleMap>
 
               <div

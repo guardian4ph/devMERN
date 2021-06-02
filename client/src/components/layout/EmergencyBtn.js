@@ -1,10 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "../logo/logo";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
-import { Fragment } from "react";
 import Spinner from "./Spinner";
 
 const Navbar = ({ auth: { isAuthenticated, isOpcenAdmin, loading } }) => {

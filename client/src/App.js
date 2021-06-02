@@ -36,6 +36,11 @@ import Opcens from "./components/opcens/Opcens";
 import OpcenProfile from "./components/opcenProfile-form/CreateOpcenProfile";
 import EditOpcenProfile from "./components/opcenProfile-form/EditOpcenProfile";
 
+// incident
+import IncidentDetails from "./components/incident-form/IncidentDetails";
+
+import IncidentMain from "./components/incident/incidentMain";
+
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -120,6 +125,16 @@ const App = () => {
                 exact
                 path='/posts/:id/:articleImage'
                 component={PostImage}
+              />
+              <PrivateRoute
+                exact
+                path='/incident-details'
+                component={IncidentDetails}
+              />
+              <PrivateRoute
+                exact
+                path='/incident-main'
+                component={IncidentMain}
               />
               <Route component={NotFound} />
             </Switch>
