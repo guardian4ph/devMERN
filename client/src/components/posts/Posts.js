@@ -9,7 +9,12 @@ import { getProfiles } from "../../actions/profile";
 import EmergencyBtn from "../layout/EmergencyBtn";
 import IncidentModal from "../layout/IncidentModal";
 
-const Posts = ({ getProfiles, getPosts, post: { posts, loading } }) => {
+const Posts = ({
+  isOpcenAdmin,
+  getProfiles,
+  getPosts,
+  post: { posts, loading },
+}) => {
   useEffect(() => {
     getProfiles();
     getPosts();
@@ -22,15 +27,21 @@ const Posts = ({ getProfiles, getPosts, post: { posts, loading } }) => {
   ) : (
     <Fragment>
       <div
-        style={{ background: "#fff", borderRadius: "10px", paddingTop: "10px" }}
+        style={{
+          background: "#fff",
+          borderRadius: "10px",
+          paddingBottom: "10px",
+        }}
       >
-        <PostForm />
+        {isOpcenAdmin && <PostForm />}
+
         {/* Emergecny button */}
         <div className='emergencybtn' onClick={() => setShow(true)}>
           <img src='/icons/incident/Button.png' alt='' />
         </div>
         <IncidentModal onClose={() => setShow(false)} show={show} />
         {/* <EmergencyBtn /> */}
+
         <div>
           {posts.map(post => (
             <div className='posts'>
@@ -47,11 +58,13 @@ Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  isOpcenAdmin: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   post: state.post,
   profile: state.profile,
+  isOpcenAdmin: state.auth.isOpcenAdmin,
 });
 
 export default connect(mapStateToProps, { getPosts, getProfiles })(Posts);

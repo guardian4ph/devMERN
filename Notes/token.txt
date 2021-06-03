@@ -1,0 +1,9 @@
+Cloyd token
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWZhZGYwMTM0ZTc5MjUxMjE0YzBmYzVkIn0sImlhdCI6MTYwNTIzNDc0MSwiZXhwIjoxNjA4ODM0NzQxfQ.-x0NQpOFrSExeQMR0aUx846gNdHX3aV0COkZH3IJMlA
+
+janet Token
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWZhZGYwODI0ZTc5MjUxMjE0YzBmYzVlIn0sImlhdCI6MTYwNTIzNDgxOCwiZXhwIjoxNjQxMjM0ODE4fQ.DSgSqlJ9TDXpcNJCEfH51mnYy9wiCfIdEAc4EUyPARs
+
+
+"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"

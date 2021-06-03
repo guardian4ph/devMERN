@@ -1,4 +1,0 @@
-{
-  "mongoURI": " mongodb+srv://LuisJibreel:cIQhZREaNLIMYSCc@guardian.f6kjq.mongodb.net/guardiancloyd?retryWrites=true&w=majority",
-  "jwtSecret": "11281128"
-}

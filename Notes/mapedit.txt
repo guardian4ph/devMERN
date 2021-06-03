@@ -1,0 +1,23 @@
+ const editAddress =
+    formData.completeaddress === com_address.currentaddress
+      ? formData.completeaddress
+      : com_address.currentaddress;
+
+  const editCity =
+    formData.city === com_address.city ? formData.city : com_address.city;
+
+  const editArea =
+    formData.area === com_address.area ? formData.area : com_address.area;
+
+  const editState =
+    formData.state === com_address.state ? formData.state : com_address.state;
+
+  const editLat = formData.lat === marker.lat ? formData.lat : marker.lat;
+  const editLng = formData.lng === marker.lng ? formData : marker.lng;
+
+
+  payload.append("city", editCity);
+  payload.append("area", editArea);
+  payload.append("state", editState);
+  payload.append("lat", editLat);
+  payload.append("lng", editLng);

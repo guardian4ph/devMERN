@@ -59,9 +59,12 @@ const PostForm = ({ addPost }) => {
   return (
     <div
       className='comment bg-white'
-      style={{ margin: "0px 10px 0px 10px", padding: "0" }}
+      style={{ margin: "10px 0px 10px 0px", padding: "2px" }}
     >
       <h1 className='large text-primary m-1'> Quick Notification</h1>
+      <small style={{ marginLeft: "20px" }}>
+        Accepts photo attachment only
+      </small>
 
       <form
         className='form my-1'
@@ -76,7 +79,7 @@ const PostForm = ({ addPost }) => {
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
-            margin: "5px",
+            margin: "2px 10px 2px 10px",
           }}
         >
           <textarea

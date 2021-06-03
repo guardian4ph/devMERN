@@ -8,7 +8,9 @@ import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
 //Redux
 import { Provider } from "react-redux";
-import store from "./store";
+import { store, persistedStore } from "./store";
+// Redux Persist
+import { PersistGate } from "redux-persist/integration/react";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -52,95 +54,105 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Fragment>
-          <Navbar />
-          <Route exact path='/' component={Landing} />
-          <section className='container'>
-            <Alert />
-            <Switch>
-              <Route exact path='/login' component={Login} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/profiles' component={Profiles} />
-              <Route exact path='/forgot_pass' component={ForgotPassword} />
-              <Route exact path='/otp' component={Otp} />
-              <Route exact path='/changepassword' component={ChangePassword} />
+      <PersistGate loading={null} persistor={persistedStore}>
+        <BrowserRouter>
+          <Fragment>
+            <Navbar />
+            <Route exact path='/' component={Landing} />
+            <section className='container'>
+              <Alert />
+              <Switch>
+                <Route exact path='/login' component={Login} />
+                <Route exact path='/register' component={Register} />
+                <Route exact path='/profiles' component={Profiles} />
+                <Route exact path='/forgot_pass' component={ForgotPassword} />
+                <Route exact path='/otp' component={Otp} />
+                <Route
+                  exact
+                  path='/changepassword'
+                  component={ChangePassword}
+                />
 
-              <Route exact path='/typeopcen' component={TypeOpCen} />
+                <Route exact path='/typeopcen' component={TypeOpCen} />
 
-              <Route exact path='/profile/:id' component={Profile} />
+                <Route exact path='/profile/:id' component={Profile} />
 
-              <PrivateRoute
-                exact
-                path='/create-operation-center'
-                component={CreateOperationCenter}
-              />
+                <PrivateRoute
+                  exact
+                  path='/create-operation-center'
+                  component={CreateOperationCenter}
+                />
 
-              <PrivateRoute exact path='/operation-center' component={Opcens} />
+                <PrivateRoute
+                  exact
+                  path='/operation-center'
+                  component={Opcens}
+                />
 
-              <PrivateRoute
-                exact
-                path='/operation-center/:user_id/:id'
-                component={DashBoard}
-              />
+                <PrivateRoute
+                  exact
+                  path='/operation-center/:user_id/:id'
+                  component={DashBoard}
+                />
 
-              <PrivateRoute
-                exact
-                path='/addoperation-center/profile'
-                component={OpcenProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/edit-operation-center/profile/:_id'
-                component={EditOpcenProfile}
-              />
+                <PrivateRoute
+                  exact
+                  path='/addoperation-center/profile'
+                  component={OpcenProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path='/edit-operation-center/profile/:_id'
+                  component={EditOpcenProfile}
+                />
 
-              <PrivateRoute exact path='/dashboard' component={Dashboard} />
-              <PrivateRoute
-                exact
-                path='/create-profile'
-                component={CreateProfile}
-              />
-              <PrivateRoute exact path='/ID' component={ID} />
-              <PrivateRoute exact path='/QR' component={QrPhoto} />
-              <PrivateRoute
-                exact
-                path='/edit-profile'
-                component={EditProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/add-experience'
-                component={AddExperience}
-              />
+                <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                <PrivateRoute
+                  exact
+                  path='/create-profile'
+                  component={CreateProfile}
+                />
+                <PrivateRoute exact path='/ID' component={ID} />
+                <PrivateRoute exact path='/QR' component={QrPhoto} />
+                <PrivateRoute
+                  exact
+                  path='/edit-profile'
+                  component={EditProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path='/add-experience'
+                  component={AddExperience}
+                />
 
-              <PrivateRoute
-                exact
-                path='/add-education'
-                component={AddEducation}
-              />
-              <PrivateRoute exact path='/posts' component={Posts} />
-              <PrivateRoute exact path='/posts/:id' component={Post} />
-              <PrivateRoute
-                exact
-                path='/posts/:id/:articleImage'
-                component={PostImage}
-              />
-              <PrivateRoute
-                exact
-                path='/incident-details'
-                component={IncidentDetails}
-              />
-              <PrivateRoute
-                exact
-                path='/incident-main'
-                component={IncidentMain}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </section>
-        </Fragment>
-      </BrowserRouter>
+                <PrivateRoute
+                  exact
+                  path='/add-education'
+                  component={AddEducation}
+                />
+                <PrivateRoute exact path='/posts' component={Posts} />
+                <PrivateRoute exact path='/posts/:id' component={Post} />
+                <PrivateRoute
+                  exact
+                  path='/posts/:id/:articleImage'
+                  component={PostImage}
+                />
+                <PrivateRoute
+                  exact
+                  path='/incident-details'
+                  component={IncidentDetails}
+                />
+                <PrivateRoute
+                  exact
+                  path='/incident-main'
+                  component={IncidentMain}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </section>
+          </Fragment>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 };

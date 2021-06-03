@@ -77,7 +77,8 @@ const PostItem = ({
                           height: "70px",
                           margin: "0px 1px",
                           alignItems: "center",
-                          padding: "2%",
+                          paddingRight: "2%",
+                          paddingLeft: "2%",
                           justifyContent: "space-around",
                           borderBottom: "1px solid #ddd",
                         }}
