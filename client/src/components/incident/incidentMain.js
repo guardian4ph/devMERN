@@ -1,8 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Comms from "../socket/Communication";
 
 const incidentMain = props => {
-  return <div>test</div>;
+  return (
+    <div>
+      <Comms />
+    </div>
+  );
 };
 
 incidentMain.propTypes = {};

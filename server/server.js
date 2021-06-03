@@ -1,11 +1,20 @@
 require("dotenv").config();
 const express = require("express");
+const app = express();
+
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const path = require("path");
 const webpush = require("web-push");
-
-const app = express();
+// Socket Io Declaration
+// const http = require("http");
+// const server = http.createServer(app);
+// const io = require("socket.io")(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 // Body Parser
 app.use(express.json());
