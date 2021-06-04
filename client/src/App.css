@@ -1271,6 +1271,20 @@ button {
   transition: all 0.8s ease-in-out;
 }
 
+.full {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 50px;
+  bottom: 0;
+  background-color: #bbb;
+  display: block;
+  z-index: 2;
+  transition: all 0.8s ease-in-out;
+
+  justify-content: center;
+}
+
 .modal-content {
   width: 500px;
   height: 600px;
@@ -1382,4 +1396,52 @@ button {
 
 .emergencybtn:hover {
   opacity: 0.8;
+}
+
+/* Communication Socket io */
+
+.cont_main {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+}
+
+.myId {
+  margin-right: 5rem;
+  border-radius: 5px;
+  background: #c9d6ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #e2e2e2,
+    #c9d6ff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #e2e2e2,
+    #c9d6ff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  padding: 2rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  width: 100px;
+}
+
+.call-button {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.video-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-content: center;
+  margin-top: 10rem;
+  margin-left: 10rem;
+}
+
+.caller {
+  text-align: center;
+  color: #fff;
 }

@@ -8,6 +8,7 @@ import rootReducer from "./reducers/";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["alert", "auth"],
 };
 
 const initialState = {};

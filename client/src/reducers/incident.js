@@ -34,6 +34,13 @@ export default function (state = initialState, action) {
         type: payload, //from the action file
         loading: false,
       };
+    case GET_INCIDENTS:
+      return {
+        ...state,
+        createIncident: false,
+        incidents: payload,
+        loading: false,
+      };
     case INCIDENT_SUMMIT_SUCCESS:
       return {
         ...state,

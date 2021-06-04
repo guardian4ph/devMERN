@@ -49,7 +49,7 @@ const Navbar = ({
   const opcenLinks = (
     <ul>
       <li>
-        <Link to={`/operation-center`}>
+        <Link to={`/incidents`}>
           <i className='fa fa-universal-access' aria-hidden='true'></i>{" "}
           <span className='hide-sm'>Incident </span>
         </Link>

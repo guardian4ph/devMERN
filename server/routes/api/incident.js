@@ -65,7 +65,7 @@ router.post(
 );
 
 //@route GET api/incident
-//@desc  Create incident
+//@desc  Get All incident
 //@access Private
 
 router.get("/", [auth], async (req, res) => {

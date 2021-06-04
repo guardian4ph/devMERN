@@ -134,10 +134,11 @@ export const getIncidentByOpcen = opcen_id => async dispatch => {
     });
   }
 };
-// get incident by incident ID
-export const getIncident = () => async dispatch => {
+// get IncidentAll Incident
+
+export const getIncidents = () => async dispatch => {
   try {
-    const res = await axios.get(`/api/operation_center/myopcen`);
+    const res = await axios.get(`/api/incident`);
     dispatch({
       type: GET_INCIDENTS,
       payload: res.data,

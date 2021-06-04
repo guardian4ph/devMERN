@@ -25,6 +25,7 @@ app.use(
 );
 // Static Path
 app.use(express.static(path.join(__dirname, "client")));
+app.use(express.static(path.join(__dirname, "/public")));
 
 //Connect to the Database
 connectDB();

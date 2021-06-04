@@ -1,3 +1,8 @@
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import PhoneIcon from "@material-ui/icons/Phone";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
@@ -19,25 +24,25 @@ const Communication = () => {
   const userVideo = useRef();
   const connectionRef = useRef();
 
-  useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then(stream => {
-        setStream(stream);
-        myVideo.current.srcObject = stream;
-      });
+  // useEffect(() => {
+  //   navigator.mediaDevices
+  //     .getUserMedia({ video: true, audio: true })
+  //     .then(stream => {
+  //       setStream(stream);
+  //       myVideo.current.srcObject = stream;
+  //     });
 
-    socket.on("me", id => {
-      setMe(id);
-    });
+  //   socket.on("me", id => {
+  //     setMe(id);
+  //   });
 
-    socket.on("callUser", data => {
-      setReceivingCall(true);
-      setCaller(data.from);
-      setName(data.name);
-      setCallerSignal(data.signal);
-    });
-  }, []);
+  //   socket.on("callUser", data => {
+  //     setReceivingCall(true);
+  //     setCaller(data.from);
+  //     setName(data.name);
+  //     setCallerSignal(data.signal);
+  //   });
+  // }, []);
   const callUser = id => {
     const peer = new Peer({
       initiator: true,
@@ -88,8 +93,8 @@ const Communication = () => {
 
   return (
     <Fragment>
-      <h1 style={{ textAlign: "center", color: "#ddd" }}>Zoomish</h1>
-      <div className='container'>
+      <h1 style={{ textAlign: "center", color: "#fff" }}>Zoomish</h1>
+      <div className='cont_main'>
         <div className='video-container'>
           <div className='video'>
             {stream && (
@@ -114,7 +119,7 @@ const Communication = () => {
           </div>
         </div>
         <div className='myId'>
-          <input
+          <TextField
             id='filled-basic'
             label='Name'
             variant='filled'
@@ -123,12 +128,16 @@ const Communication = () => {
             style={{ marginBottom: "20px" }}
           />
           <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-            <button variant='contained' color='primary'>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<AssignmentIcon fontSize='large' />}
+            >
               Copy ID
-            </button>
+            </Button>
           </CopyToClipboard>
 
-          <input
+          <TextField
             id='filled-basic'
             label='ID to call'
             variant='filled'
@@ -137,17 +146,17 @@ const Communication = () => {
           />
           <div className='call-button'>
             {callAccepted && !callEnded ? (
-              <button variant='contained' color='secondary' onClick={leaveCall}>
+              <Button variant='contained' color='secondary' onClick={leaveCall}>
                 End Call
-              </button>
+              </Button>
             ) : (
-              <div
+              <IconButton
                 color='primary'
                 aria-label='call'
                 onClick={() => callUser(idToCall)}
               >
-                <p>CALL</p>
-              </div>
+                <PhoneIcon fontSize='large' />
+              </IconButton>
             )}
             {idToCall}
           </div>
@@ -156,9 +165,9 @@ const Communication = () => {
           {receivingCall && !callAccepted ? (
             <div className='caller'>
               <h1>{name} is calling...</h1>
-              <button variant='contained' color='primary' onClick={answerCall}>
+              <Button variant='contained' color='primary' onClick={answerCall}>
                 Answer
-              </button>
+              </Button>
             </div>
           ) : null}
         </div>

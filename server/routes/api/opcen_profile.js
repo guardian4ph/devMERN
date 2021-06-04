@@ -10,7 +10,7 @@ const OpcenProfile = require("../../models/OpcenProfile");
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     // callback(null, "D:/1App/client/public/opcenlogo");
-    callback(null, process.env.OPCEN_PROFILE_IMG);
+    callback(null, "D:/1App/client/public/opcenlogo");
   },
   filename: (req, file, callback) => {
     callback(null, "Pic" + "-" + Date.now() + path.extname(file.originalname));
@@ -209,7 +209,7 @@ router.post(
 
 router.get("/opcenprofiles", [auth], async (req, res) => {
   try {
-    const opcenprofiles = await OpcenProfile.findOne().populate("opcen", [
+    const opcenprofiles = await OpcenProfile.find().populate("opcen", [
       "name",
       "type",
       "category",
